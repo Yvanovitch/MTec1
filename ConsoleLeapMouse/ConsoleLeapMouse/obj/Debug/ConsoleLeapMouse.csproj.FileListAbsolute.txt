@@ -1,0 +1,10 @@
+C:\Users\Meshack\AppData\Local\Temporary Projects\ConsoleLeapMouse\bin\Debug\ConsoleLeapMouse.exe.config
+D:\Téléchargements\ConsoleLeapMouse_CS\ConsoleLeapMouse\ConsoleLeapMouse\bin\Debug\Leap.dll
+D:\Téléchargements\ConsoleLeapMouse_CS\ConsoleLeapMouse\ConsoleLeapMouse\bin\Debug\LeapCSharp.dll
+D:\Téléchargements\ConsoleLeapMouse_CS\ConsoleLeapMouse\ConsoleLeapMouse\bin\Debug\LeapCSharp.NET4.0.dll
+D:\Téléchargements\ConsoleLeapMouse_CS\ConsoleLeapMouse\ConsoleLeapMouse\obj\Debug\ConsoleLeapMouse.csprojResolveAssemblyReference.cache
+D:\Téléchargements\ConsoleLeapMouse_CS\ConsoleLeapMouse\ConsoleLeapMouse\bin\Debug\ProjetLeap.exe.config
+D:\Téléchargements\ConsoleLeapMouse_CS\ConsoleLeapMouse\ConsoleLeapMouse\bin\Debug\ProjetLeap.exe
+D:\Téléchargements\ConsoleLeapMouse_CS\ConsoleLeapMouse\ConsoleLeapMouse\bin\Debug\ProjetLeap.pdb
+D:\Téléchargements\ConsoleLeapMouse_CS\ConsoleLeapMouse\ConsoleLeapMouse\obj\Debug\ProjetLeap.exe
+D:\Téléchargements\ConsoleLeapMouse_CS\ConsoleLeapMouse\ConsoleLeapMouse\obj\Debug\ProjetLeap.pdb
