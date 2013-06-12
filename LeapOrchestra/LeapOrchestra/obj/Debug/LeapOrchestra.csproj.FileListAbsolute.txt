@@ -1,0 +1,2 @@
+c:\users\isen\documents\visual studio 2012\Projects\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe.config
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\MTec1.git\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe.config
