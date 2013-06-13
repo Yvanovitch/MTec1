@@ -13,6 +13,10 @@ namespace LeapOrchestra
             Controller controller = new Controller();
             // Have the sample listener receive events from the controller
 
+            LeapModel leapModel = new LeapModel();
+
+            listener.OnFingersRegistered += leapModel.OnFingersRegistered;
+
             controller.AddListener(listener);
 
             // Keep this process running until Enter is pressed
