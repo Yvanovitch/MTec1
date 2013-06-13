@@ -8,55 +8,49 @@ namespace LeapOrchestra
 {
     class LeapModel
     {
-        private Vector previousPos;
-        private int allerRetour;
-        private int temp;
-        private long temp2;
+        private int previousSpeed1;
+        private int previousSpeed2;
+        private int top;
+        private long temp;
         private long tempo;
 
         public LeapModel()
         {
-            previousPos = new Vector(0, 0, 0);
-            allerRetour = 0;
+            previousSpeed1 = 0;
+            previousSpeed2 = 0;
+            top = 0;
             temp = 0;
-            temp2 = 0;
             tempo = 0;
         }
 
         public void OnFrameRegistered(Frame frame)
         {
-            Finger finger = 
             OnFingersRegistered(frame.Fingers, frame);
         }
 
         public void OnFingersRegistered(FingerList fingers, Frame frame)
         {
-            if (previousPos.x <= fingers[0].TipPosition.x)
+            Finger finger = frame.Fingers[0];
+            var tipVelocity = (int)finger.TipVelocity.Magnitude;
+
+            if (previousSpeed1 < tipVelocity && previousSpeed1 < previousSpeed2 && tipVelocity < 200)
             {
-                allerRetour = 0;
+                top = 0;
             }
             else
             {
-                allerRetour = 1;
+                top = 1;
             }
 
-            if (allerRetour != temp && frame.Timestamp - temp2 > 200000)
+            if (top == 0)
             {
-                if (allerRetour == 0)
-                {
-                    Console.WriteLine("Aller");
-                }
-                else
-                {
-                    Console.WriteLine("Retour");
-                }
-                tempo = frame.Timestamp - temp2;
+                tempo = frame.Timestamp - temp;
                 Console.WriteLine(tempo);
-                temp2 = frame.Timestamp;
+                temp = frame.Timestamp;
             }
 
-            previousPos = fingers[0].TipPosition;
-            temp = allerRetour;
+            previousSpeed2 = previousSpeed1;
+            previousSpeed1 = tipVelocity;
         }
     }
 }
