@@ -2,14 +2,14 @@
 using System.Threading;
 using Leap;
 
-namespace ProjetLeap
+namespace LeapOrchestra
 {
-    class Sample
+    class LeapOrchestra
     {
         public static void Main()
         {
             // Create a sample listener and controller
-            SampleListener listener = new SampleListener();
+            LeapListener listener = new LeapListener();
             Controller controller = new Controller();
 
             // Have the sample listener receive events from the controller
