@@ -1,2 +1,11 @@
 c:\users\isen\documents\visual studio 2012\Projects\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe.config
 C:\Users\ISEN\Documents\Visual Studio 2012\Projects\MTec1.git\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe.config
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe.config
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\bin\Debug\LeapCSharp.NET4.0.dll
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\bin\Debug\Leap.dll
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\bin\Debug\LeapCSharp.dll
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.pdb
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.csprojResolveAssemblyReference.cache
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.exe
+C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.pdb

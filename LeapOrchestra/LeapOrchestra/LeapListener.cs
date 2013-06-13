@@ -11,7 +11,7 @@ namespace LeapOrchestra
     {
         private Object thisLock = new Object();
 
-        public event Action<FingerList> OnFingersRegistered;
+        public event Action<Frame> OnFrameRegistered;
         public event Action<GestureList> OnGesturesRegistered;
 
         private void SafeWriteLine(String line)
@@ -55,8 +55,8 @@ namespace LeapOrchestra
 
             if (frame.Fingers.Count != 0)
             {
-                OnFingersRegistered(frame.Fingers);
-                OnGesturesRegistered(frame.Gestures());
+                OnFrameRegistered(frame);
+                //OnGesturesRegistered(frame.Gestures());
 
                 if (!frame.Hands.Empty || !frame.Gestures().Empty)
                 {

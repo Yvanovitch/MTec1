@@ -16,7 +16,7 @@ namespace LeapOrchestra
             LeapModel leapModel = new LeapModel();
             GesturesModel gesturesModel = new GesturesModel();
 
-            listener.OnFingersRegistered += leapModel.OnFingersRegistered;
+            listener.OnFrameRegistered += leapModel.OnFrameRegistered;
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
 
             controller.AddListener(listener);
