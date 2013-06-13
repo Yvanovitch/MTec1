@@ -11,8 +11,8 @@ namespace LeapOrchestra
             // Create a sample listener and controller
             LeapListener listener = new LeapListener();
             Controller controller = new Controller();
-
             // Have the sample listener receive events from the controller
+
             controller.AddListener(listener);
 
             // Keep this process running until Enter is pressed
