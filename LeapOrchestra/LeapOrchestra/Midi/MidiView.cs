@@ -19,15 +19,20 @@ namespace LeapOrchestra.Midi
                 Console.WriteLine("No output devices, so can't run this example.");
                 return;
             }
+            outputDevice.Open();
         }
 
         public void sendBang()
         {
-            outputDevice.Open();
             outputDevice.SendControlChange(Channel.Channel1, Control.SustainPedal, 0);
             outputDevice.SendPitchBend(Channel.Channel1, 8192);
             outputDevice.SendNoteOn(Channel.Channel1, Pitch.C4, 80);
-            Thread.Sleep(5000);
+            //Thread.Sleep(500);
+            //outputDevice.Close();
+        }
+
+        public void close()
+        {
             outputDevice.Close();
         }
     }

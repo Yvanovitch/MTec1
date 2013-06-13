@@ -27,6 +27,8 @@ namespace LeapOrchestra
             midiView.initDevice();
             midiView.sendBang();
 
+            leapModel.sendBang += midiView.sendBang;
+
             controller.AddListener(listener);
 
             // Keep this process running until Enter is pressed
@@ -36,6 +38,9 @@ namespace LeapOrchestra
             // Remove the sample listener when done
             controller.RemoveListener(listener);
             controller.Dispose();
+
+            midiView.close();
+
         }
     }
 }

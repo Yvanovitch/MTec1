@@ -55,7 +55,7 @@ namespace LeapOrchestra
 
             if (frame.Fingers.Count != 0)
             {
-                //OnFrameRegistered(frame);
+                OnFrameRegistered(frame);
                 
                 OnGesturesRegistered(frame.Gestures());
 

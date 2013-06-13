@@ -8,6 +8,8 @@ namespace LeapOrchestra.Utils
 {
     public static class LeapGestures
     {
+        
+        
         public static readonly Dictionary<Gesture.GestureType, string> GestureTypesLookUp = new Dictionary<Gesture.GestureType, string>()
                                      {
                                          {Gesture.GestureType.TYPEKEYTAP,"Tap gesture"},

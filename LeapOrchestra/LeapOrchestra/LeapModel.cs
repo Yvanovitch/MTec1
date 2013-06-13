@@ -14,6 +14,8 @@ namespace LeapOrchestra
         private long temp;
         private long tempo;
 
+        public event Action sendBang;
+
         public LeapModel()
         {
             previousSpeed1 = 0;
@@ -47,7 +49,10 @@ namespace LeapOrchestra
             if (top == 0)
             {
                 Console.WriteLine(tempo);
+                
                 temp = frame.Timestamp;
+
+                sendBang(); //On joue la note midi
             }
 
             previousSpeed2 = previousSpeed1;

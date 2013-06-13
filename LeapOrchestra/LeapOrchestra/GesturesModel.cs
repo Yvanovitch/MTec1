@@ -12,19 +12,26 @@ namespace LeapOrchestra
     {
         public string pathSong;
 
+        private Gesture lastGesture;
+
         public GesturesModel ()
         {
             pathSong = @"D:\Documents\Cours\Orchestra\Wonderful slippery thing.wav";
+            lastGesture = Gesture.Invalid;
         }
         
         public void OnGesturesRegistered(GestureList gestures)
         {
             foreach (var gesture in gestures)
             {
-                Console.WriteLine("Gesture : " + LeapGestures.GestureTypesLookUp[gesture.Type]);
-                if (gesture.Type == Gesture.GestureType.TYPECIRCLE)
+                if (gesture.Type != lastGesture.Type && gesture.Type != Gesture.GestureType.TYPESWIPE)
                 {
-                    //playSong(pathSong);
+                    Console.WriteLine("Gesture : " + LeapGestures.GestureTypesLookUp[gesture.Type]);
+                    if (gesture.Type == Gesture.GestureType.TYPECIRCLE)
+                    {
+                        //playSong(pathSong);
+                    }
+                    lastGesture = gesture;
                 }
             }
         }
