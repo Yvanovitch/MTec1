@@ -2,6 +2,9 @@
 using System.Threading;
 using Leap;
 
+using LeapOrchestra.Midi;
+using Midi;
+
 namespace LeapOrchestra
 {
     class LeapOrchestra
@@ -18,6 +21,11 @@ namespace LeapOrchestra
 
             listener.OnFrameRegistered += leapModel.OnFrameRegistered;
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
+
+            //Midi choix du périphérique :
+            MidiView midiView = new MidiView();
+            midiView.initDevice();
+            midiView.sendBang();
 
             controller.AddListener(listener);
 
