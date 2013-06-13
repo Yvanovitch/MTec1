@@ -33,7 +33,7 @@ namespace LeapOrchestra
             Finger finger = frame.Fingers[0];
             var tipVelocity = (int)finger.TipVelocity.Magnitude;
 
-            if (previousSpeed1 < tipVelocity && previousSpeed1 < previousSpeed2 && tipVelocity < 200)
+            if (previousSpeed1 < tipVelocity && previousSpeed1 < previousSpeed2 && tipVelocity < 500 && tempo > 100000)
             {
                 top = 0;
             }
@@ -42,9 +42,10 @@ namespace LeapOrchestra
                 top = 1;
             }
 
+            tempo = frame.Timestamp - temp;
+
             if (top == 0)
             {
-                tempo = frame.Timestamp - temp;
                 Console.WriteLine(tempo);
                 temp = frame.Timestamp;
             }
