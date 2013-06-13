@@ -14,8 +14,10 @@ namespace LeapOrchestra
             // Have the sample listener receive events from the controller
 
             LeapModel leapModel = new LeapModel();
+            GesturesModel gesturesModel = new GesturesModel();
 
             listener.OnFingersRegistered += leapModel.OnFingersRegistered;
+            listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
 
             controller.AddListener(listener);
 
