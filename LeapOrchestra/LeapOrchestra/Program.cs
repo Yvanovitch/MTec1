@@ -2,7 +2,7 @@
 using System.Threading;
 using Leap;
 
-using LeapOrchestra.Midi;
+using LeapOrchestra.SongPlayer;
 using Midi;
 
 namespace LeapOrchestra
@@ -22,12 +22,11 @@ namespace LeapOrchestra
             listener.OnFrameRegistered += leapModel.OnFrameRegistered;
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
 
-            //Midi choix du périphérique :
-            MidiView midiView = new MidiView();
-            midiView.initDevice();
-            midiView.sendBang();
+            SoundPlayer songPlayer = new SoundPlayer(@"D:\Documents\Cours\Orchestra\Wonderful slippery thing.wav");
 
-            leapModel.sendBang += midiView.sendBang;
+            
+
+            leapModel.sendBang += songPlayer.noteSender.SendBang;
 
             controller.AddListener(listener);
 
@@ -39,7 +38,7 @@ namespace LeapOrchestra
             controller.RemoveListener(listener);
             controller.Dispose();
 
-            midiView.close();
+            songPlayer.Close();
 
         }
     }
