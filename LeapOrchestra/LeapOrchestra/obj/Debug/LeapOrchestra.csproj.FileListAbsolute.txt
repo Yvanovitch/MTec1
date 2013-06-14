@@ -9,3 +9,14 @@ C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\
 C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.csprojResolveAssemblyReference.cache
 C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.exe
 C:\Users\ISEN\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.pdb
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe.config
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.csprojResolveAssemblyReference.cache
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\LeapCSharp.NET4.0.dll
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\Leap.dll
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\LeapCSharp.dll
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.pdb
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\Midi.dll
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.exe
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.pdb
+D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\SongPlayer\Midi.dll
