@@ -61,7 +61,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SongPlayer\NoteOutputStream.cs" />
-    <Compile Include="SongPlayer\SongPlayer.cs" />
+    <Compile Include="SongPlayer\SoundManager.cs" />
     <Compile Include="Utils\LeapGestures.cs" />
   </ItemGroup>
   <ItemGroup>

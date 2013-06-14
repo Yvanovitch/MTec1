@@ -6,14 +6,12 @@ using System.Threading;
 
 namespace LeapOrchestra.SongPlayer
 {
-    class SoundPlayer
+    class SoundManager
     {
-        private string pathSong;
         public NoteOutputStream noteSender;
-        
-        public SoundPlayer(string path)
+
+        public SoundManager()
         {
-            pathSong = path;
             noteSender = new MidiOutputStream();
         }
 
@@ -24,8 +22,16 @@ namespace LeapOrchestra.SongPlayer
 
         static void playSong(string path)
         {
+            //path = @"D:\Documents\Cours\Orchestra\Wonderful slippery thing.wav");
+            
+            if (string.IsNullOrEmpty(path))
+            {
+                Console.WriteLine("Path undefined");
+                return;
+            }
+            
             System.Media.SoundPlayer song = new System.Media.SoundPlayer();
-            song.SoundLocation = path/*@"I:\Tojumaster\Freedom_Or_Random_01_01.wav"*/;
+            song.SoundLocation = path;
             song.LoadAsync();
             song.PlayLooping();
             Console.WriteLine("Press Enter to Quit");

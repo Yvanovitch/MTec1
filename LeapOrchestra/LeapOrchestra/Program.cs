@@ -14,6 +14,10 @@ namespace LeapOrchestra
             // Create a sample listener and controller
             LeapListener listener = new LeapListener();
             Controller controller = new Controller();
+
+            //On active le traitement en background
+            controller.SetPolicyFlags(Controller.PolicyFlag.POLICYBACKGROUNDFRAMES);
+
             // Have the sample listener receive events from the controller
 
             LeapModel leapModel = new LeapModel();
@@ -22,11 +26,9 @@ namespace LeapOrchestra
             listener.OnFrameRegistered += leapModel.OnFrameRegistered;
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
 
-            SoundPlayer songPlayer = new SoundPlayer(@"D:\Documents\Cours\Orchestra\Wonderful slippery thing.wav");
+            SoundManager soundManager = new SoundManager();
 
-            
-
-            leapModel.sendBang += songPlayer.noteSender.SendBang;
+            leapModel.sendBang += soundManager.noteSender.SendBang;
 
             controller.AddListener(listener);
 
@@ -38,8 +40,7 @@ namespace LeapOrchestra
             controller.RemoveListener(listener);
             controller.Dispose();
 
-            songPlayer.Close();
-
+            soundManager.Close();
         }
     }
 }
