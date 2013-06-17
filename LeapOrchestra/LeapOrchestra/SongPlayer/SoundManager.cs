@@ -15,6 +15,12 @@ namespace LeapOrchestra.SongPlayer
             noteSender = new MidiOutputStream();
         }
 
+        public void readMidiFile(string path)
+        {
+            MidiFileReader reader = new MidiFileReader(path);
+            reader.Describe();
+        }
+
         public void chooseOutput()
         {
             //Permettre le changement entre stream Midi et stream OSC

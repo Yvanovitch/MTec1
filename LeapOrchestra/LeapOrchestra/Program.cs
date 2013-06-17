@@ -18,7 +18,7 @@ namespace LeapOrchestra
             //On active le traitement en background
             controller.SetPolicyFlags(Controller.PolicyFlag.POLICYBACKGROUNDFRAMES);
 
-            // Have the sample listener receive events from the controller
+            
 
             LeapModel leapModel = new LeapModel();
             GesturesModel gesturesModel = new GesturesModel();
@@ -27,10 +27,12 @@ namespace LeapOrchestra
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
 
             SoundManager soundManager = new SoundManager();
-
+            soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
             leapModel.sendBang += soundManager.noteSender.SendBang;
 
+            // Have the sample listener receive events from the controller
             controller.AddListener(listener);
+
 
             // Keep this process running until Enter is pressed
             Console.WriteLine("Press Enter to quit...");

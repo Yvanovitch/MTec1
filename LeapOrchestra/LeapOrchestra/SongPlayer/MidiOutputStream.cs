@@ -31,6 +31,11 @@ namespace LeapOrchestra.SongPlayer
             //outputDevice.Close();
         }
 
+        public void SendNote()
+        {
+
+        }
+
         public override void Close()
         {
             base.Close();
