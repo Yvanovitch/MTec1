@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Midi;
+using NAudio.Midi;
 
 namespace LeapOrchestra.SongPlayer
 {
@@ -31,9 +32,13 @@ namespace LeapOrchestra.SongPlayer
             //outputDevice.Close();
         }
 
-        public void SendNote()
+        public override void SendNote(NoteOnEvent note)
         {
-
+            int test = 0;
+            Note my_note = Note.ParseNote(note.NoteName, ref test);
+            Pitch my_pitch = my_note.PitchInOctave(note.NoteNumber / 12);
+            //Console.WriteLine("Pitch : " + my_pitch);
+            outputDevice.SendNoteOn(Channel.Channel1, my_pitch, 80);
         }
 
         public override void Close()

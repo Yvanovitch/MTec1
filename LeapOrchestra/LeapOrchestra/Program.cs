@@ -26,9 +26,13 @@ namespace LeapOrchestra
             listener.OnFrameRegistered += leapModel.OnFrameRegistered;
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
 
+            
+
             SoundManager soundManager = new SoundManager();
             soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
-            leapModel.sendBang += soundManager.noteSender.SendBang;
+            leapModel.sendBang += soundManager.throwBang;
+
+            listener.OnNewFrame += soundManager.Process;
 
             // Have the sample listener receive events from the controller
             controller.AddListener(listener);

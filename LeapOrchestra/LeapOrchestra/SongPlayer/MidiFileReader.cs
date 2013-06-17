@@ -1,4 +1,18 @@
-﻿using System;
+﻿/*
+ * Permet de lire un fichier midi
+ * Sol 1
+ * On enregistre toutes les nouvelles notes dans un tableau trié par temps
+ * On viendra lire les notes aux bons moments
+ * 
+ * Sol 2
+ * On enregistre toute les notes dans un tableau
+ * On viendra à chaque fois calculer où on en est et envoyer les notes qu'il fallait lire depuis
+ * 
+ * */
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,58 +24,151 @@ namespace LeapOrchestra.SongPlayer
     class MidiFileReader
     {
         string filePath;
+        List<MidiEvent> midiEvents;
+        long midiTimeCursor;
+        long previousMidiTimeCursor;
+        double tempoFile;
+        DateTime previousBang;
+        private double millisecondsPerQuarterNote;
+        private long QuarterNoteTimeCursor;
+
+        private int DeltaTicksPerQuarterNote;
+        public TimeSignature timeSignature;
+
+        public event Action<NoteOnEvent> SendNote;
         
         public MidiFileReader(string path)
         {
             filePath = path;
+            midiEvents = new List<MidiEvent>();
+            FitFileInList();
+            midiTimeCursor = 0;
+            previousMidiTimeCursor = 0;
+            QuarterNoteTimeCursor = 0;
+            tempoFile = 120;
+
+            previousBang = DateTime.Now;
+            millisecondsPerQuarterNote = 480000;
+
+            DeltaTicksPerQuarterNote = 192;
+            timeSignature.Numerator = 4;
+            timeSignature.Denominator = 4;
+            
         }
 
-        public string FileExtension
+        public struct TimeSignature
         {
-            get { return ".mid"; }
+            public int Numerator;
+            public int Denominator;
         }
 
-        public string FileTypeDescription
+        public void throwBang()
         {
-            get { return "Standard MIDI File"; }
+            //On calcul le nouveau tempo :
+            TimeSpan timeDifference = DateTime.Now - previousBang;
+            double timeDiff = timeDifference.TotalMilliseconds;
+            if (timeDiff < 100)
+                return;
+            else if (timeDiff < 2000)
+                millisecondsPerQuarterNote = timeDiff;
+            //Si > 2000, on garde l'ancience valeur
+            Console.WriteLine("millisec : " + millisecondsPerQuarterNote);
+
+            previousBang = DateTime.Now;
+
+            //On calcul où on en est dans la lecture
+            QuarterNoteTimeCursor = QuarterNoteTimeCursor + DeltaTicksPerQuarterNote;
+
+            playNote();
         }
 
-        public string Describe()
+        public void playNote()
+        {
+            //A simplifier
+            TimeSpan timeDifference = DateTime.Now - previousBang;
+            midiTimeCursor = QuarterNoteTimeCursor +
+                (long)(DeltaTicksPerQuarterNote * timeDifference.TotalMilliseconds / millisecondsPerQuarterNote);
+
+            if (midiTimeCursor > QuarterNoteTimeCursor + DeltaTicksPerQuarterNote)
+                return;
+
+            foreach (NoteOnEvent note in midiEvents)
+            {
+                if (note.AbsoluteTime > previousMidiTimeCursor
+                    && note.AbsoluteTime <= midiTimeCursor)
+                {
+                    //Console.WriteLine("note : " + note.NoteName + " time : " + note.AbsoluteTime + " : "
+                    //    + ToMBT(note.AbsoluteTime, DeltaTicksPerQuarterNote, timeSignature));
+                    SendNote(note);
+                }
+            }
+
+            previousMidiTimeCursor = midiTimeCursor;
+        }
+
+        public double Tempo
+        {
+            get
+            {
+                return (60000.0 / millisecondsPerQuarterNote);
+            }
+        }
+
+        public double MillisecondsPerQuarterNote
+        {
+            get
+            {
+                return millisecondsPerQuarterNote;
+            }
+        }
+
+        public void FitFileInList()
         {
             MidiFile mf = new MidiFile(filePath, false);
 
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("Format {0}, Tracks {1}, Delta Ticks Per Quarter Note {2}\r\n",
-                mf.FileFormat, mf.Tracks, mf.DeltaTicksPerQuarterNote);
-            var timeSignature = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault();
+            //StringBuilder sb = new StringBuilder();
+            //sb.AppendFormat("Format {0}, Tracks {1}, Delta Ticks Per Quarter Note {2}\r\n",
+            //    mf.FileFormat, mf.Tracks, mf.DeltaTicksPerQuarterNote);
+            DeltaTicksPerQuarterNote = mf.DeltaTicksPerQuarterNote;
+
+            timeSignature.Numerator = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Numerator;
+            timeSignature.Denominator = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Denominator;
+
             for (int n = 0; n < mf.Tracks; n++)
             {
                 foreach (MidiEvent midiEvent in mf.Events[n])
                 {
                     if(!MidiEvent.IsNoteOff(midiEvent))
                     {
-                        sb.AppendFormat("{0} {1}\r\n", ToMBT(midiEvent.AbsoluteTime, mf.DeltaTicksPerQuarterNote, timeSignature), midiEvent);
+                        //sb.AppendFormat("{0} {1}\r\n", ToMBT(midiEvent.AbsoluteTime, mf.DeltaTicksPerQuarterNote, timeSignature), midiEvent);
                         if (midiEvent is NoteOnEvent)
                         {
                             NoteOnEvent note = (NoteOnEvent)midiEvent;
-                            Console.WriteLine("note : " + note.NoteName+ " time : "+midiEvent.AbsoluteTime/1000);
+                            //Console.WriteLine("note : " + note.NoteName+ " ch "+note.Channel+" time : "+midiEvent.AbsoluteTime/1000);
+                            midiEvents.Add(midiEvent);
+                        }
+                        else if (midiEvent is TempoEvent)
+                        {
+                            TempoEvent tempoEvent = (TempoEvent)midiEvent;
+                            tempoFile = tempoEvent.Tempo;
+                            //Console.WriteLine("tempo : " + tempoFile + " microsec : " + tempoEvent.MicrosecondsPerQuarterNote);
                         }
 
+                        //Fin des notes
                         if (MidiEvent.IsEndTrack(midiEvent) && midiEvent.AbsoluteTime > 10)
                         {
-                            return "ha";
+                            return;
                         }
                     }
                 }
             }
-            return sb.ToString();
         }
 
         //Retourne l'emplacement de la note dans la mesure.
-        private string ToMBT(long eventTime, int ticksPerQuarterNote, TimeSignatureEvent timeSignature)
+        private string ToMBT(long eventTime, int ticksPerQuarterNote, TimeSignature timeSignature)
         {
-            int beatsPerBar = timeSignature == null ? 4 : timeSignature.Numerator;
-            int ticksPerBar = timeSignature == null ? ticksPerQuarterNote * 4 : (timeSignature.Numerator * ticksPerQuarterNote * 4) / (1 << timeSignature.Denominator);
+            int beatsPerBar = timeSignature.Numerator == null ? 4 : timeSignature.Numerator;
+            int ticksPerBar = timeSignature.Denominator == null ? ticksPerQuarterNote * 4 : (timeSignature.Numerator * ticksPerQuarterNote * 4) / (1 << timeSignature.Denominator);
             int ticksPerBeat = ticksPerBar / beatsPerBar;
             long bar = 1 + (eventTime / ticksPerBar);
             long beat = 1 + ((eventTime % ticksPerBar) / ticksPerBeat);

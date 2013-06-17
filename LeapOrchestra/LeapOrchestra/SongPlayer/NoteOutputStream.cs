@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NAudio.Midi;
 
 namespace LeapOrchestra.SongPlayer
 {
@@ -11,6 +12,9 @@ namespace LeapOrchestra.SongPlayer
         { }
         
         public virtual void SendBang()
+        { }
+
+        public virtual void SendNote(NoteOnEvent note)
         { }
 
         public virtual void Close()
