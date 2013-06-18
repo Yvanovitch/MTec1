@@ -114,7 +114,9 @@
     <Content Include="SongPlayer\Midi.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SongPlayer\NAudio.dll" />
+    <Content Include="SongPlayer\NAudio.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WPF\Form1.resx">

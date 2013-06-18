@@ -10,8 +10,6 @@
  * 
  * */
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +22,10 @@ namespace LeapOrchestra.SongPlayer
     class MidiFileReader
     {
         string filePath;
-        List<MidiEvent> midiEvents;
         long midiTimeCursor;
         long previousMidiTimeCursor;
         long tempoFile;
-        int lastPlayedNoteIndex;
+        List<int> lastPlayedNoteIndex;
         DateTime previousBang;
         private double millisecondsPerQuarterNote;
         private long QuarterNoteTimeCursor;
@@ -38,15 +35,15 @@ namespace LeapOrchestra.SongPlayer
         public TimeSignature timeSignature;
 
         public event Action<NoteOnEvent> SendNote;
+        MidiFile mf;
         
         public MidiFileReader(string path)
         {
             filePath = path;
-            midiEvents = new List<MidiEvent>();
             tempoList = new Queue<long>();
             
             midiTimeCursor = 0;
-            lastPlayedNoteIndex = 0;
+            
             previousMidiTimeCursor = 0;
             QuarterNoteTimeCursor = 0;
             tempoFile = 120;
@@ -58,7 +55,21 @@ namespace LeapOrchestra.SongPlayer
             timeSignature.Numerator = 4;
             timeSignature.Denominator = 4;
 
-            FitFileInList(); //On lance l'analyse du fichier midi
+            //Enregistre tout le fichier midi dans la collection mf.Events
+            mf = new MidiFile(filePath, false);
+            lastPlayedNoteIndex = new List<int>();
+            for (int t = 0; t < mf.Tracks; t++)
+            {
+                lastPlayedNoteIndex.Add(-1);
+            }
+
+            DeltaTicksPerQuarterNote = mf.DeltaTicksPerQuarterNote;
+            //Numerator
+            int tempTimeSignature = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Numerator;
+            timeSignature.Numerator = tempTimeSignature == 0 ? 4 : tempTimeSignature;
+            //Denominator
+            tempTimeSignature = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Denominator;
+            timeSignature.Numerator = tempTimeSignature == 0 ? 4 : tempTimeSignature;
         }
 
         public struct TimeSignature
@@ -86,7 +97,7 @@ namespace LeapOrchestra.SongPlayer
             }
             //Si > 2000, on garde l'ancience valeur
 
-            Console.WriteLine("millisec : " + (int)millisecondsPerQuarterNote+" tempo : "+(int)Tempo);
+            //Console.WriteLine("millisec : " + (int)millisecondsPerQuarterNote+" tempo : "+(int)Tempo);
             previousBang = DateTime.Now;
 
             //On calcul où on en est dans la lecture
@@ -105,28 +116,42 @@ namespace LeapOrchestra.SongPlayer
             if (midiTimeCursor > QuarterNoteTimeCursor + DeltaTicksPerQuarterNote)
                 return;
 
-            int i = lastPlayedNoteIndex +1;
-            //On récupère la première note après la dernière jouée
-            NoteOnEvent note = midiEvents[i] as NoteOnEvent;
-            while (note == null)
-            {
-                i = i + 1;
-                note = midiEvents[i] as NoteOnEvent;
-            }
 
-            //On lit la note en question
-            while(note.AbsoluteTime <= midiTimeCursor && note != null)
+            int i;
+            IList<MidiEvent> track;
+
+            for (int t = 0; t < mf.Tracks; t++)
             {
-                if (note.AbsoluteTime > previousMidiTimeCursor)
+                track = mf.Events[t];
+                if (track == null)
                 {
-                    //Console.WriteLine("note : " + note.NoteName + " time : " + note.AbsoluteTime + " : "
-                    //    + ToMBT(note.AbsoluteTime, DeltaTicksPerQuarterNote, timeSignature));
-                    SendNote(note);
+                    Console.WriteLine("Error track vide");
+                    return;
                 }
-                i = i + 1;
-                note = midiEvents[i] as NoteOnEvent;
+
+                i = lastPlayedNoteIndex[t] + 1;//On récupère la première note après la dernière jouée
+                
+                NoteOnEvent note = track[i] as NoteOnEvent;
+                //On récupère la première note
+                while (note == null && i < track.Count -1 )
+                {
+                    i = i + 1;
+                    note = track[i] as NoteOnEvent;
+                }
+
+                //On lit les notes qui doivent être lues
+                while ( note != null && note.AbsoluteTime <= midiTimeCursor && i < track.Count-1)
+                {
+                    if (note.AbsoluteTime > previousMidiTimeCursor)
+                    {
+                        SendNote(note);
+                        Console.WriteLine("piste : " + t + " note index : " + i);
+                    }
+                    i = i + 1;
+                    note = track[i] as NoteOnEvent;
+                }
+                lastPlayedNoteIndex[t] = i - 1;
             }
-            lastPlayedNoteIndex = i -1;
             previousMidiTimeCursor = midiTimeCursor;
         }
 
@@ -146,20 +171,22 @@ namespace LeapOrchestra.SongPlayer
             }
         }
 
-        public void FitFileInList()
+        /* Inutile
+         * public void ImportFileInList()
         {
             MidiFile mf = new MidiFile(filePath, false);
+            midiEvents = new MidiEventCollection(mf.FileFormat, mf.DeltaTicksPerQuarterNote);
 
             //StringBuilder sb = new StringBuilder();
             //sb.AppendFormat("Format {0}, Tracks {1}, Delta Ticks Per Quarter Note {2}\r\n",
             //    mf.FileFormat, mf.Tracks, mf.DeltaTicksPerQuarterNote);
             DeltaTicksPerQuarterNote = mf.DeltaTicksPerQuarterNote;
-
             timeSignature.Numerator = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Numerator;
             timeSignature.Denominator = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Denominator;
 
             for (int n = 0; n < mf.Tracks; n++)
             {
+                
                 foreach (MidiEvent midiEvent in mf.Events[n])
                 {
                     if(!MidiEvent.IsNoteOff(midiEvent))
@@ -187,13 +214,14 @@ namespace LeapOrchestra.SongPlayer
                     }
                 }
             }
-        }
+        }*/
 
         //Retourne l'emplacement de la note dans la mesure.
         private string ToMBT(long eventTime, int ticksPerQuarterNote, TimeSignature timeSignature)
         {
-            int beatsPerBar = timeSignature.Numerator == null ? 4 : timeSignature.Numerator;
-            int ticksPerBar = timeSignature.Denominator == null ? ticksPerQuarterNote * 4 : (timeSignature.Numerator * ticksPerQuarterNote * 4) / (1 << timeSignature.Denominator);
+            int beatsPerBar = timeSignature.Numerator;
+            int ticksPerBar = timeSignature.Denominator == 0 ? ticksPerQuarterNote * 4 : 
+                (timeSignature.Numerator * ticksPerQuarterNote * 4) / (1 << timeSignature.Denominator);
             int ticksPerBeat = ticksPerBar / beatsPerBar;
             long bar = 1 + (eventTime / ticksPerBar);
             long beat = 1 + ((eventTime % ticksPerBar) / ticksPerBeat);
