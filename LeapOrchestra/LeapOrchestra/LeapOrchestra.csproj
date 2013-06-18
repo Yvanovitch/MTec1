@@ -51,6 +51,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Log" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,7 +62,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GesturesModel.cs" />
+    <Compile Include="WPF\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WPF\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\GesturesModel.cs" />
     <Compile Include="LeapListener.cs" />
     <Compile Include="LeapModel.cs" />
     <Compile Include="SongPlayer\MidiFileReader.cs" />
@@ -70,6 +79,24 @@
     <Compile Include="SongPlayer\NoteOutputStream.cs" />
     <Compile Include="SongPlayer\SoundManager.cs" />
     <Compile Include="Utils\LeapGestures.cs" />
+    <Compile Include="WPF\MidiPref.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WPF\MidiPref.Designer.cs">
+      <DependentUpon>MidiPref.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\OpenaFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WPF\OpenaFile.Designer.cs">
+      <DependentUpon>OpenaFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\OSCPref.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WPF\OSCPref.Designer.cs">
+      <DependentUpon>OSCPref.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -88,6 +115,20 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="SongPlayer\NAudio.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WPF\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WPF\MidiPref.resx">
+      <DependentUpon>MidiPref.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WPF\OpenaFile.resx">
+      <DependentUpon>OpenaFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WPF\OSCPref.resx">
+      <DependentUpon>OSCPref.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
