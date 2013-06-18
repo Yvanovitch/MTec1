@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
 using Leap;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using LeapOrchestra.SongPlayer;
 using Midi;
 
@@ -11,6 +13,9 @@ namespace LeapOrchestra
     {
         public static void Main()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
             // Create a sample listener and controller
             LeapListener listener = new LeapListener();
             Controller controller = new Controller();
