@@ -35,6 +35,7 @@ namespace LeapOrchestra.SongPlayer
         public TimeSignature timeSignature;
 
         public event Action<NoteOnEvent> SendNote;
+        public event Action<int, int> SendProgramChange;
         MidiFile mf;
         
         public MidiFileReader(string path)
@@ -58,11 +59,21 @@ namespace LeapOrchestra.SongPlayer
             //Enregistre tout le fichier midi dans la collection mf.Events
             mf = new MidiFile(filePath, false);
             lastPlayedNoteIndex = new List<int>();
+
+            PatchChangeEvent instrument;
             for (int t = 0; t < mf.Tracks; t++)
             {
                 lastPlayedNoteIndex.Add(-1);
-            }
 
+                instrument = mf.Events[t].OfType<PatchChangeEvent>().LastOrDefault();
+                if (instrument != null)
+                {
+                    Console.WriteLine("Instrument : " + instrument.Patch + " nom : " + instrument);
+                    int ref_instrument = instrument.Patch;
+                    //SendProgramChange(1, 2);
+                }
+            }
+            
             DeltaTicksPerQuarterNote = mf.DeltaTicksPerQuarterNote;
             //Numerator
             int tempTimeSignature = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Numerator;
@@ -120,7 +131,7 @@ namespace LeapOrchestra.SongPlayer
             int i;
             IList<MidiEvent> track;
 
-            for (int t = 0; t < mf.Tracks; t++)
+            for (int t = 1; t < mf.Tracks; t++)
             {
                 track = mf.Events[t];
                 if (track == null)
@@ -151,6 +162,7 @@ namespace LeapOrchestra.SongPlayer
                     note = track[i] as NoteOnEvent;
                 }
                 lastPlayedNoteIndex[t] = i - 1;
+                break;
             }
             previousMidiTimeCursor = midiTimeCursor;
         }

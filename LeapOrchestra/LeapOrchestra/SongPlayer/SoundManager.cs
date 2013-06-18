@@ -25,6 +25,7 @@ namespace LeapOrchestra.SongPlayer
         {
             reader = new MidiFileReader(path);
             reader.SendNote += noteSender.SendNote;
+            reader.SendProgramChange += noteSender.SendProgramChange;
         }
 
         public void chooseOutput(NoteOnEvent note)

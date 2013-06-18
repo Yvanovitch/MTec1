@@ -17,6 +17,9 @@ namespace LeapOrchestra.SongPlayer
         public virtual void SendNote(NoteOnEvent note)
         { }
 
+        public virtual void SendProgramChange(int track, int ref_instrument)
+        { }
+
         public virtual void Close()
         { }
     }

@@ -34,12 +34,13 @@ namespace LeapOrchestra.SongPlayer
 
         public override void SendNote(NoteOnEvent note)
         {
-            int test = 0;
-            //Note my_note = Note.ParseNote(note.NoteName, ref test);
-            //Pitch my_pitch = my_note.PitchInOctave(note.NoteNumber / 12);
-            //Console.WriteLine("Pitch : " + my_pitch);
-            Channel chan = (Channel)3;
-            outputDevice.SendNoteOn(Channel.Channel1, (Pitch)note.NoteNumber, 80);
+            outputDevice.SendNoteOn((Channel)note.Channel, (Pitch)note.NoteNumber, 80);
+            //outputDevice.SendPercussion
+        }
+
+        public override void SendProgramChange(int track, int ref_instrument)
+        {
+            outputDevice.SendProgramChange((Channel)track, (Instrument)ref_instrument);
         }
 
         public override void Close()
