@@ -20,3 +20,4 @@ D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\M
 D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.exe
 D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.pdb
 D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\SongPlayer\Midi.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe.config
