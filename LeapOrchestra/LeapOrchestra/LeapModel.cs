@@ -27,7 +27,7 @@ namespace LeapOrchestra
             temp = 0;
             tempo = 0;
             previousPosition = new Vector(0, 0, 0);
-            previousVelocity = new Vector(0, 0, 0);
+            previousVelocity = new Vector(-10, 0, 0);
             previousTimestamp = 0;
         }
 
@@ -65,15 +65,16 @@ namespace LeapOrchestra
             
              if ( ( (previousVelocity.x < 0 && hand.PalmVelocity.x > 0) ||
                 (previousVelocity.x > 0 && hand.PalmVelocity.x < 0) ) &&
-                previousPosition.DistanceTo(hand.PalmPosition) > 150 )
+                previousPosition.DistanceTo(hand.PalmPosition) > 70 )
             {
                 sendBang();
                 //Console.WriteLine("Bang");
                 //Console.Beep(440, 300);
                 previousPosition = hand.PalmPosition;
+                previousVelocity = hand.PalmVelocity;
                 
             }
-            previousVelocity = hand.PalmVelocity;
+            
             
             //Console.WriteLine("position : "+hand.PalmPosition.y);
 

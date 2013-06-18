@@ -7,7 +7,7 @@ using NAudio.Midi;
 
 namespace LeapOrchestra.SongPlayer
 {
-    class SoundManager
+    class SoundManager 
     {
         public NoteOutputStream noteSender;
         private SEND_MODE playMode;

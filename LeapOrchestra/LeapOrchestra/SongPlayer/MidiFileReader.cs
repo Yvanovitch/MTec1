@@ -27,10 +27,12 @@ namespace LeapOrchestra.SongPlayer
         List<MidiEvent> midiEvents;
         long midiTimeCursor;
         long previousMidiTimeCursor;
-        double tempoFile;
+        long tempoFile;
+        int lastPlayedNoteIndex;
         DateTime previousBang;
         private double millisecondsPerQuarterNote;
         private long QuarterNoteTimeCursor;
+        private Queue<long> tempoList;
 
         private int DeltaTicksPerQuarterNote;
         public TimeSignature timeSignature;
@@ -41,8 +43,10 @@ namespace LeapOrchestra.SongPlayer
         {
             filePath = path;
             midiEvents = new List<MidiEvent>();
-            FitFileInList();
+            tempoList = new Queue<long>();
+            
             midiTimeCursor = 0;
+            lastPlayedNoteIndex = 0;
             previousMidiTimeCursor = 0;
             QuarterNoteTimeCursor = 0;
             tempoFile = 120;
@@ -53,7 +57,8 @@ namespace LeapOrchestra.SongPlayer
             DeltaTicksPerQuarterNote = 192;
             timeSignature.Numerator = 4;
             timeSignature.Denominator = 4;
-            
+
+            FitFileInList(); //On lance l'analyse du fichier midi
         }
 
         public struct TimeSignature
@@ -66,14 +71,22 @@ namespace LeapOrchestra.SongPlayer
         {
             //On calcul le nouveau tempo :
             TimeSpan timeDifference = DateTime.Now - previousBang;
-            double timeDiff = timeDifference.TotalMilliseconds;
+            long timeDiff = (long)timeDifference.TotalMilliseconds;
             if (timeDiff < 100)
                 return;
             else if (timeDiff < 2000)
-                millisecondsPerQuarterNote = timeDiff;
-            //Si > 2000, on garde l'ancience valeur
-            Console.WriteLine("millisec : " + millisecondsPerQuarterNote);
+            {
+                tempoList.Enqueue(timeDiff);
+                millisecondsPerQuarterNote = tempoList.Average();
 
+                if (tempoList.Count() > 8)
+                {
+                    tempoList.Dequeue();
+                }
+            }
+            //Si > 2000, on garde l'ancience valeur
+
+            Console.WriteLine("millisec : " + (int)millisecondsPerQuarterNote+" tempo : "+(int)Tempo);
             previousBang = DateTime.Now;
 
             //On calcul où on en est dans la lecture
@@ -84,25 +97,36 @@ namespace LeapOrchestra.SongPlayer
 
         public void playNote()
         {
-            //A simplifier
             TimeSpan timeDifference = DateTime.Now - previousBang;
             midiTimeCursor = QuarterNoteTimeCursor +
                 (long)(DeltaTicksPerQuarterNote * timeDifference.TotalMilliseconds / millisecondsPerQuarterNote);
 
+            //Si on a dépassé le temps suivant, on attend
             if (midiTimeCursor > QuarterNoteTimeCursor + DeltaTicksPerQuarterNote)
                 return;
 
-            foreach (NoteOnEvent note in midiEvents)
+            int i = lastPlayedNoteIndex +1;
+            //On récupère la première note après la dernière jouée
+            NoteOnEvent note = midiEvents[i] as NoteOnEvent;
+            while (note == null)
             {
-                if (note.AbsoluteTime > previousMidiTimeCursor
-                    && note.AbsoluteTime <= midiTimeCursor)
+                i = i + 1;
+                note = midiEvents[i] as NoteOnEvent;
+            }
+
+            //On lit la note en question
+            while(note.AbsoluteTime <= midiTimeCursor && note != null)
+            {
+                if (note.AbsoluteTime > previousMidiTimeCursor)
                 {
                     //Console.WriteLine("note : " + note.NoteName + " time : " + note.AbsoluteTime + " : "
                     //    + ToMBT(note.AbsoluteTime, DeltaTicksPerQuarterNote, timeSignature));
                     SendNote(note);
                 }
+                i = i + 1;
+                note = midiEvents[i] as NoteOnEvent;
             }
-
+            lastPlayedNoteIndex = i -1;
             previousMidiTimeCursor = midiTimeCursor;
         }
 
@@ -150,7 +174,8 @@ namespace LeapOrchestra.SongPlayer
                         else if (midiEvent is TempoEvent)
                         {
                             TempoEvent tempoEvent = (TempoEvent)midiEvent;
-                            tempoFile = tempoEvent.Tempo;
+                            tempoFile = (long)tempoEvent.Tempo;
+                            tempoList.Enqueue(tempoFile );
                             //Console.WriteLine("tempo : " + tempoFile + " microsec : " + tempoEvent.MicrosecondsPerQuarterNote);
                         }
 
