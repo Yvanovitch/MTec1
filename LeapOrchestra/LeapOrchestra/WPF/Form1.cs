@@ -50,5 +50,10 @@ namespace LeapOrchestra
         {
 
         }
+
+        private void midiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form1 pref = new Form1();
+        }
     }
 }

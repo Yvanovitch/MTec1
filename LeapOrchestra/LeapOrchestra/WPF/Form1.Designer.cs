@@ -37,6 +37,7 @@
             this.oSCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,7 +80,8 @@
             // 
             this.outputToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.midiToolStripMenuItem,
-            this.oSCToolStripMenuItem});
+            this.oSCToolStripMenuItem,
+            this.inputToolStripMenuItem});
             this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
             this.outputToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.outputToolStripMenuItem.Text = "Preferences";
@@ -88,13 +90,14 @@
             // midiToolStripMenuItem
             // 
             this.midiToolStripMenuItem.Name = "midiToolStripMenuItem";
-            this.midiToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.midiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.midiToolStripMenuItem.Text = "Midi";
+            this.midiToolStripMenuItem.Click += new System.EventHandler(this.midiToolStripMenuItem_Click);
             // 
             // oSCToolStripMenuItem
             // 
             this.oSCToolStripMenuItem.Name = "oSCToolStripMenuItem";
-            this.oSCToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.oSCToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.oSCToolStripMenuItem.Text = "OSC";
             // 
             // toolStripMenuItem1
@@ -110,6 +113,12 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "About...";
+            // 
+            // inputToolStripMenuItem
+            // 
+            this.inputToolStripMenuItem.Name = "inputToolStripMenuItem";
+            this.inputToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.inputToolStripMenuItem.Text = "Input";
             // 
             // Form1
             // 
@@ -139,6 +148,7 @@
         private System.Windows.Forms.ToolStripMenuItem oSCToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inputToolStripMenuItem;
 
     }
 }
