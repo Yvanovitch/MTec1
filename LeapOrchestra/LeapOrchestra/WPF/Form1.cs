@@ -53,7 +53,12 @@ namespace LeapOrchestra
 
         private void midiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form1 pref = new Form1();
+            MidiPref pref = new MidiPref();
+        }
+
+        private void oSCToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OSCPref pref = new OSCPref();
         }
     }
 }

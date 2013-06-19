@@ -99,6 +99,7 @@
             this.oSCToolStripMenuItem.Name = "oSCToolStripMenuItem";
             this.oSCToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.oSCToolStripMenuItem.Text = "OSC";
+            this.oSCToolStripMenuItem.Click += new System.EventHandler(this.oSCToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
