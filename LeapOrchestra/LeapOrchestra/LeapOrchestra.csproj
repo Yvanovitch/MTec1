@@ -64,6 +64,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LeapController.cs" />
+    <Compile Include="WPF\PrefInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WPF\PrefInput.Designer.cs">
+      <DependentUpon>PrefInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\PrefOSC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WPF\PrefOSC.Designer.cs">
+      <DependentUpon>PrefOSC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\PrefMidi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WPF\PrefMidi.Designer.cs">
+      <DependentUpon>PrefMidi.cs</DependentUpon>
+    </Compile>
     <Compile Include="WPF\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,24 +99,6 @@
     <Compile Include="SongPlayer\NoteOutputStream.cs" />
     <Compile Include="SongPlayer\SoundManager.cs" />
     <Compile Include="Utils\LeapGestures.cs" />
-    <Compile Include="WPF\MidiPref.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WPF\MidiPref.Designer.cs">
-      <DependentUpon>MidiPref.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WPF\OpenaFile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WPF\OpenaFile.Designer.cs">
-      <DependentUpon>OpenaFile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WPF\OSCPref.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WPF\OSCPref.Designer.cs">
-      <DependentUpon>OSCPref.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -122,17 +122,17 @@
     <Content Include="SongPlayer\NAudio.WindowsMediaFormat.dll" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="WPF\PrefInput.resx">
+      <DependentUpon>PrefInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WPF\PrefOSC.resx">
+      <DependentUpon>PrefOSC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WPF\PrefMidi.resx">
+      <DependentUpon>PrefMidi.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WPF\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WPF\MidiPref.resx">
-      <DependentUpon>MidiPref.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WPF\OpenaFile.resx">
-      <DependentUpon>OpenaFile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WPF\OSCPref.resx">
-      <DependentUpon>OSCPref.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
