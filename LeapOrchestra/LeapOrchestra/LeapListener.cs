@@ -13,7 +13,6 @@ namespace LeapOrchestra
 
         public event Action<Frame> OnFrameRegistered;
         public event Action<GestureList> OnGesturesRegistered;
-        public event Action OnNewFrame;
 
         private void SafeWriteLine(String line)
         {
@@ -50,7 +49,6 @@ namespace LeapOrchestra
 
         public override void OnFrame(Controller controller)
         {
-            OnNewFrame();
             // Get the most recent frame and report some basic information
             Frame frame = controller.Frame();
 

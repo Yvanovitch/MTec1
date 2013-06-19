@@ -33,37 +33,18 @@ namespace LeapOrchestra
 
             //Sound Management
             SoundManager soundManager = new SoundManager();
-            soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
+            soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\z2temple.mid");
             leapModel.sendBang += soundManager.throwBang;
 
-            listener.OnNewFrame += soundManager.Process;
 
-            // Have the sample listener receive events from the controller
+            // Have the listener receive events from the controller in a new thread
             Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
             leapThread.Start(listener);
 
             while (true)
             {
-                if(Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo key = Console.ReadKey(true);
-
-                    soundManager.throwBang();
-                    Thread.Sleep(10);
-                    soundManager.Process();
-                    Thread.Sleep(10);
-                    soundManager.Process();
-                    Thread.Sleep(10);
-                    soundManager.Process();
-                    Thread.Sleep(10);
-                    soundManager.Process();
-                    Thread.Sleep(10);
-                    soundManager.Process();
-                    Thread.Sleep(10);
-                    soundManager.Process();
-                    Thread.Sleep(10);
-                    soundManager.Process();
-                }
+                Thread.Sleep(10);
+                soundManager.Process();
             }
 
 

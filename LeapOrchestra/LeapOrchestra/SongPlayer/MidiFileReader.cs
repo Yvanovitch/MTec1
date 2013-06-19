@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using NAudio.Midi;
 using System.ComponentModel.Composition;
+using System.IO;
 
 namespace LeapOrchestra.SongPlayer
 {
@@ -52,7 +53,14 @@ namespace LeapOrchestra.SongPlayer
             timeSignature.Denominator = 4;
 
             //Enregistre tout le fichier midi dans la collection mf.Events
+            if (!File.Exists(path))
+            {
+                Console.WriteLine("Fichier inexistant");
+                return;
+            }
             mf = new MidiFile(filePath, false);
+            
+
             lastPlayedNoteIndex = new List<int>();
 
             for (int t = 0; t < mf.Tracks; t++)
@@ -114,7 +122,7 @@ namespace LeapOrchestra.SongPlayer
             }
             //Si > 2000, on garde l'ancience valeur
 
-            //Console.WriteLine("millisec : " + (int)millisecondsPerQuarterNote+" tempo : "+(int)Tempo);
+            Console.WriteLine("millisec : " + (int)millisecondsPerQuarterNote+" tempo : "+(int)Tempo);
             previousBang = DateTime.Now;
 
             //On calcul où on en est dans la lecture
@@ -162,7 +170,7 @@ namespace LeapOrchestra.SongPlayer
                     if (note.AbsoluteTime > previousMidiTimeCursor)
                     {
                         SendNote(note);
-                        Console.WriteLine("piste : " + t + " note index : " + i);
+                        //Console.WriteLine("piste : " + t + " note index : " + i);
                     }
                     i = i + 1;
                     note = track[i] as NoteEvent;
