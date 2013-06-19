@@ -13,9 +13,9 @@ namespace LeapOrchestra
     {
         public static void Main()
         {
-            /*Application.EnableVisualStyles();
+            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());*/
+            Application.Run(new Form1());
             // Create a sample listener and controller
             LeapListener listener = new LeapListener();
             LeapController controller = new LeapController();
