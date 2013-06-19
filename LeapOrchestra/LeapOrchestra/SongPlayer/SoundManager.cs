@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Quand on n'a pas chargé de fichier midi, on envoi des bangs
+ * On peut choisir entre envoyer les signaux (note ou bang) en OSC ou MIDI
+ * */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +31,7 @@ namespace LeapOrchestra.SongPlayer
             reader = new MidiFileReader(path);
             reader.SendNote += noteSender.SendNote;
             reader.SendProgramChange += noteSender.SendProgramChange;
+            reader.analyzeProgramChange();
         }
 
         public void chooseOutput(NoteOnEvent note)

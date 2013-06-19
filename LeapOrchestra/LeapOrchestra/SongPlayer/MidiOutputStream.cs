@@ -28,14 +28,18 @@ namespace LeapOrchestra.SongPlayer
             outputDevice.SendControlChange(Channel.Channel1, Control.SustainPedal, 0);
             outputDevice.SendPitchBend(Channel.Channel1, 8192);
             outputDevice.SendNoteOn(Channel.Channel1, Pitch.C4, 80);
-            //Thread.Sleep(500);
-            //outputDevice.Close();
         }
 
-        public override void SendNote(NoteOnEvent note)
+        public override void SendNote(NoteEvent note)
         {
-            outputDevice.SendNoteOn((Channel)note.Channel, (Pitch)note.NoteNumber, 80);
-            //outputDevice.SendPercussion
+            if (note is NoteOnEvent)
+            {
+                outputDevice.SendNoteOn((Channel)note.Channel, (Pitch)note.NoteNumber, 80);
+            }
+            else
+            {
+                outputDevice.SendNoteOff((Channel)note.Channel, (Pitch)note.NoteNumber, 80);
+            }
         }
 
         public override void SendProgramChange(int track, int ref_instrument)

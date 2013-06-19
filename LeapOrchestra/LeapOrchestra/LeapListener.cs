@@ -25,12 +25,12 @@ namespace LeapOrchestra
 
         public override void OnInit(Controller controller)
         {
-            SafeWriteLine("Initialized");
+            SafeWriteLine("Leap Initialized");
         }
 
         public override void OnConnect(Controller controller)
         {
-            SafeWriteLine("Connected");
+            SafeWriteLine("Leap Connected");
             controller.EnableGesture(Gesture.GestureType.TYPECIRCLE);
             controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
             controller.EnableGesture(Gesture.GestureType.TYPESCREENTAP);
@@ -58,7 +58,7 @@ namespace LeapOrchestra
             {
                 OnFrameRegistered(frame);
                 
-                OnGesturesRegistered(frame.Gestures());
+                //OnGesturesRegistered(frame.Gestures());
 
                 if (!frame.Hands.Empty || !frame.Gestures().Empty)
                 {
@@ -66,6 +66,12 @@ namespace LeapOrchestra
                 }
             }
 
+        }
+
+        public override void OnFocusLost(Controller arg0)
+        {
+            base.OnFocusLost(arg0);
+            SafeWriteLine("Focus lost");
         }
     }
 }

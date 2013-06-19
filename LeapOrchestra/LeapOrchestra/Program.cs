@@ -13,12 +13,12 @@ namespace LeapOrchestra
     {
         public static void Main()
         {
-            Application.EnableVisualStyles();
+            /*Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Form1());*/
             // Create a sample listener and controller
             LeapListener listener = new LeapListener();
-            Controller controller = new Controller();
+            LeapController controller = new LeapController();
 
             //On active le traitement en background
             controller.SetPolicyFlags(Controller.PolicyFlag.POLICYBACKGROUNDFRAMES);
@@ -31,8 +31,7 @@ namespace LeapOrchestra
             listener.OnFrameRegistered += leapModel.OnFrameRegistered;
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
 
-            
-
+            //Sound Management
             SoundManager soundManager = new SoundManager();
             soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
             leapModel.sendBang += soundManager.throwBang;
@@ -40,7 +39,32 @@ namespace LeapOrchestra
             listener.OnNewFrame += soundManager.Process;
 
             // Have the sample listener receive events from the controller
-            controller.AddListener(listener);
+            Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
+            leapThread.Start(listener);
+
+            while (true)
+            {
+                if(Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+
+                    soundManager.throwBang();
+                    Thread.Sleep(10);
+                    soundManager.Process();
+                    Thread.Sleep(10);
+                    soundManager.Process();
+                    Thread.Sleep(10);
+                    soundManager.Process();
+                    Thread.Sleep(10);
+                    soundManager.Process();
+                    Thread.Sleep(10);
+                    soundManager.Process();
+                    Thread.Sleep(10);
+                    soundManager.Process();
+                    Thread.Sleep(10);
+                    soundManager.Process();
+                }
+            }
 
 
             // Keep this process running until Enter is pressed

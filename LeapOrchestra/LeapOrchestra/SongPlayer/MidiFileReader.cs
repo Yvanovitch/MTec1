@@ -24,7 +24,6 @@ namespace LeapOrchestra.SongPlayer
         string filePath;
         long midiTimeCursor;
         long previousMidiTimeCursor;
-        long tempoFile;
         List<int> lastPlayedNoteIndex;
         DateTime previousBang;
         private double millisecondsPerQuarterNote;
@@ -34,7 +33,7 @@ namespace LeapOrchestra.SongPlayer
         private int DeltaTicksPerQuarterNote;
         public TimeSignature timeSignature;
 
-        public event Action<NoteOnEvent> SendNote;
+        public event Action<NoteEvent> SendNote;
         public event Action<int, int> SendProgramChange;
         MidiFile mf;
         
@@ -44,10 +43,6 @@ namespace LeapOrchestra.SongPlayer
             tempoList = new Queue<long>();
             
             midiTimeCursor = 0;
-            
-            previousMidiTimeCursor = 0;
-            QuarterNoteTimeCursor = 0;
-            tempoFile = 120;
 
             previousBang = DateTime.Now;
             millisecondsPerQuarterNote = 480000;
@@ -60,18 +55,9 @@ namespace LeapOrchestra.SongPlayer
             mf = new MidiFile(filePath, false);
             lastPlayedNoteIndex = new List<int>();
 
-            PatchChangeEvent instrument;
             for (int t = 0; t < mf.Tracks; t++)
             {
                 lastPlayedNoteIndex.Add(-1);
-
-                instrument = mf.Events[t].OfType<PatchChangeEvent>().LastOrDefault();
-                if (instrument != null)
-                {
-                    Console.WriteLine("Instrument : " + instrument.Patch + " nom : " + instrument);
-                    int ref_instrument = instrument.Patch;
-                    //SendProgramChange(1, 2);
-                }
             }
             
             DeltaTicksPerQuarterNote = mf.DeltaTicksPerQuarterNote;
@@ -87,6 +73,26 @@ namespace LeapOrchestra.SongPlayer
         {
             public int Numerator;
             public int Denominator;
+        }
+
+        public void analyzeProgramChange()
+        {
+            if (SendProgramChange == null)
+            {
+                Console.WriteLine("SendProgramChange Undefined");
+                return;
+            }
+
+            PatchChangeEvent instrument; 
+            for (int t = 0; t < mf.Tracks; t++)
+            {
+                instrument = mf.Events[t].OfType<PatchChangeEvent>().LastOrDefault();
+                if (instrument != null)
+                {
+                    Console.WriteLine("Instrument : "+instrument);
+                    SendProgramChange(t, instrument.Patch);
+                }
+            }
         }
 
         public void throwBang()
@@ -119,6 +125,12 @@ namespace LeapOrchestra.SongPlayer
 
         public void playNote()
         {
+            if (SendNote == null)
+            {
+                Console.WriteLine("Undefined fonction SendNote");
+                return;
+            }
+            
             TimeSpan timeDifference = DateTime.Now - previousBang;
             midiTimeCursor = QuarterNoteTimeCursor +
                 (long)(DeltaTicksPerQuarterNote * timeDifference.TotalMilliseconds / millisecondsPerQuarterNote);
@@ -127,28 +139,22 @@ namespace LeapOrchestra.SongPlayer
             if (midiTimeCursor > QuarterNoteTimeCursor + DeltaTicksPerQuarterNote)
                 return;
 
-
             int i;
-            IList<MidiEvent> track;
+            IList<NoteEvent> track;
 
             for (int t = 1; t < mf.Tracks; t++)
             {
-                track = mf.Events[t];
+                track = mf.Events[t].OfType<NoteEvent>().ToList();
                 if (track == null)
                 {
-                    Console.WriteLine("Error track vide");
-                    return;
+                    Console.WriteLine("Error empty track");
+                    break ;
                 }
-
-                i = lastPlayedNoteIndex[t] + 1;//On récupère la première note après la dernière jouée
-                
-                NoteOnEvent note = track[i] as NoteOnEvent;
-                //On récupère la première note
-                while (note == null && i < track.Count -1 )
-                {
-                    i = i + 1;
-                    note = track[i] as NoteOnEvent;
-                }
+                //On récupère la première note après la dernière jouée
+                i = lastPlayedNoteIndex[t] + 1;
+                if (i >= track.Count)
+                    break;
+                NoteEvent note = track[i];
 
                 //On lit les notes qui doivent être lues
                 while ( note != null && note.AbsoluteTime <= midiTimeCursor && i < track.Count-1)
@@ -159,10 +165,9 @@ namespace LeapOrchestra.SongPlayer
                         Console.WriteLine("piste : " + t + " note index : " + i);
                     }
                     i = i + 1;
-                    note = track[i] as NoteOnEvent;
+                    note = track[i] as NoteEvent;
                 }
                 lastPlayedNoteIndex[t] = i - 1;
-                break;
             }
             previousMidiTimeCursor = midiTimeCursor;
         }
