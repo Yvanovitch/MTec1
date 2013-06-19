@@ -43,7 +43,15 @@ namespace LeapOrchestra
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+           
+            if (MessageBox.Show("Ouvrir un Fichier", "Open a File", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Form1 ff = new Form1();
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
 
