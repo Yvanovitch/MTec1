@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LeapOrchestra.WDF
+namespace LeapOrchestra.WPF
 {
     public partial class MidiPref : Form
     {
@@ -16,17 +16,17 @@ namespace LeapOrchestra.WDF
             InitializeComponent();
         }
 
-        private void MidiPref_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-
+            Form1 ff = new Form1();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form1 ff = new Form1();
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

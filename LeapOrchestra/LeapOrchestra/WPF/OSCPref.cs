@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LeapOrchestra.WDF
+namespace LeapOrchestra.WPF
 {
     public partial class OSCPref : Form
     {
@@ -16,9 +16,14 @@ namespace LeapOrchestra.WDF
             InitializeComponent();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
+            Form1 ff = new Form1();
+        }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form1 ff = new Form1();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -26,17 +31,12 @@ namespace LeapOrchestra.WDF
 
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }

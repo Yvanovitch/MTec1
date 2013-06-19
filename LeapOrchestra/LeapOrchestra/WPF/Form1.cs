@@ -33,7 +33,7 @@ namespace LeapOrchestra
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
+            this.Close();
         }
 
         private void outputToolStripMenuItem_Click(object sender, EventArgs e)
@@ -46,19 +46,15 @@ namespace LeapOrchestra
 
         }
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
 
         private void midiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MidiPref pref = new MidiPref();
+            //MidiPref pref = new MidiPref();
         }
 
         private void oSCToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OSCPref pref = new OSCPref();
+            //OSCPref pref = new OSCPref();
         }
     }
 }
