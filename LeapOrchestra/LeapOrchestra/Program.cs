@@ -18,7 +18,7 @@ namespace LeapOrchestra
         {
         //Sound Management
             SoundManager soundManager = new SoundManager();
-            soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\z2temple.mid");
+            //soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\z2temple.mid");
             Thread soundManagement = new Thread(soundManager.Process);
             //Lancement du thread de managament
             soundManagement.Start();

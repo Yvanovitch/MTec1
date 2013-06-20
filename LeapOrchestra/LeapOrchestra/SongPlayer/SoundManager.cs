@@ -21,12 +21,13 @@ namespace LeapOrchestra.SongPlayer
         public event Action<int> sendTempo;
         
 
-        enum SEND_MODE{ MIDI_NOTE, MIDI_BANG};
+        enum SEND_MODE{MIDI_BANG, MIDI_NOTE};
 
         public SoundManager()
         {
             noteSender = new MidiOutputStream();
             choosePlayMode();
+            playMode = SEND_MODE.MIDI_BANG;
         }
 
         public void readMidiFile(string path)
@@ -70,15 +71,18 @@ namespace LeapOrchestra.SongPlayer
              * Envoyer des bangs dans les temps
              * Envoyer les notes à l'intérieur des temps synchronisées
              */
-            playMode = SEND_MODE.MIDI_NOTE;
+            //playMode = SEND_MODE.MIDI_NOTE;
         }
 
         public void throwBang()
         {
             if (playMode == SEND_MODE.MIDI_NOTE)
             {
-                reader.throwBang();
-                sendTempo(this.getTempo());
+                if (reader != null)
+                {
+                    reader.throwBang();
+                    sendTempo(this.getTempo());
+                }
             }
             else
             {
@@ -92,7 +96,10 @@ namespace LeapOrchestra.SongPlayer
             {
                 if (playMode == SEND_MODE.MIDI_NOTE)
                 {
-                    reader.playNote();
+                    if (reader != null)
+                    {
+                        reader.playNote();
+                    }
                     Thread.Sleep(10);
                 }
                 else
