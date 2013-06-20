@@ -14,7 +14,7 @@ namespace LeapOrchestra
     class LeapOrchestra
     {
         [STAThread]
-        public static void Main()
+        public static void Main2()
         {
          //Sound Management
             SoundManager soundManager = new SoundManager();
