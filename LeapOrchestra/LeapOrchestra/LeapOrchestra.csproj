@@ -33,6 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bespoke.Common, Version=5.0.0.0, Culture=neutral, PublicKeyToken=843a094264521388, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>SongPlayer\OSC\Bespoke.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Bespoke.Common.Osc, Version=0.0.0.0, Culture=neutral, PublicKeyToken=843a094264521388, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>SongPlayer\OSC\Bespoke.Common.Osc.dll</HintPath>
+    </Reference>
     <Reference Include="LeapCSharp.NET4.0, Version=0.0.0.0, Culture=neutral, PublicKeyToken=6e1b1368e71eba9b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Documents\Cours\Orchestra\LeapMotionSDK\LeapSDK\lib\LeapCSharp.NET4.0.dll</HintPath>
@@ -71,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Kinect\KinectController.cs" />
     <Compile Include="LeapMotion\LeapController.cs" />
+    <Compile Include="SongPlayer\OSC\Receiver.cs" />
     <Compile Include="WPF\PrefInput.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +130,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Kinect\Microsoft.Kinect.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SongPlayer\OSC\Bespoke.Common.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SongPlayer\OSC\Bespoke.Common.Osc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="SongPlayer\Midi.dll">
