@@ -92,6 +92,7 @@ namespace LeapOrchestra.SongPlayer
             {
                 reader.playNote();
             }
+            Thread.Sleep(10);
         }
 
         //Mis de côté, ne sert à rien

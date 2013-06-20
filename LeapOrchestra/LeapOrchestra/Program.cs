@@ -16,7 +16,10 @@ namespace LeapOrchestra
         [STAThread]
         public static void Main()
         {
-            
+         //Sound Management
+            SoundManager soundManager = new SoundManager();
+            soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\z2temple.mid");
+            Thread soundManagement = new Thread(soundManager.Process);
 
         //Leap Motion
             // Create a sample listener and controller
@@ -30,32 +33,23 @@ namespace LeapOrchestra
 
             listener.OnFrameRegistered += leapModel.OnFrameRegistered;
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
-
-        //Kinect
-            KinectController kinectController = new KinectController();
-
-            //Sound Management
-            SoundManager soundManager = new SoundManager();
-            soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\z2temple.mid");
             leapModel.sendBang += soundManager.throwBang;
-
-
-            // Have the listener receive events from the controller in a new thread
+            //Lancement du Thread du LeapMotion
             Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
             leapThread.Start(listener);
+
+        //Kinect : Crée automatiquement un nouveau Thread
+            KinectController kinectController = new KinectController();
+
+        
+
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 form1 = new Form1();
             form1.sendPath += soundManager.readMidiFile;
             soundManager.sendTempo += form1.GetTempo;
-            Application.Run(new Form1());
-
-            while (true)
-            {
-                Thread.Sleep(10);
-                soundManager.Process();
-            }
+            Application.Run(form1);
 
 
             // Keep this process running until Enter is pressed
@@ -67,6 +61,7 @@ namespace LeapOrchestra
             controller.Dispose();
 
             soundManager.Close();
+            kinectController.Close();
         }
     }
 }

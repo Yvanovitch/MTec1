@@ -35,6 +35,7 @@ namespace LeapOrchestra.Kinect
                 try
                 {
                     this.sensor.Start();
+                    sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
                 }
                 catch (IOException)
                 {
@@ -61,36 +62,36 @@ namespace LeapOrchestra.Kinect
                 }
             }
 
-            /*using (DrawingContext dc = this.drawingGroup.Open())
+            if (skeletons.Length != 0)
             {
-                // Draw a transparent background to set the render size
-                dc.DrawRectangle(Brushes.Black, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
-
-                if (skeletons.Length != 0)
+                foreach (Skeleton skel in skeletons)
                 {
-                    foreach (Skeleton skel in skeletons)
-                    {
-                        RenderClippedEdges(skel, dc);
+                    printJoints(skel);
+                }
+            }
+        }
 
-                        if (skel.TrackingState == SkeletonTrackingState.Tracked)
-                        {
-                            this.DrawBonesAndJoints(skel, dc);
-                        }
-                        else if (skel.TrackingState == SkeletonTrackingState.PositionOnly)
-                        {
-                            dc.DrawEllipse(
-                            this.centerPointBrush,
-                            null,
-                            this.SkeletonPointToScreen(skel.Position),
-                            BodyCenterThickness,
-                            BodyCenterThickness);
-                        }
+        private void printJoints(Skeleton skeleton)
+        {
+            foreach (Joint joint in skeleton.Joints)
+            {
+                if (joint.JointType == JointType.HandRight)
+                {
+                    if (joint.TrackingState == JointTrackingState.Tracked)
+                    {
+                        Console.WriteLine("Join  x : " + joint.Position.X * 100);
+                    }
+                    else if (joint.TrackingState == JointTrackingState.Inferred)
+                    {
+                        Console.WriteLine("Déduit Join x : " + joint.Position.X * 100);
                     }
                 }
+            }
+        }
 
-                // prevent drawing outside of our render area
-                this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, RenderWidth, RenderHeight));
-            }*/
+        public void Close()
+        {
+            sensor.Stop();
         }
     }
 }
