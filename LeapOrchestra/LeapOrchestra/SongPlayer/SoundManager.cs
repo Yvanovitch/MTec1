@@ -27,21 +27,22 @@ namespace LeapOrchestra.SongPlayer
             choosePlayMode();
         }
 
-        public Boolean readMidiFile(string path)
+        public void readMidiFile(string path)
         {
             if (!File.Exists(path))
             {
                 Console.WriteLine("Fichier inexistant");
                 playMode = SEND_MODE.MIDI_BANG;
-                return false;
+                return;
             }
             
             reader = new MidiFileReader(path);
             reader.SendNote += noteSender.SendNote;
             reader.SendProgramChange += noteSender.SendProgramChange;
             reader.analyzeProgramChange();
+            Console.WriteLine("Midi File Loaded");
             playMode = SEND_MODE.MIDI_NOTE;
-            return true;
+            return;
         }
 
         public void chooseOutput(NoteOnEvent note)

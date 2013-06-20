@@ -17,7 +17,8 @@ namespace LeapOrchestra
     {
         TextBox mid;
         String nameFile;
-        private SoundManager sm;
+        public event Action<string> sendPath;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,10 +29,6 @@ namespace LeapOrchestra
 
         }
 
-        private void setSoundManager(SoundManager sm)
-        {
-            this.sm = sm;
-        }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -63,8 +60,9 @@ namespace LeapOrchestra
             if (oFD.ShowDialog() == DialogResult.OK)
             {
                 nameFile = oFD.FileName;
-                MessageBox.Show(oFD.FileName);
-                sm.readMidiFile(nameFile);
+                //MessageBox.Show(oFD.FileName);
+                sendPath(nameFile);
+                //sm.readMidiFile(nameFile);
                 /*try
                 {
                     StreamReader sr = new StreamReader(nameFile);
@@ -96,6 +94,11 @@ namespace LeapOrchestra
         {
             PrefInput prefinp = new PrefInput();
             prefinp.ShowDialog();
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
