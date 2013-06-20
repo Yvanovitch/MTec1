@@ -25,16 +25,22 @@ namespace LeapOrchestra
         {
             if (listBox1.SelectedItem != null)
             {
-                for(int i=0;i<OutputDevice.InstalledDevices.Count;i++){
+                for (int i = 0; i < OutputDevice.InstalledDevices.Count; i++)
+                {
                     if (listBox1.SelectedItem.ToString() == OutputDevice.InstalledDevices[i].Name)
                     {
                         outputDevice = OutputDevice.InstalledDevices[i];
                         this.Close();
-                        MessageBox.Show("The output device in used is " +outputDevice.Name);
+                        MessageBox.Show("The output device in used is " + outputDevice.Name);
                     }
                 }
 
             }
+            else
+            {
+                MessageBox.Show("Please choose a device");
+            }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
