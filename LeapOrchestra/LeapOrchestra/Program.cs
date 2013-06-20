@@ -46,6 +46,9 @@ namespace LeapOrchestra
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Form1 form1 = new Form1();
+            form1.sendPath += soundManager.readMidiFile;
+            soundManager.sendTempo += form1.GetTempo;
             Application.Run(new Form1());
 
             while (true)

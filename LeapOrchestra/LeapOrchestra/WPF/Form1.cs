@@ -17,11 +17,13 @@ namespace LeapOrchestra
     {
         TextBox mid;
         String nameFile;
+        int tempo;
         public event Action<string> sendPath;
 
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -29,7 +31,11 @@ namespace LeapOrchestra
 
         }
 
-
+        public void GetTempo(int tempo)
+        {
+            this.tempo = tempo;
+            label1.Text = tempo.ToString();
+        }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -97,6 +103,11 @@ namespace LeapOrchestra
         }
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

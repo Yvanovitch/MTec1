@@ -18,6 +18,8 @@ namespace LeapOrchestra.SongPlayer
         public NoteOutputStream noteSender;
         private SEND_MODE playMode;
         private MidiFileReader reader;
+        public event Action<int> sendTempo;
+        
 
         enum SEND_MODE{ MIDI_NOTE, MIDI_BANG};
 
@@ -45,6 +47,17 @@ namespace LeapOrchestra.SongPlayer
             return;
         }
 
+        public int getTempo()
+        {
+            if (reader == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return (int)reader.Tempo;
+            }
+        }
         public void chooseOutput(NoteOnEvent note)
         {
             //Permettre le changement entre stream Midi et stream OSC
@@ -65,6 +78,7 @@ namespace LeapOrchestra.SongPlayer
             if (playMode == SEND_MODE.MIDI_NOTE)
             {
                 reader.throwBang();
+                sendTempo(this.getTempo());
             }
             else
             {

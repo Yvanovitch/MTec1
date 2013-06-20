@@ -127,7 +127,6 @@ namespace LeapOrchestra.SongPlayer
 
             //On calcul où on en est dans la lecture
             QuarterNoteTimeCursor = QuarterNoteTimeCursor + DeltaTicksPerQuarterNote;
-
             playNote();
         }
 
