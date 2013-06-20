@@ -19,6 +19,7 @@ namespace LeapOrchestra
         String nameFile;
         int tempo;
         public event Action<string> sendPath;
+        public event Action sendBang;
 
         public Form1()
         {
@@ -110,6 +111,11 @@ namespace LeapOrchestra
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            sendBang();
         }
 
     }

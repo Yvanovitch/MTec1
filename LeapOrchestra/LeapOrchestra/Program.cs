@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using LeapOrchestra.SongPlayer;
 using Midi;
-
+using LeapOrchestra.SongPlayer.OSC;
 using LeapOrchestra.Kinect;
 
 namespace LeapOrchestra
@@ -47,6 +47,7 @@ namespace LeapOrchestra
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 form1 = new Form1();
+            form1.sendBang += soundManager.throwBang;
             form1.sendPath += soundManager.readMidiFile;
             soundManager.sendTempo += form1.GetTempo;
             Application.Run(form1);

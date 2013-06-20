@@ -16,10 +16,13 @@ namespace LeapOrchestra.SongPlayer.OSC
         Multicast
     }
 
-	public class Receiver
-	{
-		public static void Main(string[] args)
-		{
+    public class Receiver
+    {
+        int ipadress;
+        int port;
+        public static void Main(string[] args)
+        {
+           
             OscServer oscServer;
             DemoType demoType = GetDemoType();
             switch (demoType)
@@ -39,22 +42,22 @@ namespace LeapOrchestra.SongPlayer.OSC
                 default:
                     throw new Exception("Unsupported receiver type.");
             }
-            
+
             oscServer.FilterRegisteredMethods = false;
-			oscServer.RegisterMethod(AliveMethod);
+            oscServer.RegisterMethod(AliveMethod);
             oscServer.RegisterMethod(TestMethod);
             oscServer.BundleReceived += new EventHandler<OscBundleReceivedEventArgs>(oscServer_BundleReceived);
-			oscServer.MessageReceived += new EventHandler<OscMessageReceivedEventArgs>(oscServer_MessageReceived);
+            oscServer.MessageReceived += new EventHandler<OscMessageReceivedEventArgs>(oscServer_MessageReceived);
             oscServer.ReceiveErrored += new EventHandler<ExceptionEventArgs>(oscServer_ReceiveErrored);
             oscServer.ConsumeParsingExceptions = false;
 
             oscServer.Start();
 
-			Console.WriteLine("Osc Receiver: " + demoType.ToString());
-			Console.WriteLine("Press any key to exit.");
-			Console.ReadKey();
-			oscServer.Stop();
-		}
+            Console.WriteLine("Osc Receiver: " + demoType.ToString());
+            Console.WriteLine("Press any key to exit.");
+            Console.ReadKey();
+            oscServer.Stop();
+        }
 
         private static DemoType GetDemoType()
         {
@@ -88,8 +91,8 @@ namespace LeapOrchestra.SongPlayer.OSC
             Console.WriteLine("Total Bundles Received: {0}", sBundlesReceivedCount);
         }
 
-		private static void oscServer_MessageReceived(object sender, OscMessageReceivedEventArgs e)
-		{
+        private static void oscServer_MessageReceived(object sender, OscMessageReceivedEventArgs e)
+        {
             sMessagesReceivedCount++;
 
             OscMessage message = e.Message;
@@ -113,18 +116,28 @@ namespace LeapOrchestra.SongPlayer.OSC
             }
 
             Console.WriteLine("Total Messages Received: {0}", sMessagesReceivedCount);
-		}
+        }
 
         private static void oscServer_ReceiveErrored(object sender, ExceptionEventArgs e)
         {
             Console.WriteLine("Error during reception of packet: {0}", e.Exception.Message);
         }
 
-		private static readonly int Port = 5103;
-		private static readonly string AliveMethod = "/osctest/alive";
+        public static int Port = 5103;
+        private static readonly string AliveMethod = "/osctest/alive";
         private static readonly string TestMethod = "/osctest/test";
 
         private static int sBundlesReceivedCount;
         private static int sMessagesReceivedCount;
-	}
+
+        public void GetIpAdress(int ipadress)
+        {
+            this.ipadress = ipadress;
+        }
+
+        public void GetPort(int port)
+        {
+            Port = port;
+        }
+    }
 }
