@@ -16,10 +16,12 @@ namespace LeapOrchestra
         [STAThread]
         public static void Main()
         {
-         //Sound Management
+        //Sound Management
             SoundManager soundManager = new SoundManager();
             soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\z2temple.mid");
             Thread soundManagement = new Thread(soundManager.Process);
+            //Lancement du thread de managament
+            soundManagement.Start();
 
         //Leap Motion
             // Create a sample listener and controller
@@ -41,9 +43,9 @@ namespace LeapOrchestra
         //Kinect : Crée automatiquement un nouveau Thread
             KinectController kinectController = new KinectController();
 
-        
+            
 
-
+        //Application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 form1 = new Form1();
@@ -52,15 +54,12 @@ namespace LeapOrchestra
             soundManager.sendTempo += form1.GetTempo;
             Application.Run(form1);
 
-
-            // Keep this process running until Enter is pressed
-            Console.WriteLine("Press Enter to quit...");
-            Console.ReadLine();
-
-            // Remove the sample listener when done
+        // Fermeture de tout les threads
             controller.RemoveListener(listener);
             controller.Dispose();
+            leapThread.Abort();
 
+            soundManagement.Abort();
             soundManager.Close();
             kinectController.Close();
         }

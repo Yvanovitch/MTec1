@@ -88,11 +88,18 @@ namespace LeapOrchestra.SongPlayer
 
         public void Process()
         {
-            if (playMode == SEND_MODE.MIDI_NOTE)
+            while (true)
             {
-                reader.playNote();
+                if (playMode == SEND_MODE.MIDI_NOTE)
+                {
+                    reader.playNote();
+                    Thread.Sleep(10);
+                }
+                else
+                {
+                    Thread.Sleep(100);
+                }
             }
-            Thread.Sleep(10);
         }
 
         //Mis de côté, ne sert à rien
