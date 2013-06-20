@@ -16,7 +16,9 @@ namespace LeapOrchestra
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Form1 form1 = new Form1();
+            //form1.setSoundManager(soundManager);
+            Application.Run(form1);
             // Create a sample listener and controller
             LeapListener listener = new LeapListener();
             LeapController controller = new LeapController();
@@ -41,6 +43,7 @@ namespace LeapOrchestra
             // Have the listener receive events from the controller in a new thread
             Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
             leapThread.Start(listener);
+
 
             while (true)
             {

@@ -15,8 +15,9 @@ namespace LeapOrchestra
 
     public partial class Form1 : Form
     {
-        TextBox txt;
+        TextBox mid;
         String nameFile;
+        private SoundManager sm;
         public Form1()
         {
             InitializeComponent();
@@ -25,6 +26,11 @@ namespace LeapOrchestra
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void setSoundManager(SoundManager sm)
+        {
+            this.sm = sm;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -51,23 +57,25 @@ namespace LeapOrchestra
         {
             OpenFileDialog oFD = new OpenFileDialog();
             oFD.InitialDirectory = "c:\\";
-            oFD.Filter = "Fichiers texte (*.txt)|*.txt|Tous les fichiers (*.*)|*.*";
+            oFD.Filter = "Fichiers Midi (*.mid)|*.mid|Tous les fichiers (*.*)|*.*";
             oFD.RestoreDirectory = true;
 
             if (oFD.ShowDialog() == DialogResult.OK)
             {
                 nameFile = oFD.FileName;
-                try
+                MessageBox.Show(oFD.FileName);
+                sm.readMidiFile(nameFile);
+                /*try
                 {
                     StreamReader sr = new StreamReader(nameFile);
-                    txt.Text = sr.ReadToEnd();
+                    mid.Text = sr.ReadToEnd();
                     sr.Close();
                 }
                 catch (Exception maieuh)
                 {
-                    txt.Text = "Impossible de lire ce fichier : ";
-                    txt.Text = maieuh.Message;
-                }
+                    mid.Text = "Impossible de lire ce fichier : ";
+                    mid.Text = maieuh.Message;
+                }*/
             }
         }
 
@@ -89,5 +97,6 @@ namespace LeapOrchestra
             PrefInput prefinp = new PrefInput();
             prefinp.ShowDialog();
         }
+
     }
 }
