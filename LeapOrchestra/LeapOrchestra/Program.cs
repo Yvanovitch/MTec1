@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using LeapOrchestra.SongPlayer;
 using Midi;
 
+using LeapOrchestra.Kinect;
+
 namespace LeapOrchestra
 {
     class LeapOrchestra
@@ -14,25 +16,23 @@ namespace LeapOrchestra
         [STAThread]
         public static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Form1 form1 = new Form1();
-            //form1.setSoundManager(soundManager);
-            Application.Run(form1);
+            
+
+        //Leap Motion
             // Create a sample listener and controller
             LeapListener listener = new LeapListener();
             LeapController controller = new LeapController();
-
             //On active le traitement en background
             controller.SetPolicyFlags(Controller.PolicyFlag.POLICYBACKGROUNDFRAMES);
-
-            
 
             LeapModel leapModel = new LeapModel();
             GesturesModel gesturesModel = new GesturesModel();
 
             listener.OnFrameRegistered += leapModel.OnFrameRegistered;
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
+
+        //Kinect
+            KinectController kinectController = new KinectController();
 
             //Sound Management
             SoundManager soundManager = new SoundManager();
@@ -44,6 +44,9 @@ namespace LeapOrchestra
             Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
             leapThread.Start(listener);
 
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
 
             while (true)
             {
