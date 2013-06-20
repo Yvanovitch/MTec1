@@ -6,11 +6,17 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
+using LeapOrchestra.SongPlayer;
+
 
 namespace LeapOrchestra
 {
+
     public partial class Form1 : Form
     {
+        TextBox txt;
+        String nameFile;
         public Form1()
         {
             InitializeComponent();
@@ -43,14 +49,25 @@ namespace LeapOrchestra
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
-            if (MessageBox.Show("Ouvrir un Fichier", "Open a File", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            OpenFileDialog oFD = new OpenFileDialog();
+            oFD.InitialDirectory = "c:\\";
+            oFD.Filter = "Fichiers texte (*.txt)|*.txt|Tous les fichiers (*.*)|*.*";
+            oFD.RestoreDirectory = true;
+
+            if (oFD.ShowDialog() == DialogResult.OK)
             {
-                Form1 ff = new Form1();
-            }
-            else
-            {
-                this.Close();
+                nameFile = oFD.FileName;
+                try
+                {
+                    StreamReader sr = new StreamReader(nameFile);
+                    txt.Text = sr.ReadToEnd();
+                    sr.Close();
+                }
+                catch (Exception maieuh)
+                {
+                    txt.Text = "Impossible de lire ce fichier : ";
+                    txt.Text = maieuh.Message;
+                }
             }
         }
 

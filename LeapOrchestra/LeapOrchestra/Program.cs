@@ -11,6 +11,7 @@ namespace LeapOrchestra
 {
     class LeapOrchestra
     {
+        [STAThread]
         public static void Main()
         {
             Application.EnableVisualStyles();
