@@ -5,11 +5,12 @@ using System.Text;
 using Microsoft.Kinect;
 using System.IO;
 
-namespace LeapOrchestra.Kinect
+namespace LeapOrchestra.Sensor
 {
     class KinectController
     {
         private KinectSensor sensor;
+        public event Action<SENSOR_TYPE, float, float, float> OnFrameEvent;
         
         public KinectController()
         {
@@ -67,8 +68,13 @@ namespace LeapOrchestra.Kinect
                 foreach (Skeleton skel in skeletons)
                 {
                     printJoints(skel);
+                    Joint rightHand = getRightHand(skel);
+                    OnFrameEvent(SENSOR_TYPE.KINECT, rightHand.Position.X, rightHand.Position.Y, rightHand.Position.Z);
+                    return; //On arrète au premier Skeleton
                 }
             }
+
+            
         }
 
         private void printJoints(Skeleton skeleton)
@@ -89,9 +95,32 @@ namespace LeapOrchestra.Kinect
             }
         }
 
+        private Joint getRightHand(Skeleton skeleton)
+        {
+            foreach (Joint joint in skeleton.Joints)
+            {
+                if (joint.JointType == JointType.HandRight)
+                {
+                    if (joint.TrackingState == JointTrackingState.Tracked)
+                    {
+                        //Console.WriteLine("Join  x : " + joint.Position.X * 100);
+                    }
+                    else if (joint.TrackingState == JointTrackingState.Inferred)
+                    {
+                        Console.WriteLine("Déduit Join x : " + joint.Position.X * 100);
+                    }
+                    return joint;
+                }
+            }
+            return new Joint();
+        }
+
         public void Close()
         {
-            sensor.Stop();
+            if (sensor != null)
+            {
+                sensor.Stop();
+            }
         }
     }
 }
