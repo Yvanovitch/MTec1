@@ -29,6 +29,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace Utils.OSC
 {
@@ -39,11 +40,17 @@ namespace Utils.OSC
 	{
 		protected UdpClient udpClient;
 		protected int localPort;
+        private Thread OSCManagement;
+        public event Action SendBang;
 
 		public OSCReceiver(int localPort)
 		{
 			this.localPort = localPort;
 			Connect();
+            OSCManagement = new Thread(this.Process);
+            //Lancement du thread de managament
+            OSCManagement.Start();
+            Console.WriteLine("OSC Ready on port 8000");
 		}
 
 		public void Connect()
@@ -56,7 +63,24 @@ namespace Utils.OSC
 		{
 			if (this.udpClient!=null) this.udpClient.Close();
 			this.udpClient = null;
+            OSCManagement.Abort();
 		}
+
+        public void Process()
+        {
+            OSCPacket OSCpacket;
+            while (true)
+            {
+                OSCpacket = this.Receive();
+                /*Console.Write("OSC Packet Received: ");
+                foreach (var elem in OSCPacket.Unpack(OSCpacket.BinaryData).Values)
+                {
+                    Console.Write(elem.ToString());
+                }
+                Console.WriteLine("");*/
+                SendBang();
+            }
+        }
 
 		public OSCPacket Receive()
 		{

@@ -37,6 +37,7 @@ namespace LeapOrchestra.SongPlayer
         public void createOSCReceiver()
         {
             OSCreceiver = new OSCReceiver(8000);
+            OSCreceiver.SendBang += this.throwBang;
         }
 
         public void readMidiFile(string path)
