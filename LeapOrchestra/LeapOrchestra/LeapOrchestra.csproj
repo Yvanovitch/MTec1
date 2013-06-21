@@ -80,6 +80,11 @@
     <Compile Include="Sensor\KinectController.cs" />
     <Compile Include="LeapMotion\LeapController.cs" />
     <Compile Include="Sensor\SensorModel.cs" />
+    <Compile Include="Utils\OSC\OSCBundle.cs" />
+    <Compile Include="Utils\OSC\OSCMessage.cs" />
+    <Compile Include="Utils\OSC\OSCPacket.cs" />
+    <Compile Include="Utils\OSC\OSCReceiver.cs" />
+    <Compile Include="Utils\OSC\OSCTransmitter.cs" />
     <Compile Include="WPF\PrefInput.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -156,7 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SongPlayer\OSC\" />
-    <Folder Include="Utils\OSC\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
