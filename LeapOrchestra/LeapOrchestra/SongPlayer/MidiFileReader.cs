@@ -1,12 +1,15 @@
 ﻿/*
  * Permet de lire un fichier midi
- * Sol 1
- * On enregistre toutes les nouvelles notes dans un tableau trié par temps
- * On viendra lire les notes aux bons moments
  * 
- * Sol 2
  * On enregistre toute les notes dans un tableau
  * On viendra à chaque fois calculer où on en est et envoyer les notes qu'il fallait lire depuis
+ * 
+ * TO DO :
+ * Certaines notes restent parfois bloquée en ON. 
+ * Je n'arrive pas à déterminer d'où vient le problème.
+ * 
+ * Solution possible :
+ * Enregistrer toutes les notes qui sont ON et vérifier qu'elles ne durent pas trop longtemps...
  * 
  * */
 
@@ -74,7 +77,7 @@ namespace LeapOrchestra.SongPlayer
             timeSignature.Numerator = tempTimeSignature == 0 ? 4 : tempTimeSignature;
             //Denominator
             tempTimeSignature = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Denominator;
-            timeSignature.Numerator = tempTimeSignature == 0 ? 4 : tempTimeSignature;
+            timeSignature.Denominator = tempTimeSignature == 0 ? 4 : tempTimeSignature;
         }
 
         public struct TimeSignature
@@ -122,7 +125,7 @@ namespace LeapOrchestra.SongPlayer
             }
             //Si > 2000, on garde l'ancience valeur
 
-            Console.WriteLine("millisec : " + (int)millisecondsPerQuarterNote+" tempo : "+(int)Tempo);
+            //Console.WriteLine("tempo : "+(int)Tempo+" Mesure : "+currentMBT());
             previousBang = DateTime.Now;
 
             //On calcul où on en est dans la lecture
@@ -148,6 +151,7 @@ namespace LeapOrchestra.SongPlayer
 
             int i;
             IList<NoteEvent> track;
+            Boolean end = false;
 
             for (int t = 1; t < mf.Tracks; t++)
             {
@@ -164,19 +168,28 @@ namespace LeapOrchestra.SongPlayer
                 NoteEvent note = track[i];
 
                 //On lit les notes qui doivent être lues
-                while ( note != null && note.AbsoluteTime <= midiTimeCursor && i < track.Count-1)
+                while ( note != null && note.AbsoluteTime < midiTimeCursor && i < track.Count)
                 {
-                    if (note.AbsoluteTime > previousMidiTimeCursor)
+                    if (note.AbsoluteTime >= previousMidiTimeCursor)
                     {
                         SendNote(note);
-                        //Console.WriteLine("piste : " + t + " note index : " + i);
                     }
                     i = i + 1;
+                    if (i >= track.Count)
+                    {
+                        end = true;
+                        break;
+                    }
                     note = track[i] as NoteEvent;
+                    end = false;
                 }
                 lastPlayedNoteIndex[t] = i - 1;
             }
             previousMidiTimeCursor = midiTimeCursor;
+            if (end)
+            {
+                Console.WriteLine("Fin de lecture");
+            }
         }
 
         public double Tempo
@@ -251,6 +264,11 @@ namespace LeapOrchestra.SongPlayer
             long beat = 1 + ((eventTime % ticksPerBar) / ticksPerBeat);
             long tick = eventTime % ticksPerBeat;
             return String.Format("{0}:{1}:{2}", bar, beat, tick);
+        }
+
+        public string currentMBT()
+        {
+            return ToMBT(previousMidiTimeCursor, this.DeltaTicksPerQuarterNote, this.timeSignature);
         }
 
         /// <summary>

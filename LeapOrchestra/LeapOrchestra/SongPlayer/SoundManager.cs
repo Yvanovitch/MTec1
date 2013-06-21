@@ -100,7 +100,7 @@ namespace LeapOrchestra.SongPlayer
                     {
                         reader.playNote();
                     }
-                    Thread.Sleep(10);
+                    Thread.Sleep(8);
                 }
                 else
                 {
