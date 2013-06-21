@@ -24,7 +24,8 @@ namespace LeapOrchestra
         public Form1()
         {
             InitializeComponent();
-            
+            tempo = 0;
+            label1.Text = "Tempo : ?";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -34,8 +35,8 @@ namespace LeapOrchestra
 
         public void GetTempo(int tempo)
         {
-            this.tempo = tempo;
-            label1.Text = tempo.ToString();
+                this.tempo = tempo;
+                //label1.Text = "Tempo 120";//"Tempo : " + this.tempo.ToString();
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {

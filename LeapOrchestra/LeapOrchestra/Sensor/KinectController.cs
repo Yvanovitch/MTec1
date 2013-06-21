@@ -46,7 +46,7 @@ namespace LeapOrchestra.Sensor
 
             if (null == this.sensor)
             {
-                Console.WriteLine("No sensor");
+                Console.WriteLine("No Kinect sensor Detected");
             }
         }
 

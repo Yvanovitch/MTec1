@@ -80,7 +80,6 @@
     <Compile Include="Sensor\KinectController.cs" />
     <Compile Include="LeapMotion\LeapController.cs" />
     <Compile Include="Sensor\SensorModel.cs" />
-    <Compile Include="SongPlayer\OSC\Receiver.cs" />
     <Compile Include="WPF\PrefInput.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,8 +139,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="SongPlayer\NAudio.WindowsMediaFormat.dll" />
-    <Content Include="SongPlayer\OSC\Bespoke.Common.dll" />
-    <Content Include="SongPlayer\OSC\Bespoke.Common.Osc.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WPF\PrefInput.resx">
@@ -157,7 +154,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SongPlayer\OSC\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
