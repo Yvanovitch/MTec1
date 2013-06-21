@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using NAudio.Midi;
 using System.IO;
-using LeapOrchestra.SongPlayer.OSC;
+using Utils.OSC;
 
 namespace LeapOrchestra.SongPlayer
 {
@@ -36,7 +36,7 @@ namespace LeapOrchestra.SongPlayer
 
         public void createOSCReceiver()
         {
-            OSCreceiver = new OSCReceiver();
+            OSCreceiver = new OSCReceiver(8000);
         }
 
         public void readMidiFile(string path)
