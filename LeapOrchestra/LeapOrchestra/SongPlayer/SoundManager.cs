@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using NAudio.Midi;
 using System.IO;
+using LeapOrchestra.SongPlayer.OSC;
 
 namespace LeapOrchestra.SongPlayer
 {
@@ -19,6 +20,8 @@ namespace LeapOrchestra.SongPlayer
         private SEND_MODE playMode;
         private MidiFileReader reader;
         public event Action<int> sendTempo;
+
+        public OSCReceiver OSCreceiver;
         
 
         enum SEND_MODE{MIDI_BANG, MIDI_NOTE};
@@ -28,6 +31,12 @@ namespace LeapOrchestra.SongPlayer
             noteSender = new MidiOutputStream();
             choosePlayMode();
             playMode = SEND_MODE.MIDI_BANG;
+            createOSCReceiver();
+        }
+
+        public void createOSCReceiver()
+        {
+            OSCreceiver = new OSCReceiver();
         }
 
         public void readMidiFile(string path)
@@ -60,6 +69,7 @@ namespace LeapOrchestra.SongPlayer
                 return (int)reader.Tempo;
             }
         }
+        
         public void chooseOutput(NoteOnEvent note)
         {
             //Permettre le changement entre stream Midi et stream OSC
@@ -82,7 +92,7 @@ namespace LeapOrchestra.SongPlayer
                 if (reader != null)
                 {
                     reader.throwBang();
-                    sendTempo(this.getTempo());
+                    Console.WriteLine(this.getTempo());
                 }
             }
             else
@@ -139,6 +149,7 @@ namespace LeapOrchestra.SongPlayer
         public void Close()
         {
             noteSender.Close();
+            OSCreceiver.Close();
         }
     }
 }
