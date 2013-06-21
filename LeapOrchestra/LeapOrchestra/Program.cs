@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using LeapOrchestra.SongPlayer;
 using Midi;
 using LeapOrchestra.SongPlayer.OSC;
-using LeapOrchestra.Kinect;
+using LeapOrchestra.Sensor;
 
 namespace LeapOrchestra
 {
@@ -42,6 +42,8 @@ namespace LeapOrchestra
 
         //Kinect : Crée automatiquement un nouveau Thread
             KinectController kinectController = new KinectController();
+            SensorModel sensorModel = new SensorModel();
+            kinectController.OnFrameEvent += sensorModel.OnFrame;
 
             
 
