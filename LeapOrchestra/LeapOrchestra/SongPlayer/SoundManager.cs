@@ -42,6 +42,7 @@ namespace LeapOrchestra.SongPlayer
             reader = new MidiFileReader(path);
             reader.SendNote += noteSender.SendNote;
             reader.SendProgramChange += noteSender.SendProgramChange;
+            reader.SendEnd += noteSender.SendEnd;
             reader.analyzeProgramChange();
             Console.WriteLine("Midi File Loaded");
             playMode = SEND_MODE.MIDI_NOTE;

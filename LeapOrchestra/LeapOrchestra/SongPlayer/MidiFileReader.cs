@@ -39,6 +39,7 @@ namespace LeapOrchestra.SongPlayer
 
         public event Action<NoteEvent> SendNote;
         public event Action<int, int> SendProgramChange;
+        public event Action SendEnd;
         MidiFile mf;
         
         public MidiFileReader(string path)
@@ -189,6 +190,7 @@ namespace LeapOrchestra.SongPlayer
             if (end)
             {
                 Console.WriteLine("Fin de lecture");
+                SendEnd();
             }
         }
 

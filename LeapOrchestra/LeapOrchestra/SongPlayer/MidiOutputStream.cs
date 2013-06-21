@@ -51,8 +51,14 @@ namespace LeapOrchestra.SongPlayer
             outputDevice.SendProgramChange((Channel)track, (Instrument)ref_instrument);
         }
 
+        public override void SendEnd()
+        {
+            outputDevice.SilenceAllNotes();
+        }
+
         public override void Close()
         {
+            
             base.Close();
             outputDevice.Close();
         }
