@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace LeapOrchestra
 {
+
     public partial class PrefOSC : Form
     {
-
-        public event Action<int> sendIpAdress;
-        public event Action<int> sendPort;
+        Int32 portbox;
+        public event Action<Int32> sendPort;
         public PrefOSC()
         {
             InitializeComponent();
@@ -21,6 +21,8 @@ namespace LeapOrchestra
 
         private void button1_Click(object sender, EventArgs e)
         {
+            portbox = Convert.ToInt32(textBox2.Text);
+            sendPort(portbox);
             this.Close();
         }
 
@@ -31,17 +33,20 @@ namespace LeapOrchestra
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void textBox1_TextChanged_1(object sender, EventArgs e)
         {
         
+        }
+
+        private void textBox2_TextChanged_1(object sender, EventArgs e)
+        {
+            
         }
     }
 }

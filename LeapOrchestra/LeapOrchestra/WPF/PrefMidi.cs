@@ -14,6 +14,7 @@ namespace LeapOrchestra
 {
     public partial class PrefMidi : Form
     {
+        public event Action<OutputDevice> sendDevice;
         public OutputDevice outputDevice;
         public PrefMidi()
         {
@@ -30,8 +31,8 @@ namespace LeapOrchestra
                     if (listBox1.SelectedItem.ToString() == OutputDevice.InstalledDevices[i].Name)
                     {
                         outputDevice = OutputDevice.InstalledDevices[i];
+                        sendDevice(outputDevice);
                         this.Close();
-                        MessageBox.Show("The output device in used is " + outputDevice.Name);
                     }
                 }
 

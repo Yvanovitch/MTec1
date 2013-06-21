@@ -21,3 +21,25 @@ D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\obj\Debug\L
 D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.pdb
 D:\Documents\Cours\Orchestra\MTec1\trunk\LeapOrchestra\LeapOrchestra\bin\Debug\SongPlayer\Midi.dll
 C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe.config
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe.config
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\LeapCSharp.NET4.0.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\Leap.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\LeapCSharp.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\SongPlayer\Midi.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\SongPlayer\NAudio.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.exe
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\LeapOrchestra.pdb
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\Midi.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\NAudio.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\NAudio.WindowsMediaFormat.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.csprojResolveAssemblyReference.cache
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.PrefInput.resources
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.PrefOSC.resources
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.PrefMidi.resources
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.Form1.resources
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.csproj.GenerateResource.Cache
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.exe
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\obj\Debug\LeapOrchestra.pdb
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\Bespoke.Common.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\Bespoke.Common.Osc.dll
+C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\bin\Debug\Sensor\Microsoft.Kinect.dll

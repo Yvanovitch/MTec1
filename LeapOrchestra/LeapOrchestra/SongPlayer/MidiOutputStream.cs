@@ -23,10 +23,18 @@ namespace LeapOrchestra.SongPlayer
             outputDevice.Open();
         }
 
+        public override void ChangeOutputDevice(OutputDevice outputDevice)
+        {
+            this.outputDevice.Close();
+            this.outputDevice = outputDevice;
+        }
+
         public override void SendBang()
         {
-            outputDevice.SendControlChange(Channel.Channel1, Control.SustainPedal, 0);
-            outputDevice.SendPitchBend(Channel.Channel1, 8192);
+            if (!outputDevice.IsOpen)
+            {
+                outputDevice.Open();
+            }
             outputDevice.SendNoteOn(Channel.Channel1, Pitch.C4, 80);
         }
 

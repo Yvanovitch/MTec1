@@ -11,17 +11,20 @@ using System.Threading;
 using NAudio.Midi;
 using System.IO;
 using Utils.OSC;
+using Midi;
 
 namespace LeapOrchestra.SongPlayer
 {
     class SoundManager 
     {
+        public OutputDevice outputDevice;
         public NoteOutputStream noteSender;
         private SEND_MODE playMode;
         private MidiFileReader reader;
         public event Action<int> sendTempo;
 
-        public OSCReceiver OSCreceiver;
+        //public OSCReceiver OSCreceiver;
+        
         
 
         enum SEND_MODE{MIDI_BANG, MIDI_NOTE};
@@ -146,11 +149,17 @@ namespace LeapOrchestra.SongPlayer
             song.Stop();
             return;
         }
-
+        public void GetOutputDevice(OutputDevice outputDevice)
+        {
+            this.outputDevice = outputDevice;
+            noteSender.ChangeOutputDevice(outputDevice);
+            Console.WriteLine(outputDevice.Name);
+        }
         public void Close()
         {
             noteSender.Close();
-            OSCreceiver.Close();
+            //OSCreceiver.Close();
         }
+        
     }
 }

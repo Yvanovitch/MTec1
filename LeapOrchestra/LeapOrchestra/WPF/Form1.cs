@@ -8,6 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using LeapOrchestra.SongPlayer;
+using System.Runtime.InteropServices;
+using Midi;
+using NAudio.Midi;
 
 
 namespace LeapOrchestra
@@ -18,26 +21,36 @@ namespace LeapOrchestra
         TextBox mid;
         String nameFile;
         int tempo;
+        public OutputDevice outputdevice;
+        public event Action<OutputDevice> sendOutputDevice;
         public event Action<string> sendPath;
         public event Action sendBang;
+        public PrefOSC prefosc;
+        public PrefMidi prefmidi;
 
         public Form1()
         {
             InitializeComponent();
-            tempo = 0;
-            label1.Text = "Tempo : ?";
+            prefosc = new PrefOSC();
+            prefmidi =new PrefMidi();
+            prefmidi.sendDevice += this.GetOutputDevice;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
-
         public void GetTempo(int tempo)
         {
-                this.tempo = tempo;
+            this.tempo = tempo;
                 //label1.Text = "Tempo 120";//"Tempo : " + this.tempo.ToString();
         }
+
+        public void GetOutputDevice(OutputDevice outputdevice)
+        {
+            this.outputdevice = outputdevice;
+            sendOutputDevice(outputdevice);
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -88,16 +101,14 @@ namespace LeapOrchestra
 
         private void midiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PrefMidi prefmidi = new PrefMidi();
             prefmidi.ShowDialog();
+
         }
 
         private void oSCToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PrefOSC prefosc = new PrefOSC();
             prefosc.ShowDialog();
         }
-
         private void inputToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PrefInput prefinp = new PrefInput();
@@ -119,5 +130,17 @@ namespace LeapOrchestra
             sendBang();
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+      }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
     }
+   
+
+        }
+
 }
+
