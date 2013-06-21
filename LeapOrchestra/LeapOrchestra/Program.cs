@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using LeapOrchestra.SongPlayer;
 using Midi;
-using LeapOrchestra.SongPlayer.OSC;
+using Utils.OSC;
 using LeapOrchestra.Sensor;
 
 namespace LeapOrchestra
