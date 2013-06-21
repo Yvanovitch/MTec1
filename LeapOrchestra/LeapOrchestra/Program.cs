@@ -40,11 +40,8 @@ namespace LeapOrchestra
             Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
             leapThread.Start(listener);
 
-        //Kinect : Crée automatiquement un nouveau Thread
-            KinectController kinectController = new KinectController();
-            SensorModel sensorModel = new SensorModel();
-            kinectController.OnFrameEvent += sensorModel.OnFrame;
 
+            SensorManager sensorManager = new SensorManager();
             
 
         //Application
@@ -65,7 +62,7 @@ namespace LeapOrchestra
 
             soundManagement.Abort();
             soundManager.Close();
-            kinectController.Close();
+            sensorManager.Close();
         }
     }
 }

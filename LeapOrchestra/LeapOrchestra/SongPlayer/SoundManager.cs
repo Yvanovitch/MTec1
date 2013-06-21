@@ -23,7 +23,7 @@ namespace LeapOrchestra.SongPlayer
         private MidiFileReader reader;
         public event Action<int> sendTempo;
 
-        //public OSCReceiver OSCreceiver;
+        public OSCReceiver OSCreceiver;
         
         
 

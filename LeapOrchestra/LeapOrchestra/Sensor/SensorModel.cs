@@ -9,27 +9,18 @@ namespace LeapOrchestra.Sensor
     
     class SensorModel
     {
-        private short SENSOR_NB = 2;
-        private double lastAnalysisTime;
         private Queue<int> tempoList;
-        private List<DateTime> lastFrameTime;
-        private Vector lastKinectPosition;
-        private Vector lastKinectVelocity;
-        private Vector lastLeapPosition;
-        private Vector lastLeapVelocity;
+        private DateTime lastFrameTime;
+        private Vector lastVelocity;
+        private Vector lastPosition;
+        private SENSOR_TYPE currentSensor;
         
         public SensorModel()
         {
-            lastAnalysisTime = 0;
             tempoList = new Queue<int>();
-            lastKinectPosition = new Vector(0, 0, 0);
-            lastKinectVelocity = new Vector(0, 0, 0);
-            lastLeapPosition = new Vector(0, 0, 0);
-            lastLeapVelocity = new Vector(0, 0, 0);
-            for (int i = 0; i < SENSOR_NB; i++)
-            {
-                //lastFrameTime[SENSOR_TYPE.KINECT] = DateTime.Now;
-            }
+            lastPosition = new Vector(0, 0, 0);
+            lastVelocity = new Vector(0, 0, 0);
+            lastFrameTime = DateTime.Now;
         }
 
         public void OnFrame(SENSOR_TYPE sensor, float X, float Y, float Z)
@@ -39,22 +30,11 @@ namespace LeapOrchestra.Sensor
 
         public void OnFrame(SENSOR_TYPE sensor, Vector position)
         {
-            TimeSpan timeDifference;
-            double timeDiff ;
+            TimeSpan timeDifference = DateTime.Now - lastFrameTime;
+            double timeDiff = timeDifference.TotalMilliseconds;
+            lastVelocity = position.Cross(lastPosition);
             
-            /*switch (sensor )
-            {
-                case SENSOR_TYPE.KINECT :
-                    timeDifference = DateTime.Now - lastKinectFrameTime;
-                    timeDiff = timeDifference.TotalMilliseconds;
-                    lastKinectVelocity = position.Cross(lastKinectPosition);
-                    break;
-                default :
-                    timeDifference = DateTime.Now - lastLeapFrameTime;
-                    timeDiff = timeDifference.TotalMilliseconds;
-                    lastLeapVelocity = position.Cross(lastLeapPosition);
-                    break;
-            }*/
+
 
             
             

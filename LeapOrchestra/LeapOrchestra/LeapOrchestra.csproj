@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Sensor\KinectController.cs" />
     <Compile Include="LeapMotion\LeapController.cs" />
+    <Compile Include="Sensor\SensorManager.cs" />
     <Compile Include="Sensor\SensorModel.cs" />
     <Compile Include="Utils\OSC\OSCBundle.cs" />
     <Compile Include="Utils\OSC\OSCMessage.cs" />
