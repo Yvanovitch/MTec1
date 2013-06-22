@@ -26,6 +26,7 @@ namespace LeapOrchestra.SongPlayer
                 return;
             }
             outputDevice.Open();
+            Console.WriteLine("Midi Device : " + outputDevice.Name);
         }
 
         public override void ChangeOutputDevice(OutputDevice outputDevice)
