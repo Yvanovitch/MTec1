@@ -34,8 +34,8 @@ namespace LeapOrchestra.Sensor
             TimeSpan timeDifference = DateTime.Now - lastFrameTime;
             double timeDiff = timeDifference.TotalMilliseconds;
             lastVelocity = position.Cross(lastPosition);
-            
 
+            Console.WriteLine("lastVelocity x:" + lastVelocity.x);
 
             
             
