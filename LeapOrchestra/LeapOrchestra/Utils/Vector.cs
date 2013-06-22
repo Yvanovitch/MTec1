@@ -36,6 +36,33 @@ namespace LeapOrchestra.Utils
             y = y * value;
             z = z * value;
         }
+
+        public void Reset()
+        {
+            x = 0;
+            y = 0;
+            z = 0;
+        }
+
+        public void Reverse(VectorMath.SelectedCoord select)
+        {
+            float temp = 0;
+            switch (select)
+            {
+                case VectorMath.SelectedCoord.XY:
+                    x = x * (-1);
+                    y = y * (-1);
+                    break;
+                case VectorMath.SelectedCoord.XZ:
+                    x = x * (-1);
+                    z = z * (-1);
+                    break;
+                default:
+                    z = z * (-1);
+                    y = y * (-1);
+                    break;
+            }
+        }
     }
 
     class VectorMath
@@ -72,6 +99,48 @@ namespace LeapOrchestra.Utils
             z = z / list.Count;
             return new Vector(x, y, z);
 
+        }
+
+        public static float Cos(Vector U, Vector V, SelectedCoord select)
+        {
+            switch (select)
+            {
+                case SelectedCoord.XY:
+                    return U.x * V.x + U.y * V.y;
+                case SelectedCoord.XZ:
+                    return U.x * V.x + U.z * V.z;
+                default:
+                    return U.y * V.y + U.z * V.z;
+            }
+        }
+
+        public static float CosFromUnstandardized(Vector U, Vector V, SelectedCoord select)
+        {
+            return Cos(GetNormalized(U), GetNormalized(V), select);
+        }
+
+        public static Vector GetNormalized(Vector U)
+        {
+            float norme = U.Magnitude;
+            return new Vector(U.x / norme, U.y / norme, U.z / norme);
+        }
+
+        public enum SelectedCoord
+        {
+            XY, XZ, YZ
+        }
+
+        public static Vector GetPositive(Vector U)
+        {
+            return new Vector(Math.Abs(U.x), Math.Abs(U.y), Math.Abs(U.z));
+        }
+
+        public static void ReverseQueue(Queue<Vector> queue, SelectedCoord select)
+        {
+            foreach (Vector U in queue)
+            {
+                U.Reverse(select);
+            }
         }
     }
 }

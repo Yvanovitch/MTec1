@@ -11,9 +11,12 @@ namespace LeapOrchestra.Sensor
     {
         private KinectSensor sensor;
         public event Action<SENSOR_TYPE, float, float, float> OnFrameEvent;
+        private bool hadInformation;
         
         public KinectController()
         {
+            hadInformation = false;
+
             foreach (var potentialSensor in KinectSensor.KinectSensors)
             {
                 if (potentialSensor.Status == KinectStatus.Connected)
@@ -30,15 +33,14 @@ namespace LeapOrchestra.Sensor
 
                 // Add an event handler to be called whenever there is new color frame data
                 this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
-                Console.WriteLine("Kinect connected");
 
                 // Start the sensor!
                 try
                 {
                     sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
                     Console.WriteLine("Kinect Mode :" + sensor.SkeletonStream.TrackingMode);
+                    Console.WriteLine("Kinect Statue : " + sensor.Status.ToString());
                     this.sensor.Start();
-                    
                 }
                 catch (IOException)
                 {
@@ -69,8 +71,14 @@ namespace LeapOrchestra.Sensor
             {
                 foreach (Skeleton skel in skeletons)
                 {
-                    if(!hasInformation(skel))
-                        break;
+                    if (!hadInformation)
+                    {
+                        if (!hasInformation(skel))
+                            break;
+
+                        Console.WriteLine("Kinect start to send");
+                        hadInformation = true;
+                    }
                     //printJoints(skel);
                     Joint hand = getOneHand(skel);
                     OnFrameEvent(SENSOR_TYPE.KINECT, hand.Position.X*1000, hand.Position.Y*1000, hand.Position.Z*1000);
