@@ -21,6 +21,7 @@ namespace LeapOrchestra.Sensor
             lastPosition = new Vector(0, 0, 0);
             lastVelocity = new Vector(0, 0, 0);
             lastFrameTime = DateTime.Now;
+            currentSensor = SENSOR_TYPE.KINECT;
         }
 
         public void OnFrame(SENSOR_TYPE sensor, float X, float Y, float Z)
