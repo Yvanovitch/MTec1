@@ -16,6 +16,9 @@ namespace LeapOrchestra
         [STAThread]
         public static void Main()
         {
+            Console.WriteLine("----- LeapOrchestra Project -----");
+            Console.WriteLine("");
+
         //Sound Management
             SoundManager soundManager = new SoundManager();
             //soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\z2temple.mid");
