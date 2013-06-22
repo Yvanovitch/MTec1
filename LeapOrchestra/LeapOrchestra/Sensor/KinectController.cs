@@ -35,8 +35,10 @@ namespace LeapOrchestra.Sensor
                 // Start the sensor!
                 try
                 {
-                    this.sensor.Start();
                     sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
+                    Console.WriteLine("Kinect Mode :" + sensor.SkeletonStream.TrackingMode);
+                    this.sensor.Start();
+                    
                 }
                 catch (IOException)
                 {
@@ -67,21 +69,39 @@ namespace LeapOrchestra.Sensor
             {
                 foreach (Skeleton skel in skeletons)
                 {
-                    printJoints(skel);
-                    Joint rightHand = getRightHand(skel);
-                    OnFrameEvent(SENSOR_TYPE.KINECT, rightHand.Position.X, rightHand.Position.Y, rightHand.Position.Z);
+                    if(!hasInformation(skel))
+                        break;
+                    //printJoints(skel);
+                    Joint hand = getOneHand(skel);
+                    OnFrameEvent(SENSOR_TYPE.KINECT, hand.Position.X*1000, hand.Position.Y*1000, hand.Position.Z*1000);
                     return; //On arrète au premier Skeleton
                 }
             }
-
+            else
+            {
+                Console.WriteLine("No skeleton");
+            }
             
         }
 
+        private Boolean hasInformation(Skeleton skel)
+        {
+            Boolean info = false;
+            foreach (Joint joint in skel.Joints)
+            {
+                if (joint.Position.X != 0 || joint.Position.Y != 0 || joint.Position.Z != 0)
+                {
+                    info = true;
+                }
+            }
+            return info;
+        }
+       
         private void printJoints(Skeleton skeleton)
         {
             foreach (Joint joint in skeleton.Joints)
             {
-                if (joint.JointType == JointType.HandRight)
+                /*if (joint.JointType == JointType.HandRight || joint.JointType == JointType.HandLeft)
                 {
                     if (joint.TrackingState == JointTrackingState.Tracked)
                     {
@@ -91,15 +111,17 @@ namespace LeapOrchestra.Sensor
                     {
                         Console.WriteLine("Déduit Join x : " + joint.Position.X * 100);
                     }
-                }
+                }//*/
+                if(joint.Position.X != 0)
+                    Console.WriteLine("Type : " + joint.JointType + " x :" + joint.Position.X);
             }
         }
 
-        private Joint getRightHand(Skeleton skeleton)
+        private Joint getOneHand(Skeleton skeleton)
         {
             foreach (Joint joint in skeleton.Joints)
             {
-                if (joint.JointType == JointType.HandRight)
+                if (joint.JointType == JointType.HandLeft) //joint.JointType == JointType.HandRight || 
                 {
                     if (joint.TrackingState == JointTrackingState.Tracked)
                     {
@@ -107,7 +129,7 @@ namespace LeapOrchestra.Sensor
                     }
                     else if (joint.TrackingState == JointTrackingState.Inferred)
                     {
-                        Console.WriteLine("Déduit Join x : " + joint.Position.X * 100);
+                        //Console.WriteLine("Déduit Join x : " + joint.Position.X * 100);
                     }
                     return joint;
                 }

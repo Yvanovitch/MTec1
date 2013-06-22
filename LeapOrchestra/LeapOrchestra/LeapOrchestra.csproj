@@ -83,6 +83,7 @@
     <Compile Include="Utils\OSC\OSCPacket.cs" />
     <Compile Include="Utils\OSC\OSCReceiver.cs" />
     <Compile Include="Utils\OSC\OSCTransmitter.cs" />
+    <Compile Include="Utils\Vector.cs" />
     <Compile Include="WPF\PrefInput.cs">
       <SubType>Form</SubType>
     </Compile>

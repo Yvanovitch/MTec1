@@ -63,8 +63,8 @@ namespace LeapOrchestra
             controller.Dispose();
             leapThread.Abort();
 
-            soundManagement.Abort();
             soundManager.Close();
+            soundManagement.Abort();
             sensorManager.Close();
         }
     }

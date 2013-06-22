@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Leap;
+using LeapOrchestra.Utils;
 
 namespace LeapOrchestra.Sensor
 {
@@ -10,6 +10,7 @@ namespace LeapOrchestra.Sensor
     class SensorModel
     {
         private Queue<int> tempoList;
+        private Queue<Vector> velocityLine;
         private DateTime lastFrameTime;
         private Vector lastVelocity;
         private Vector lastPosition;
@@ -18,6 +19,7 @@ namespace LeapOrchestra.Sensor
         public SensorModel()
         {
             tempoList = new Queue<int>();
+            velocityLine = new Queue<Vector>();
             lastPosition = new Vector(0, 0, 0);
             lastVelocity = new Vector(0, 0, 0);
             lastFrameTime = DateTime.Now;
@@ -33,13 +35,24 @@ namespace LeapOrchestra.Sensor
         {
             TimeSpan timeDifference = DateTime.Now - lastFrameTime;
             double timeDiff = timeDifference.TotalMilliseconds;
-            lastVelocity = position.Cross(lastPosition);
 
-            Console.WriteLine("lastVelocity x:" + lastVelocity.x);
+            Vector velocity = VectorMath.Difference(position, lastPosition);
+            velocity.Divide((float) (timeDiff/1000) );
+            velocity.Multiply(10);
 
+            velocityLine.Enqueue(velocity);
+            if (velocityLine.Count > 4)
+                velocityLine.Dequeue();
+
+            Console.WriteLine("velocity x:" + (int)VectorMath.Average(velocityLine).x);
+
+
+            lastPosition = position;
             
             
         }
+
+        
     }
 
     enum SENSOR_TYPE
