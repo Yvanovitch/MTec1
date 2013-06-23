@@ -12,10 +12,12 @@ namespace LeapOrchestra.Sensor
         private KinectSensor sensor;
         public event Action<SENSOR_TYPE, float, float, float> OnFrameEvent;
         private bool hadInformation;
+        private JointType choosedJoint;
         
         public KinectController()
         {
             hadInformation = false;
+            ChooseJoint();
 
             foreach (var potentialSensor in KinectSensor.KinectSensors)
             {
@@ -39,7 +41,7 @@ namespace LeapOrchestra.Sensor
                 {
                     sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
                     Console.WriteLine("Kinect Mode :" + sensor.SkeletonStream.TrackingMode);
-                    Console.WriteLine("Kinect Statue : " + sensor.Status.ToString());
+                    Console.WriteLine("Kinect Status : " + sensor.Status.ToString());
                     this.sensor.Start();
                 }
                 catch (IOException)
@@ -51,6 +53,26 @@ namespace LeapOrchestra.Sensor
             if (null == this.sensor)
             {
                 Console.WriteLine("No Kinect sensor Detected");
+            }
+        }
+
+        public void ChooseJoint()
+        {
+            string entry;
+            Boolean choosed = false;
+            int result;
+            Console.WriteLine("Choose your hand : handRight -> 0, handLeft -> 1");
+            while (!choosed)
+            {
+                entry = Console.ReadLine();
+                if (int.TryParse(entry, out result))
+                {
+                    choosed = true; 
+                    if (result == 1)
+                        choosedJoint = JointType.HandLeft;
+                    else
+                        choosedJoint = JointType.HandRight;
+                }
             }
         }
 
@@ -71,17 +93,24 @@ namespace LeapOrchestra.Sensor
             {
                 foreach (Skeleton skel in skeletons)
                 {
+                    if (!hasInformation(skel))
+                    {
+                        if (hadInformation)
+                        {
+                            Console.WriteLine("Kinect arrested to send !");
+                            hadInformation = false;
+                        }
+                        break;
+                    }
+                    
                     if (!hadInformation)
                     {
-                        if (!hasInformation(skel))
-                            break;
-
                         Console.WriteLine("Kinect start to send");
                         hadInformation = true;
                     }
                     //printJoints(skel);
                     Joint hand = getOneHand(skel);
-                    OnFrameEvent(SENSOR_TYPE.KINECT, hand.Position.X*1000, hand.Position.Y*1600, hand.Position.Z*700);
+                    OnFrameEvent(SENSOR_TYPE.KINECT, hand.Position.X*1000, hand.Position.Y*1000, hand.Position.Z*1000);
                     return; //On arrète au premier Skeleton
                 }
             }
@@ -129,7 +158,7 @@ namespace LeapOrchestra.Sensor
         {
             foreach (Joint joint in skeleton.Joints)
             {
-                if (joint.JointType == JointType.HandLeft) //joint.JointType == JointType.HandRight || 
+                if (joint.JointType == JointType.HandRight) //joint.JointType == JointType.HandRight || 
                 {
                     if (joint.TrackingState == JointTrackingState.Tracked)
                     {

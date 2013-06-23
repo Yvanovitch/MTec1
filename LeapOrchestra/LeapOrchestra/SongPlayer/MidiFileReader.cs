@@ -33,6 +33,7 @@ namespace LeapOrchestra.SongPlayer
         long previousMidiTimeCursor;
         List<int> lastPlayedNoteIndex;
         DateTime previousBang;
+        DateTime previousBarTime;
         private double millisecondsPerQuarterNote;
         private long QuarterNoteTimeCursor;
         private Queue<long> tempoList;
@@ -58,6 +59,7 @@ namespace LeapOrchestra.SongPlayer
             midiTimeCursor = 0;
 
             previousBang = DateTime.Now;
+            previousBarTime = DateTime.Now;
             millisecondsPerQuarterNote = 480000;
 
             DeltaTicksPerQuarterNote = 192;
@@ -67,6 +69,7 @@ namespace LeapOrchestra.SongPlayer
             beatNumber = 1;
 
             channelOrientation = new float[16];
+            channelOrientation.Initialize();
             currentOrientation = 0;
 
             //Enregistre tout le fichier midi dans la collection mf.Events
@@ -93,7 +96,6 @@ namespace LeapOrchestra.SongPlayer
             tempTimeSignature = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Denominator;
             timeSignature.Denominator = tempTimeSignature == 0 ? 4 : tempTimeSignature;
 
-            ChooseChannelOrientation();
         }
 
         public struct TimeSignature
@@ -140,26 +142,32 @@ namespace LeapOrchestra.SongPlayer
             }
 
             if (beatNumber == 1)
+            {
                 barNumber++;
+                QuarterNoteTimeCursor = barNumber * timeSignature.Numerator * DeltaTicksPerQuarterNote;
+                previousBarTime = DateTime.Now;
+            }
+                
             this.beatNumber = beatNumber;
             //On calcul où on en est dans la lecture
-            QuarterNoteTimeCursor = barNumber * timeSignature.Numerator * DeltaTicksPerQuarterNote +
-                (beatNumber -1) * DeltaTicksPerQuarterNote;
+            //QuarterNoteTimeCursor = barNumber * timeSignature.Numerator * DeltaTicksPerQuarterNote +
+            //    (beatNumber -1) * DeltaTicksPerQuarterNote;
             
-            manageTempo();
+            computeTempo();
             Console.WriteLine("beatNumber "+beatNumber+" tempo : " + (int)Tempo +
-                " Mesure : " + ToMBT(QuarterNoteTimeCursor, this.DeltaTicksPerQuarterNote, timeSignature));
-            playNote();
+                " Mesure : " + ToMBT(QuarterNoteTimeCursor + (beatNumber -1) * DeltaTicksPerQuarterNote,
+                this.DeltaTicksPerQuarterNote, timeSignature));
+            //playNote();
         }
 
-        private void manageTempo()
+        private void computeTempo()
         {
             //On calcul le nouveau tempo :
             TimeSpan timeDifference = DateTime.Now - previousBang;
             long timeDiff = (long)timeDifference.TotalMilliseconds;
             if (timeDiff < 100)
                 return;
-            else if (timeDiff < 2000)
+            else if (timeDiff < 930)
             {
                 tempoList.Enqueue(timeDiff);
                 millisecondsPerQuarterNote = tempoList.Average();
@@ -182,12 +190,12 @@ namespace LeapOrchestra.SongPlayer
                 return;
             }
             
-            TimeSpan timeDifference = DateTime.Now - previousBang;
+            TimeSpan timeDifference = DateTime.Now - previousBarTime;
             midiTimeCursor = QuarterNoteTimeCursor +
                 (long)(DeltaTicksPerQuarterNote * timeDifference.TotalMilliseconds / millisecondsPerQuarterNote);
 
-            //Si on a dépassé le temps suivant, on attend
-            if (midiTimeCursor > QuarterNoteTimeCursor + DeltaTicksPerQuarterNote)
+            //Si on a dépassé la mesure suivante, on attend
+            if (midiTimeCursor > QuarterNoteTimeCursor + DeltaTicksPerQuarterNote * timeSignature.Numerator)
                 return;
 
             int i;

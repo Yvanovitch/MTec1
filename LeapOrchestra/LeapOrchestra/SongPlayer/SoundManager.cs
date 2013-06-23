@@ -35,6 +35,7 @@ namespace LeapOrchestra.SongPlayer
             choosePlayMode();
             playMode = SEND_MODE.MIDI_BANG;
             createOSCReceiver();
+           
         }
 
         public void createOSCReceiver()
@@ -61,6 +62,7 @@ namespace LeapOrchestra.SongPlayer
             reader.analyzeProgramChange();
             Console.WriteLine("Midi File Loaded");
             playMode = SEND_MODE.MIDI_NOTE;
+            reader.ChooseChannelOrientation();
             return;
         }
 
