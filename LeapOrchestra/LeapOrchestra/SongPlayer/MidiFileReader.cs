@@ -343,7 +343,7 @@ namespace LeapOrchestra.SongPlayer
         public void ChooseChannelOrientation()
         {
             PatchChangeEvent instrument;
-            Console.WriteLine("Choose an orientation between -10 and 10 to theese channels :");
+            Console.WriteLine("Choose an orientation between -10 and 10 to these channels :");
             float value = 0;
             Boolean validValue = false;
             String entry;

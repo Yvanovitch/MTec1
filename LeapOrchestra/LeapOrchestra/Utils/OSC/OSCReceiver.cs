@@ -52,7 +52,8 @@ namespace Utils.OSC
             OSCManagement = new Thread(this.Process);
             //Lancement du thread de managament
             OSCManagement.Start();
-            Console.WriteLine("OSC Ready on port 8000");
+            Console.WriteLine("OSC Ready on port 8000.");
+            Console.WriteLine("--> Use /bang or /beatNumber {1, 2, 3, 4} or /orientation [-1; 1]");
 		}
 
 		public void Connect()

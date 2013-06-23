@@ -46,6 +46,7 @@ namespace LeapOrchestra
             Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
             leapThread.Start(listener);
 
+        //Sensor -> Kinect
             SensorManager sensorManager = new SensorManager();
             sensorManager.sensorModel.evolvePartCursor += soundManager.evolvePartCursor;
             sensorManager.sensorModel.SendOrientation += soundManager.SetCurrentOrientation;
