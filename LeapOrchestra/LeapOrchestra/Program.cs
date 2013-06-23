@@ -17,6 +17,9 @@ namespace LeapOrchestra
         public static void Main()
         {
             Console.WriteLine("----- LeapOrchestra Project -----");
+            Console.WriteLine("by ISEN Student : Yvan RICHER, Gauthier CARRE, Antoine DENOYELLE," +
+                " Alexandre FALTOT, Thomas JUSTER and Grégoire DESSAIN");
+            Console.WriteLine("Project Leader : Yvan RICHER");
             Console.WriteLine("");
 
         //Sound Management
@@ -25,7 +28,7 @@ namespace LeapOrchestra
             Thread soundManagement = new Thread(soundManager.Process);
             //Lancement du thread de managament
             soundManagement.Start();
-            //Receiver receiver = new Receiver();
+
         //Leap Motion
             // Create a sample listener and controller
             LeapListener listener = new LeapListener();
@@ -43,9 +46,8 @@ namespace LeapOrchestra
             Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
             leapThread.Start(listener);
 
-
             SensorManager sensorManager = new SensorManager();
-            
+            sensorManager.sensorModel.evolvePartCursor += soundManager.evolvePartCursor;
 
         //Application
             Application.EnableVisualStyles();

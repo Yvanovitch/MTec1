@@ -81,7 +81,7 @@ namespace LeapOrchestra.Sensor
                     }
                     //printJoints(skel);
                     Joint hand = getOneHand(skel);
-                    OnFrameEvent(SENSOR_TYPE.KINECT, hand.Position.X*1000, hand.Position.Y*1000, hand.Position.Z*1000);
+                    OnFrameEvent(SENSOR_TYPE.KINECT, hand.Position.X*1000, hand.Position.Y*1600, hand.Position.Z*700);
                     return; //On arrète au premier Skeleton
                 }
             }

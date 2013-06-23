@@ -4,6 +4,9 @@
  * On enregistre toute les notes dans un tableau
  * On viendra à chaque fois calculer où on en est et envoyer les notes qu'il fallait lire depuis
  * 
+ * Orientation :
+ * On gère l'orientation du mec en allant de -1 (tourné d'un quart de tour vers la gauche) à 1 (droite)
+ * 
  * TO DO :
  * Certaines notes restent parfois bloquée en ON. 
  * Je n'arrive pas à déterminer d'où vient le problème.
@@ -36,11 +39,16 @@ namespace LeapOrchestra.SongPlayer
 
         private int DeltaTicksPerQuarterNote;
         public TimeSignature timeSignature;
+        private int barNumber;
+        private int beatNumber;
 
         public event Action<NoteEvent> SendNote;
         public event Action<int, int> SendProgramChange;
         public event Action SendEnd;
         MidiFile mf;
+
+        private float[] channelOrientation;
+        private float currentOrientation;
         
         public MidiFileReader(string path)
         {
@@ -55,6 +63,11 @@ namespace LeapOrchestra.SongPlayer
             DeltaTicksPerQuarterNote = 192;
             timeSignature.Numerator = 4;
             timeSignature.Denominator = 4;
+            barNumber = 1;
+            beatNumber = 1;
+
+            channelOrientation = new float[16];
+            currentOrientation = 0;
 
             //Enregistre tout le fichier midi dans la collection mf.Events
             if (!File.Exists(path))
@@ -79,6 +92,8 @@ namespace LeapOrchestra.SongPlayer
             //Denominator
             tempTimeSignature = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Denominator;
             timeSignature.Denominator = tempTimeSignature == 0 ? 4 : tempTimeSignature;
+
+            ChooseChannelOrientation();
         }
 
         public struct TimeSignature
@@ -109,6 +124,36 @@ namespace LeapOrchestra.SongPlayer
 
         public void throwBang()
         {
+            if (beatNumber >= timeSignature.Numerator)
+                beatNumber = 1;
+            else
+                beatNumber++;
+            evolvePartCursor(beatNumber);
+        }
+
+        public void evolvePartCursor(int beatNumber)
+        {
+            if (beatNumber < 1 || beatNumber > timeSignature.Numerator)
+            {
+                Console.WriteLine("wrong barState");
+                return;
+            }
+
+            if (beatNumber == 1)
+                barNumber++;
+            this.beatNumber = beatNumber;
+            //On calcul où on en est dans la lecture
+            QuarterNoteTimeCursor = barNumber * timeSignature.Numerator * DeltaTicksPerQuarterNote +
+                (beatNumber -1) * DeltaTicksPerQuarterNote;
+            
+            manageTempo();
+            Console.WriteLine("beatNumber "+beatNumber+" tempo : " + (int)Tempo +
+                " Mesure : " + ToMBT(QuarterNoteTimeCursor, this.DeltaTicksPerQuarterNote, timeSignature));
+            playNote();
+        }
+
+        private void manageTempo()
+        {
             //On calcul le nouveau tempo :
             TimeSpan timeDifference = DateTime.Now - previousBang;
             long timeDiff = (long)timeDifference.TotalMilliseconds;
@@ -126,12 +171,7 @@ namespace LeapOrchestra.SongPlayer
             }
             //Si > 2000, on garde l'ancience valeur
 
-            //Console.WriteLine("tempo : "+(int)Tempo+" Mesure : "+currentMBT());
             previousBang = DateTime.Now;
-
-            //On calcul où on en est dans la lecture
-            QuarterNoteTimeCursor = QuarterNoteTimeCursor + DeltaTicksPerQuarterNote;
-            playNote();
         }
 
         public void playNote()
@@ -173,6 +213,7 @@ namespace LeapOrchestra.SongPlayer
                 {
                     if (note.AbsoluteTime >= previousMidiTimeCursor)
                     {
+                        note.Velocity = (int) (note.Velocity * GetOrientationCoef(note.Channel));
                         SendNote(note);
                     }
                     i = i + 1;
@@ -290,5 +331,60 @@ namespace LeapOrchestra.SongPlayer
             }
             return beatsPerMeasure;
         }
+    
+        public void ChooseChannelOrientation()
+        {
+            PatchChangeEvent instrument;
+            Console.WriteLine("Choose an orientation between -10 and 10 to theese channels :");
+            float value = 0;
+            Boolean validValue = false;
+            String entry;
+            for (int t = 0; t < mf.Tracks; t++)
+            {
+                instrument = mf.Events[t].OfType<PatchChangeEvent>().LastOrDefault();
+                if (instrument != null)
+                {
+                    validValue = false;
+                    while (!validValue)
+                    {
+                        Console.Write(instrument + " : ...");
+                        entry = Console.ReadLine();
+                        if(float.TryParse(entry, out value))
+                        {
+                            if (value <= 10 && value >= -10)
+                            {
+                                validValue = true;
+                                channelOrientation[instrument.Channel] = value/10;
+                                break;
+                            }
+                        }
+                        validValue = false;
+                        Console.WriteLine("La valeur entrée est incorrect");
+                    }
+                }
+            }
+        }
+
+        public void SetCurrentOrientation(float angle)
+        {
+            if (angle < -1)
+                angle = -1;
+            else if (angle > 1)
+                angle = 1;
+
+            this.currentOrientation = angle;
+        }
+
+        private float GetOrientationCoef(int Channel)
+        {
+            float coef = 1 - Math.Abs(currentOrientation - channelOrientation[Channel]) / 2;
+            coef += 0.1F;
+            if (coef > 1)
+                coef = 1;
+            else if (coef < 0)
+                coef = 0;
+            return coef;
+        }
+
     }
 }

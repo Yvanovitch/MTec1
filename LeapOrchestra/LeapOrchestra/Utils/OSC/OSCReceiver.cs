@@ -42,6 +42,8 @@ namespace Utils.OSC
 		protected int localPort;
         private Thread OSCManagement;
         public event Action SendBang;
+        public event Action<float> SendOrientation;
+        public event Action<int> EvolvePartCursor;
 
 		public OSCReceiver(int localPort)
 		{
@@ -69,16 +71,38 @@ namespace Utils.OSC
         public void Process()
         {
             OSCPacket OSCpacket;
+            float value;
             while (true)
             {
                 OSCpacket = this.Receive();
-                /*Console.Write("OSC Packet Received: ");
-                foreach (var elem in OSCPacket.Unpack(OSCpacket.BinaryData).Values)
+                //Console.Write("OSC Packet Received: ");
+                if (OSCpacket.Address == "/orientation")
                 {
-                    Console.Write(elem.ToString());
+                    foreach (var elem in OSCPacket.Unpack(OSCpacket.BinaryData).Values)
+                    {
+                        if (elem is float)
+                        {
+                            SendOrientation((float)elem);
+                        }
+                    }
                 }
-                Console.WriteLine("");*/
-                SendBang();
+                else if (OSCpacket.Address == "/beatNumber")
+                {
+                    foreach (var elem in OSCPacket.Unpack(OSCpacket.BinaryData).Values)
+                    {
+                        if (elem is int)
+                        {
+                            //Console.WriteLine("elem : " + elem);
+                            EvolvePartCursor((int)elem);
+                        }
+                    }
+                }
+                else if (OSCpacket.Address == "/bang")
+                {
+                    SendBang(); 
+                }
+                else
+                    Console.WriteLine("Use Adresse : \"/orientation\"");
             }
         }
 

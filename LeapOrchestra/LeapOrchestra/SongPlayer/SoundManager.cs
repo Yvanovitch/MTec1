@@ -41,6 +41,8 @@ namespace LeapOrchestra.SongPlayer
         {
             OSCreceiver = new OSCReceiver(8000);
             OSCreceiver.SendBang += this.throwBang;
+            OSCreceiver.SendOrientation += this.SetCurrentOrientation;
+            OSCreceiver.EvolvePartCursor += this.evolvePartCursor;
         }
 
         public void readMidiFile(string path)
@@ -96,13 +98,33 @@ namespace LeapOrchestra.SongPlayer
                 if (reader != null)
                 {
                     reader.throwBang();
-                    Console.WriteLine(this.getTempo());
                 }
             }
             else
             {
                 noteSender.SendBang();
             }
+        }
+
+        public void evolvePartCursor(int beatNumber)
+        {
+            if (playMode == SEND_MODE.MIDI_NOTE)
+            {
+                if (reader != null)
+                {
+                    reader.evolvePartCursor(beatNumber);
+                }
+            }
+            else
+            {
+                noteSender.SendBang();
+            }
+        }
+
+        public void SetCurrentOrientation(float value)
+        {
+            if (reader != null)
+                reader.SetCurrentOrientation(value);
         }
 
         public void Process()

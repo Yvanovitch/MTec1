@@ -7,7 +7,7 @@ namespace LeapOrchestra.Sensor
 {
     class SensorManager
     {
-        SensorModel sensorModel;
+        public SensorModel sensorModel;
         KinectController kinectController;
 
         public SensorManager()
