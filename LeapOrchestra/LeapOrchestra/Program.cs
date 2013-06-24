@@ -28,23 +28,6 @@ namespace LeapOrchestra
             Thread soundManagement = new Thread(soundManager.Process);
             //Lancement du thread de managament
             soundManagement.Start();
-            /*
-        //Leap Motion
-            // Create a sample listener and controller
-            LeapListener listener = new LeapListener();
-            LeapController controller = new LeapController();
-            //On active le traitement en background
-            controller.SetPolicyFlags(Controller.PolicyFlag.POLICYBACKGROUNDFRAMES);
-
-            LeapModel leapModel = new LeapModel();
-            GesturesModel gesturesModel = new GesturesModel();
-
-            listener.OnFrameRegistered += leapModel.OnFrameRegistered;
-            listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
-            leapModel.sendBang += soundManager.throwBang;
-            //Lancement du Thread du LeapMotion
-            Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
-            leapThread.Start(listener);*/
 
         //Sensor -> Kinect
             SensorManager sensorManager = new SensorManager();
@@ -63,10 +46,6 @@ namespace LeapOrchestra
             Application.Run(form1);
 
         // Fermeture de tout les threads
-            controller.RemoveListener(listener);
-            controller.Dispose();
-            leapThread.Abort();
-
             soundManager.Close();
             soundManagement.Abort();
             sensorManager.Close();
