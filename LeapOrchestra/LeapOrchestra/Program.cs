@@ -17,7 +17,7 @@ namespace LeapOrchestra
         public static void Main()
         {
             Console.WriteLine("----- OrchestraHero Project -----");
-            Console.WriteLine("by ISEN Student : Yvan RICHER, Gauthier CARRE, Antoine DENOYELLE," +
+            Console.WriteLine("by ISEN Student : Yvan RICHER, Gautier CARREE, Antoine DENOYELLE," +
                 " Alexandre FALTOT, Thomas JUSTER and Grégoire DESSAIN");
             Console.WriteLine("Project Leader : Yvan RICHER" + Environment.NewLine);
 
