@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Sensor\KinectController.cs" />
-    <Compile Include="LeapMotion\LeapController.cs" />
+    <Compile Include="Sensor\Leap\LeapController.cs" />
     <Compile Include="Sensor\SensorManager.cs" />
     <Compile Include="Sensor\SensorModel.cs" />
     <Compile Include="Utils\OSC\OSCBundle.cs" />
@@ -109,8 +109,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="WPF\GesturesModel.cs" />
-    <Compile Include="LeapMotion\LeapListener.cs" />
-    <Compile Include="LeapMotion\LeapModel.cs" />
+    <Compile Include="Sensor\Leap\LeapListener.cs" />
+    <Compile Include="Sensor\Leap\LeapModel.cs" />
     <Compile Include="SongPlayer\MidiFileReader.cs" />
     <Compile Include="SongPlayer\MidiUtils.cs" />
     <Compile Include="SongPlayer\MidiOutputStream.cs" />
@@ -160,6 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LeapMotion\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
