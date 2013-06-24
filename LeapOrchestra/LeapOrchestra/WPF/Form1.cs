@@ -83,18 +83,6 @@ namespace LeapOrchestra
                 nameFile = oFD.FileName;
                 //MessageBox.Show(oFD.FileName);
                 sendPath(nameFile);
-                //sm.readMidiFile(nameFile);
-                /*try
-                {
-                    StreamReader sr = new StreamReader(nameFile);
-                    mid.Text = sr.ReadToEnd();
-                    sr.Close();
-                }
-                catch (Exception maieuh)
-                {
-                    mid.Text = "Impossible de lire ce fichier : ";
-                    mid.Text = maieuh.Message;
-                }*/
             }
         }
 

@@ -18,8 +18,6 @@ namespace LeapOrchestra.Sensor
         private Vector lastMaxVelocity;
         private Vector lastPosition;
         private Vector lastBeatPosition;
-        private SENSOR_TYPE currentSensor;
-        private Direction previousDirection;
         private Direction currentDirection;
         private Boolean hasMiss;
 
@@ -38,8 +36,6 @@ namespace LeapOrchestra.Sensor
             lastBeatPosition = new Vector(0, 0, 0);
             lastMaxVelocity = new Vector(0, 0, 0);
             lastFrameTime = DateTime.Now;
-            currentSensor = SENSOR_TYPE.KINECT;
-            previousDirection = Direction.VerticalUp;
             currentDirection = Direction.VerticalDown;
             hasMiss = false;
         }

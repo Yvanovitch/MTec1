@@ -108,7 +108,7 @@
     <Compile Include="WPF\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="WPF\GesturesModel.cs" />
+    <Compile Include="Sensor\Leap\GesturesModel.cs" />
     <Compile Include="Sensor\Leap\LeapListener.cs" />
     <Compile Include="SongPlayer\MidiFileReader.cs" />
     <Compile Include="SongPlayer\MidiUtils.cs" />

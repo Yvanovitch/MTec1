@@ -50,7 +50,6 @@ namespace LeapOrchestra.Utils
 
         public void Reverse(VectorMath.SelectedCoord select)
         {
-            float temp = 0;
             switch (select)
             {
                 case VectorMath.SelectedCoord.XY:

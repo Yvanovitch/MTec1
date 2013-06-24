@@ -36,9 +36,8 @@ namespace LeapOrchestra.Sensor
             //LeapModel leapModel = new LeapModel();
             GesturesModel gesturesModel = new GesturesModel();
 
-            listener.OnSensor += sensorModel.OnFrame;// leapModel.OnFrameRegistered;
+            listener.OnSensor += sensorModel.OnFrame;
             listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
-            //leapModel.sendBang += soundManager.throwBang;
             //Lancement du Thread du LeapMotion
             leapThread = new Thread(new ParameterizedThreadStart(leapController.AddListenerThreadable));
             leapThread.Start(listener);

@@ -72,7 +72,6 @@ namespace Utils.OSC
         public void Process()
         {
             OSCPacket OSCpacket;
-            float value;
             while (true)
             {
                 OSCpacket = this.Receive();

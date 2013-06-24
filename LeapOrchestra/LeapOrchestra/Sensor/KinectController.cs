@@ -138,17 +138,6 @@ namespace LeapOrchestra.Sensor
         {
             foreach (Joint joint in skeleton.Joints)
             {
-                /*if (joint.JointType == JointType.HandRight || joint.JointType == JointType.HandLeft)
-                {
-                    if (joint.TrackingState == JointTrackingState.Tracked)
-                    {
-                        Console.WriteLine("Join  x : " + joint.Position.X * 100);
-                    }
-                    else if (joint.TrackingState == JointTrackingState.Inferred)
-                    {
-                        Console.WriteLine("Déduit Join x : " + joint.Position.X * 100);
-                    }
-                }//*/
                 if(joint.Position.X != 0)
                     Console.WriteLine("Type : " + joint.JointType + " x :" + joint.Position.X);
             }
@@ -158,16 +147,8 @@ namespace LeapOrchestra.Sensor
         {
             foreach (Joint joint in skeleton.Joints)
             {
-                if (joint.JointType == JointType.HandRight) //joint.JointType == JointType.HandRight || 
+                if (joint.JointType == choosedJoint)
                 {
-                    if (joint.TrackingState == JointTrackingState.Tracked)
-                    {
-                        //Console.WriteLine("Join  x : " + joint.Position.X * 100);
-                    }
-                    else if (joint.TrackingState == JointTrackingState.Inferred)
-                    {
-                        //Console.WriteLine("Déduit Join x : " + joint.Position.X * 100);
-                    }
                     return joint;
                 }
             }
