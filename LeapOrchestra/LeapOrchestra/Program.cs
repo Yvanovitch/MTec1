@@ -28,7 +28,7 @@ namespace LeapOrchestra
             Thread soundManagement = new Thread(soundManager.Process);
             //Lancement du thread de managament
             soundManagement.Start();
-
+            /*
         //Leap Motion
             // Create a sample listener and controller
             LeapListener listener = new LeapListener();
@@ -44,7 +44,7 @@ namespace LeapOrchestra
             leapModel.sendBang += soundManager.throwBang;
             //Lancement du Thread du LeapMotion
             Thread leapThread = new Thread(new ParameterizedThreadStart(controller.AddListenerThreadable));
-            leapThread.Start(listener);
+            leapThread.Start(listener);*/
 
         //Sensor -> Kinect
             SensorManager sensorManager = new SensorManager();
