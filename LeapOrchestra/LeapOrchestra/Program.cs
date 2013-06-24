@@ -19,12 +19,11 @@ namespace LeapOrchestra
             Console.WriteLine("----- OrchestraHero Project -----");
             Console.WriteLine("by ISEN Student : Yvan RICHER, Gauthier CARRE, Antoine DENOYELLE," +
                 " Alexandre FALTOT, Thomas JUSTER and Grégoire DESSAIN");
-            Console.WriteLine("Project Leader : Yvan RICHER");
-            Console.WriteLine("");
+            Console.WriteLine("Project Leader : Yvan RICHER" + Environment.NewLine);
 
         //Sound Management
             SoundManager soundManager = new SoundManager();
-            soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
+            //soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
             Thread soundManagement = new Thread(soundManager.Process);
             //Lancement du thread de managament
             soundManagement.Start();
