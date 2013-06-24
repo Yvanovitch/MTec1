@@ -32,7 +32,7 @@ namespace LeapOrchestra
         {
             InitializeComponent();
             prefosc = new PrefOSC();
-            prefmidi =new PrefMidi();
+            prefmidi = new PrefMidi();
             prefmidi.sendDevice += this.GetOutputDevice;
         }
 
@@ -42,7 +42,7 @@ namespace LeapOrchestra
         public void GetTempo(int tempo)
         {
             this.tempo = tempo;
-                //label1.Text = "Tempo 120";//"Tempo : " + this.tempo.ToString();
+            //label1.Text = "Tempo 120";//"Tempo : " + this.tempo.ToString();
         }
 
         public void GetOutputDevice(OutputDevice outputdevice)
@@ -120,15 +120,12 @@ namespace LeapOrchestra
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-      }
+        }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
-    }
-   
-
         }
-
+    }
 }
 

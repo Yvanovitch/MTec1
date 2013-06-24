@@ -41,7 +41,9 @@ namespace LeapOrchestra.Sensor
                 {
                     sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
                     Console.WriteLine("Kinect Mode :" + sensor.SkeletonStream.TrackingMode);
-                    Console.WriteLine("Kinect Status : " + sensor.Status.ToString());
+                    Console.WriteLine("Kinect Status : " + sensor.Status.ToString() +
+                        Environment.NewLine + "Waiting for skeleton recognition..." +
+                        Environment.NewLine);
                     this.sensor.Start();
                 }
                 catch (IOException)
