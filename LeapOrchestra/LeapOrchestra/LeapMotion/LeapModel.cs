@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Leap;
 
-namespace LeapOrchestra
+namespace LeapOrchestra.Sensor
 {
     class LeapModel
     {

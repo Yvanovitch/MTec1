@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Leap;
+using LeapOrchestra.Utils;
 
-namespace LeapOrchestra
+namespace LeapOrchestra.Sensor
 {
     class LeapListener : Listener
     {
         private Object thisLock = new Object();
 
+        public event Action<SENSOR_TYPE, Utils.Vector, Utils.Vector> OnSensor;
         public event Action<Frame> OnFrameRegistered;
         public event Action<GestureList> OnGesturesRegistered;
 
@@ -54,12 +56,14 @@ namespace LeapOrchestra
 
             if (frame.Fingers.Count != 0)
             {
-                OnFrameRegistered(frame);
+                //OnFrameRegistered(frame);
                 
                 //OnGesturesRegistered(frame.Gestures());
 
                 if (!frame.Hands.Empty || !frame.Gestures().Empty)
                 {
+                    OnSensor(SENSOR_TYPE.LEAP_MOTION, VectorMath.GetVector(frame.Hands[0].PalmPosition),
+                        VectorMath.GetVector(frame.Hands[0].PalmVelocity));
                     //SafeWriteLine("");
                 }
             }
