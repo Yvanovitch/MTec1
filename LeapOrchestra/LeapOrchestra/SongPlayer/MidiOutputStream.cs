@@ -49,10 +49,10 @@ namespace LeapOrchestra.SongPlayer
             if (note is NoteOnEvent)
             {
                 outputDevice.SendNoteOn((Channel)note.Channel, (Pitch)note.NoteNumber, note.Velocity);
-                if (((NoteOnEvent)note).OffEvent == null)
+                /*if (((NoteOnEvent)note).OffEvent == null)
                 {
                     Console.WriteLine("Off Event Error");
-                }
+                }*/
             }
             else
             {

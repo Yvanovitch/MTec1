@@ -173,6 +173,7 @@ namespace LeapOrchestra.SongPlayer
             song.Stop();
             return;
         }
+       
         public void GetOutputDevice(OutputDevice outputDevice)
         {
             this.outputDevice = outputDevice;
