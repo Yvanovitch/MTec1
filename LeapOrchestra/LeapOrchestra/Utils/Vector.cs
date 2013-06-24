@@ -13,6 +13,10 @@ namespace LeapOrchestra.Utils
         {
         }
 
+        public Vector (Leap.Vector U) : base(U.x, U.y, U.z)
+        {
+        }
+
         public void TakeOff(Vector other)
         {
             this.x -= other.x;
@@ -141,6 +145,11 @@ namespace LeapOrchestra.Utils
             {
                 U.Reverse(select);
             }
+        }
+
+        public static Vector GetVector (Leap.Vector vec)
+        {
+            return new Vector(vec);
         }
     }
 }

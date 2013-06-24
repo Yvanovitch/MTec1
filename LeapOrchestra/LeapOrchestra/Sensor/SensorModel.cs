@@ -21,7 +21,6 @@ namespace LeapOrchestra.Sensor
         private SENSOR_TYPE currentSensor;
         private Direction previousDirection;
         private Direction currentDirection;
-        private float pointRange = 200;
         private Boolean hasMiss;
 
 
@@ -52,12 +51,40 @@ namespace LeapOrchestra.Sensor
 
         public void OnFrame(SENSOR_TYPE sensor, Vector position)
         {
+            TimeSpan timeDifference = DateTime.Now - lastFrameTime;
+            double timeDiff = timeDifference.TotalMilliseconds;
+
+            Vector velocity = VectorMath.Difference(position, lastPosition);
+            velocity.Divide((float)(timeDiff / 1000));
+
+            lastFrameTime = DateTime.Now;
+            lastPosition = position;
+
+            OnFrame(sensor, position, velocity);
+        }
+
+        public void OnFrame(SENSOR_TYPE sensor, Vector position, Vector velocity)
+        {
+            int velocity_base_y = 0;
+            int velocity_threshold = 0;
+            float pointRange = 90;
+            switch (sensor)
+            {
+                case SENSOR_TYPE.KINECT:
+                    velocity_base_y = 3000;
+                    velocity_threshold = -200;
+                    break;
+                default:
+                    velocity_base_y = 30;
+                    velocity_threshold = -8;
+                    pointRange = 90;
+                    break;
+            }
+
             TimeSpan timeBangDifference = DateTime.Now - lastBangTime;
             double timeBangDiff = timeBangDifference.Milliseconds;
             if (timeBangDiff < 250 && currentDirection != Direction.Horizontal1)
             {
-                lastFrameTime = DateTime.Now;
-                lastPosition = position;
                 return;
             }
             else if (timeBangDiff > 930) //On a manqué qqch
@@ -69,29 +96,23 @@ namespace LeapOrchestra.Sensor
                 currentDirection = Direction.VerticalUp;
                 lastBeatPosition = new Vector(0, 0, 0);
                 velocityLine.Clear();
-                velocityLine.Enqueue(new Vector(0, 1000, 0));
-                velocityLine.Enqueue(new Vector(0, 1000, 0));
-                velocityLine.Enqueue(new Vector(0, 1000, 0));
-                velocityLine.Enqueue(new Vector(0, 1000, 0));
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
             }
 
-            TimeSpan timeDifference = DateTime.Now - lastFrameTime;
-            double timeDiff = timeDifference.TotalMilliseconds;
-
-            Vector velocity = VectorMath.Difference(position, lastPosition);
-            velocity.Divide((float)(timeDiff / 1000));
-
             velocityLine.Enqueue(velocity);
-            if (velocityLine.Count > 5)
+            if (velocityLine.Count > 3)
                 velocityLine.Dequeue();
-
 
             Vector linearizedVelocity = VectorMath.Average(velocityLine);
 
             switch (currentDirection)
             {
                 case Direction.VerticalDown:
-                    if (Math.Abs(linearizedVelocity.y) < (Math.Abs(linearizedVelocity.x) + Math.Abs(linearizedVelocity.z) / 1.5) &&
+                    if (Math.Abs(linearizedVelocity.y) < (Math.Abs(linearizedVelocity.x) + Math.Abs(linearizedVelocity.z) / 1.2) &&
                         lastBeatPosition.DistanceTo(position) > pointRange)
                     {
                         currentDirection = Direction.Horizontal1;
@@ -105,7 +126,8 @@ namespace LeapOrchestra.Sensor
                     Vector averageVelocity = VectorMath.Average(horizontal1VelocityLine);
 
                     float cos = VectorMath.CosFromUnstandardized(linearizedVelocity, averageVelocity, VectorMath.SelectedCoord.XZ);
-                    if (cos < -0.3 &&
+                    if (cos < -0.1 &&
+                        timeBangDiff > 220 &&
                         lastBeatPosition.DistanceTo(position) > pointRange)
                     {
                         //enregistrer le symétrique de la direction donné par averageVelocity
@@ -120,7 +142,7 @@ namespace LeapOrchestra.Sensor
                     else
                     {
                         horizontal1VelocityLine.Enqueue(velocity);
-                        if (horizontal1VelocityLine.Count > 11)
+                        if (horizontal1VelocityLine.Count > 13)
                             horizontal1VelocityLine.Dequeue();
                     }
                     break;
@@ -129,7 +151,7 @@ namespace LeapOrchestra.Sensor
                     if (horizontal2VelocityLine.Count > 10)
                         horizontal2VelocityLine.Dequeue();
 
-                    if (Math.Abs(linearizedVelocity.y) > (Math.Abs(linearizedVelocity.x) + Math.Abs(linearizedVelocity.z)) * 1.5 &&
+                    if (linearizedVelocity.y > (Math.Abs(linearizedVelocity.x) + Math.Abs(linearizedVelocity.z)) / 1.2 &&
                         lastBeatPosition.DistanceTo(position) > pointRange)
                     {
                         currentDirection = Direction.VerticalUp;
@@ -141,7 +163,7 @@ namespace LeapOrchestra.Sensor
                     break;
                 case Direction.VerticalUp:
 
-                    if (linearizedVelocity.y < -100 &&
+                    if (linearizedVelocity.y < velocity_threshold &&
                         lastBeatPosition.DistanceTo(position) > pointRange)
                     {
                         Console.WriteLine("Temps 1 : y :" + linearizedVelocity.y);
@@ -153,12 +175,6 @@ namespace LeapOrchestra.Sensor
                     }
                     break;
             }
-
-           // Console.WriteLine("               average :"+VectorMath.Average(horizontalVelocityBigLine));
-            
-
-            lastPosition = position;
-            lastFrameTime = DateTime.Now;
         }
 
         private void ManageOrientation(Vector horizontalVelocity)

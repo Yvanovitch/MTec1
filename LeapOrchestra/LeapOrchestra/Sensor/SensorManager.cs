@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Leap;
+using System.Threading;
 
 namespace LeapOrchestra.Sensor
 {
@@ -9,6 +11,9 @@ namespace LeapOrchestra.Sensor
     {
         public SensorModel sensorModel;
         KinectController kinectController;
+        private Thread leapThread;
+        private LeapController leapController;
+        private LeapListener listener;
 
         public SensorManager()
         {
@@ -16,10 +21,35 @@ namespace LeapOrchestra.Sensor
             kinectController = new KinectController();
             sensorModel = new SensorModel();
             kinectController.OnFrameEvent += sensorModel.OnFrame;
+            LeapStarter();
+        }
+
+        public void LeapStarter()
+        {
+            //Leap Motion
+            // Create a sample listener and controller
+            listener = new LeapListener();
+            leapController = new LeapController();
+            //On active le traitement en background
+            leapController.SetPolicyFlags(Controller.PolicyFlag.POLICYBACKGROUNDFRAMES);
+
+            //LeapModel leapModel = new LeapModel();
+            GesturesModel gesturesModel = new GesturesModel();
+
+            listener.OnSensor += sensorModel.OnFrame;// leapModel.OnFrameRegistered;
+            listener.OnGesturesRegistered += gesturesModel.OnGesturesRegistered;
+            //leapModel.sendBang += soundManager.throwBang;
+            //Lancement du Thread du LeapMotion
+            leapThread = new Thread(new ParameterizedThreadStart(leapController.AddListenerThreadable));
+            leapThread.Start(listener);
         }
 
         public void Close()
         {
+            leapController.RemoveListener(listener);
+            leapController.Dispose();
+            leapThread.Abort();
+            leapThread.Abort();
             kinectController.Close();
         }
     }
