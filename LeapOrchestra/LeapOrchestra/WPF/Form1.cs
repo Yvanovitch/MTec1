@@ -41,7 +41,7 @@ namespace LeapOrchestra
             timer1.Tick += new EventHandler(timer1_Tick);
             timer1.Interval = 500;
             timer1.Start();
-            prefosc = new PrefOSC();C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\WPF\Form1.cs
+            prefosc = new PrefOSC();
             prefmidi = new PrefMidi();
             prefmidi.sendDevice += this.GetOutputDevice;
         }
