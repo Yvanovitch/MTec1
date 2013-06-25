@@ -191,6 +191,7 @@ namespace LeapOrchestra.Sensor
                     break;
             }
         }
+
         public void Analysis3Beats(SENSOR_TYPE sensor, Vector position, Vector velocity)
         {
             int velocity_base_y = 0;
@@ -276,10 +277,90 @@ namespace LeapOrchestra.Sensor
                     break;
             }
         }
+
         public void Analysis2Beats(SENSOR_TYPE sensor, Vector position, Vector velocity)
         {
+            float pointRange = 90;
+            switch (sensor)
+            {
+                case SENSOR_TYPE.KINECT:
+                    break;
+                default:
+                    pointRange = 60;
+                    break;
+            }
 
+            TimeSpan timeBangDifference = DateTime.Now - lastBangTime;
+            double timeBangDiff = timeBangDifference.Milliseconds;
+            if (timeBangDiff < 250 && currentDirection != Direction.Horizontal1)
+            {
+                return;
+            }
+            else if (timeBangDiff > 930) //On a manqué qqch
+            {
+                if (!hasMiss)
+                {
+                    Console.WriteLine("Temps manqué -> On revient au 1");
+                    hasMiss = true;
+                }
+                currentDirection = Direction.VerticalDown;
+                lastBeatPosition = new Vector(0, 0, 0);
+            }
+
+            velocityLine.Enqueue(velocity);
+            if (velocityLine.Count > 3)
+                velocityLine.Dequeue();
+
+            Vector linearizedVelocity = VectorMath.Average(velocityLine);
+            Vector averageVelocity;
+            float cos;
+
+            switch (currentDirection)
+            {
+                case Direction.Horizontal1:
+                    averageVelocity = VectorMath.Average(horizontal1VelocityLine);
+                    cos = VectorMath.CosFromUnstandardized(linearizedVelocity, averageVelocity, VectorMath.SelectedCoord.XYZ);
+                    if (cos < -0.2 &&
+                        timeBangDiff > 220 &&
+                        lastBeatPosition.DistanceTo(position) > pointRange)
+                    {
+                        //Console.WriteLine("Temps 1 : Cos : " + cos + "average :" + averageVelocity);
+                        currentDirection = Direction.Horizontal2;
+                        lastBeatPosition = position;
+                        evolvePartCursor(1);
+                        lastBangTime = DateTime.Now;
+                        ManageOrientation(averageVelocity); //On met à jour l'orientation
+                    }
+                    else
+                    {
+                        horizontal1VelocityLine.Enqueue(velocity);
+                        if (horizontal1VelocityLine.Count > 13)
+                            horizontal1VelocityLine.Dequeue();
+                    }
+                    break;
+                default:
+                    averageVelocity = VectorMath.Average(horizontal2VelocityLine);
+                    cos = VectorMath.CosFromUnstandardized(linearizedVelocity, averageVelocity, VectorMath.SelectedCoord.XYZ);
+                    if (cos < -0.2 &&
+                        timeBangDiff > 220 &&
+                        lastBeatPosition.DistanceTo(position) > pointRange)
+                    {
+                        currentDirection = Direction.Horizontal1;
+                        //Console.WriteLine("Temps 2 : Cos : " + cos + "average :" + averageVelocity);
+                        lastBeatPosition = position;
+                        evolvePartCursor(2);
+                        lastBangTime = DateTime.Now;
+                    }
+                    else
+                    {
+                        horizontal2VelocityLine.Enqueue(velocity);
+                        if (horizontal2VelocityLine.Count > 13)
+                            horizontal2VelocityLine.Dequeue();
+                    }
+                    break;
+            }
         }
+
         public void OnFrame(SENSOR_TYPE sensor, Vector position, Vector velocity)
         {
             switch (analysisBeatsNumber)
@@ -302,13 +383,13 @@ namespace LeapOrchestra.Sensor
             Vector normedVelocity = VectorMath.GetNormalized(horizontalVelocity);
 
             float orientation = 1 - Math.Abs(normedVelocity.x);
-            if ( (normedVelocity.z > 0 && normedVelocity.x < 0) ||
-                (normedVelocity.z < 0 && normedVelocity.x > 0) )
+            if ((normedVelocity.z > 0 && normedVelocity.x < 0) ||
+                (normedVelocity.z < 0 && normedVelocity.x > 0))
             {
                 orientation = orientation * (-1);
             }
 
-            Console.WriteLine("orientation : "+orientation +" normed : " + normedVelocity);
+            Console.WriteLine("orientation : " + orientation + " normed : " + normedVelocity);
             SendOrientation(orientation);
         }
     }

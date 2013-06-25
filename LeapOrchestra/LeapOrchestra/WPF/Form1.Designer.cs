@@ -226,9 +226,8 @@
             this.label5.Location = new System.Drawing.Point(49, 246);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(14, 17);
+            this.label5.Size = new System.Drawing.Size(0, 17);
             this.label5.TabIndex = 8;
-            this.label5.Text = "x";
             // 
             // label6
             // 
@@ -236,9 +235,8 @@
             this.label6.Location = new System.Drawing.Point(49, 278);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(14, 17);
+            this.label6.Size = new System.Drawing.Size(0, 17);
             this.label6.TabIndex = 9;
-            this.label6.Text = "x";
             // 
             // label7
             // 
@@ -246,9 +244,8 @@
             this.label7.Location = new System.Drawing.Point(49, 312);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(14, 17);
+            this.label7.Size = new System.Drawing.Size(0, 17);
             this.label7.TabIndex = 10;
-            this.label7.Text = "x";
             // 
             // Form1
             // 
@@ -269,7 +266,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
-            this.Text = "LeapOrchestra";
+            this.Text = "OrchestraHero";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
