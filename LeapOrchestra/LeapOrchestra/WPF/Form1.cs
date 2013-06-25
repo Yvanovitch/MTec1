@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using Midi;
 using NAudio.Midi;
 using ZedGraph;
+using LeapOrchestra.Utils;
 
 
 namespace LeapOrchestra
@@ -19,6 +20,7 @@ namespace LeapOrchestra
 
     public partial class Form1 : Form
     {
+        private Vector position;
         double[] x = new double[100];
         double[] y = new double[100];
         double[] z = new double[100];
@@ -39,7 +41,7 @@ namespace LeapOrchestra
             timer1.Tick += new EventHandler(timer1_Tick);
             timer1.Interval = 500;
             timer1.Start();
-            prefosc = new PrefOSC();
+            prefosc = new PrefOSC();C:\Users\Gautier\Documents\Visual Studio 2012\Projects\LeapOrchestra(3)\LeapOrchestra\LeapOrchestra\WPF\Form1.cs
             prefmidi = new PrefMidi();
             prefmidi.sendDevice += this.GetOutputDevice;
         }
@@ -140,6 +142,10 @@ namespace LeapOrchestra
             Graph graph = new Graph();
             graph.Show();
         }
+        public void GetVector(Vector position)
+        {
+            this.position = position;
+        }
         private void SetGraph(int counter)
         {
             for (int i = 0; i < x.Length; i++)
@@ -165,7 +171,7 @@ namespace LeapOrchestra
 
             myCurve1.Line.Width = 3.0F;
             myCurve2.Line.Width = 3.0F;
-            myPane.Title.Text = "Show what you are doing";
+            myPane.Title.Text = "Position";
 
             // I add all three functions just to be sure it refreshes the plot.   
             zedGraphControl1.AxisChange();
@@ -183,6 +189,11 @@ namespace LeapOrchestra
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
             zedGraphControl1.Refresh();
+        }
+
+        private void zedGraphControl1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
