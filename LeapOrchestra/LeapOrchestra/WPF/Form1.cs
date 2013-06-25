@@ -167,14 +167,14 @@ namespace LeapOrchestra
 
             // PointPairList holds the data for plotting, X and Y arrays 
             PointPairList spl1 = new PointPairList(x, y);
-            PointPairList spl2 = new PointPairList(x, z);
+            //PointPairList spl2 = new PointPairList(x, z);
 
             // Add cruves to myPane object
-            LineItem myCurve1 = myPane.AddCurve("Sine Wave", spl1, Color.Blue, SymbolType.None);
-            LineItem myCurve2 = myPane.AddCurve("Cosine Wave", spl2, Color.Red, SymbolType.None);
+            LineItem myCurve1 = myPane.AddCurve("position", spl1, Color.Blue, SymbolType.None);
+            //LineItem myCurve2 = myPane.AddCurve("Cosine Wave", spl2, Color.Red, SymbolType.None);
 
             myCurve1.Line.Width = 3.0F;
-            myCurve2.Line.Width = 3.0F;
+            //myCurve2.Line.Width = 3.0F;
             myPane.Title.Text = "Position";
 
             // I add all three functions just to be sure it refreshes the plot.   
