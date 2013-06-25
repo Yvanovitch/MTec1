@@ -17,6 +17,7 @@ namespace LeapOrchestra.SongPlayer
 {
     class SoundManager 
     {
+        bool interfaceReady;
         public OutputDevice outputDevice;
         public NoteOutputStream noteSender;
         private SEND_MODE playMode;
@@ -31,6 +32,7 @@ namespace LeapOrchestra.SongPlayer
 
         public SoundManager()
         {
+            interfaceReady = false;
             noteSender = new MidiOutputStream();
             choosePlayMode();
             playMode = SEND_MODE.MIDI_BANG;
@@ -60,12 +62,14 @@ namespace LeapOrchestra.SongPlayer
             reader.SendProgramChange += noteSender.SendProgramChange;
             reader.SendEnd += noteSender.SendEnd;
             reader.analyzeProgramChange();
-            Console.WriteLine("Midi File Loaded");
             playMode = SEND_MODE.MIDI_NOTE;
             reader.ChooseChannelOrientation();
             return;
         }
-
+        public void setInterfaceReady(bool getready)
+        {
+            this.interfaceReady = getready;
+        }
         public int getTempo()
         {
             if (reader == null)
@@ -115,6 +119,11 @@ namespace LeapOrchestra.SongPlayer
                 if (reader != null)
                 {
                     reader.evolvePartCursor(beatNumber);
+                    if (interfaceReady)
+                    {
+                        sendTempo(this.getTempo());
+                        //reader.currentMBT();
+                    }
                 }
             }
             else

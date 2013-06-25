@@ -94,8 +94,13 @@ namespace LeapOrchestra.SongPlayer
             timeSignature.Numerator = tempTimeSignature == 0 ? 4 : tempTimeSignature;
             //Denominator
             tempTimeSignature = mf.Events[0].OfType<TimeSignatureEvent>().FirstOrDefault().Denominator;
-            timeSignature.Denominator = tempTimeSignature == 0 ? 4 : tempTimeSignature;
+            if (tempTimeSignature == 4 || tempTimeSignature == 8)
+                timeSignature.Denominator = tempTimeSignature;
+            else
+                timeSignature.Denominator = 4;
 
+            Console.WriteLine("Midi File Loaded. "+ Environment.NewLine+"--> Signature : "+
+                timeSignature.Numerator+"/"+timeSignature.Denominator);
         }
 
         public struct TimeSignature

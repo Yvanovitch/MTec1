@@ -363,6 +363,7 @@ namespace LeapOrchestra.Sensor
 
         public void OnFrame(SENSOR_TYPE sensor, Vector position, Vector velocity)
         {
+            sendPosition(position);
             switch (analysisBeatsNumber)
             {
                 case 3:
