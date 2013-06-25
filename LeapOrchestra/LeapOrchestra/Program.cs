@@ -40,6 +40,7 @@ namespace LeapOrchestra
             form1.sendBang += soundManager.throwBang;
             form1.sendPath += soundManager.readMidiFile;
             form1.sendOutputDevice += soundManager.GetOutputDevice;
+            sensorManager.sensorModel.sendPosition += form1.GetVector;
             soundManager.sendTempo += form1.GetTempo;
             //form1.prefosc.sendPort += receiver.GetPort;
             Application.Run(form1);

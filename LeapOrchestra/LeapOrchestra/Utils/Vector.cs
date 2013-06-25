@@ -7,7 +7,7 @@ using Leap;
 
 namespace LeapOrchestra.Utils
 {
-    class Vector : Leap.Vector
+    public class Vector : Leap.Vector
     {
         public Vector (float x, float y, float z) : base(x, y, z)
         {
@@ -68,7 +68,7 @@ namespace LeapOrchestra.Utils
         }
     }
 
-    class VectorMath
+    public class VectorMath
     {
         public static Vector Difference(Vector a, Vector b)
         {

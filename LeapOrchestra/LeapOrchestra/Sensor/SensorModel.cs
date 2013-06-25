@@ -21,7 +21,7 @@ namespace LeapOrchestra.Sensor
         private Direction currentDirection;
         private Boolean hasMiss;
 
-
+        public event Action<Vector> sendPosition;
         public event Action<int> evolvePartCursor;
         public event Action<float> SendOrientation;
 
@@ -55,6 +55,7 @@ namespace LeapOrchestra.Sensor
 
             lastFrameTime = DateTime.Now;
             lastPosition = position;
+            sendPosition(position);
 
             OnFrame(sensor, position, velocity);
         }

@@ -146,13 +146,13 @@ namespace LeapOrchestra
         {
             this.position = position;
         }
-        private void SetGraph(int counter)
+        private void SetGraph(Vector position)
         {
             for (int i = 0; i < x.Length; i++)
             {
-                x[i] = i;
-                y[i] = Math.Sin(0.3 * counter * x[i]);
-                z[i] = Math.Cos(0.3 * counter * x[i]);
+                x[i] = position.x;
+                y[i] = position.y;
+                z[i] = position.z;
             }
 
             // This is to remove all plots
@@ -180,18 +180,18 @@ namespace LeapOrchestra
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            mycounter++;
-            if (mycounter == 10)
-            {
-                mycounter = 0;
-            }
-            SetGraph(mycounter);
+            SetGraph(position);
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
             zedGraphControl1.Refresh();
         }
 
         private void zedGraphControl1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
         }
