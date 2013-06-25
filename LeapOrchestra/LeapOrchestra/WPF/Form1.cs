@@ -148,11 +148,15 @@ namespace LeapOrchestra
         }
         private void SetGraph(Vector position)
         {
+            if (position == null)
+            {
+                return;
+            }
             for (int i = 0; i < x.Length; i++)
             {
                 x[i] = position.x;
                 y[i] = position.y;
-                z[i] = position.z;
+                z[i] = 0;
             }
 
             // This is to remove all plots

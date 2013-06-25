@@ -55,13 +55,14 @@ namespace LeapOrchestra.Sensor
 
             lastFrameTime = DateTime.Now;
             lastPosition = position;
-            sendPosition(position);
 
             OnFrame(sensor, position, velocity);
         }
 
         public void OnFrame(SENSOR_TYPE sensor, Vector position, Vector velocity)
         {
+
+            sendPosition(position);
             int velocity_base_y = 0;
             int velocity_threshold = 0;
             float pointRange = 90;
