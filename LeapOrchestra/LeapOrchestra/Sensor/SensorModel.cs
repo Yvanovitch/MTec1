@@ -20,6 +20,7 @@ namespace LeapOrchestra.Sensor
         private Vector lastBeatPosition;
         private Direction currentDirection;
         private Boolean hasMiss;
+        private int analysisBeatsNumber;
 
         public event Action<Vector> sendPosition;
         public event Action<int> evolvePartCursor;
@@ -38,13 +39,32 @@ namespace LeapOrchestra.Sensor
             lastFrameTime = DateTime.Now;
             currentDirection = Direction.VerticalDown;
             hasMiss = false;
+            BeatsModel();
         }
 
         public void OnFrame(SENSOR_TYPE sensor, float X, float Y, float Z)
         {
             OnFrame(sensor, new Vector(X, Y, Z));
         }
-
+        public void BeatsModel()
+        {
+            string entry;
+            Boolean choosed = false;
+            int result;
+            Console.WriteLine("please enter the beat pattern : \n 2 = 2/4 ou 6/8 \n 3 = 3/4 ou 9/8 \n 4 = 4/4 \n");
+            while (!choosed)
+            {
+                entry = Console.ReadLine();
+                if (int.TryParse(entry, out result))
+                {
+                    if (result >= 2 && result <= 4)
+                    {
+                        choosed = true;
+                        analysisBeatsNumber = result;
+                    }
+                }
+            }
+        }
         public void OnFrame(SENSOR_TYPE sensor, Vector position)
         {
             TimeSpan timeDifference = DateTime.Now - lastFrameTime;
@@ -55,14 +75,11 @@ namespace LeapOrchestra.Sensor
 
             lastFrameTime = DateTime.Now;
             lastPosition = position;
-
             OnFrame(sensor, position, velocity);
         }
-
-        public void OnFrame(SENSOR_TYPE sensor, Vector position, Vector velocity)
+        public void Analysis4Beats(SENSOR_TYPE sensor, Vector position, Vector velocity)
         {
 
-            sendPosition(position);
             int velocity_base_y = 0;
             int velocity_threshold = 0;
             float pointRange = 90;
@@ -87,8 +104,9 @@ namespace LeapOrchestra.Sensor
             }
             else if (timeBangDiff > 930) //On a manqué qqch
             {
-                if(!hasMiss) {
-                Console.WriteLine("Temps manqué -> On revient au 1");
+                if (!hasMiss)
+                {
+                    Console.WriteLine("Temps manqué -> On revient au 1");
                     hasMiss = true;
                 }
                 currentDirection = Direction.VerticalUp;
@@ -160,7 +178,6 @@ namespace LeapOrchestra.Sensor
                     }
                     break;
                 case Direction.VerticalUp:
-
                     if (linearizedVelocity.y < velocity_threshold &&
                         lastBeatPosition.DistanceTo(position) > pointRange)
                     {
@@ -173,6 +190,111 @@ namespace LeapOrchestra.Sensor
                     }
                     break;
             }
+        }
+        public void Analysis3Beats(SENSOR_TYPE sensor, Vector position, Vector velocity)
+        {
+            int velocity_base_y = 0;
+            int velocity_threshold = 0;
+            float pointRange = 90;
+            switch (sensor)
+            {
+                case SENSOR_TYPE.KINECT:
+                    velocity_base_y = 3000;
+                    velocity_threshold = -200;
+                    break;
+                default:
+                    velocity_base_y = 30;
+                    velocity_threshold = -6;
+                    pointRange = 60;
+                    break;
+            }
+
+            TimeSpan timeBangDifference = DateTime.Now - lastBangTime;
+            double timeBangDiff = timeBangDifference.Milliseconds;
+            if (timeBangDiff < 250 && currentDirection != Direction.Horizontal1)
+            {
+                return;
+            }
+            else if (timeBangDiff > 930) //On a manqué qqch
+            {
+                if (!hasMiss)
+                {
+                    Console.WriteLine("Temps manqué -> On revient au 1");
+                    hasMiss = true;
+                }
+                currentDirection = Direction.VerticalDown;
+                lastBeatPosition = new Vector(0, 0, 0);
+                velocityLine.Clear();
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
+                velocityLine.Enqueue(new Vector(0, velocity_base_y, 0));
+            }
+
+            velocityLine.Enqueue(velocity);
+            if (velocityLine.Count > 3)
+                velocityLine.Dequeue();
+
+            Vector linearizedVelocity = VectorMath.Average(velocityLine);
+
+            switch (currentDirection)
+            {
+                case Direction.VerticalUp:
+                    if (linearizedVelocity.y > (Math.Abs(linearizedVelocity.x) + Math.Abs(linearizedVelocity.z) / 1.2) &&
+                        lastBeatPosition.DistanceTo(position) > pointRange)
+                    {
+                        currentDirection = Direction.VerticalDown;
+                        //Console.WriteLine("Temps 2 : velo y " + linearizedVelocity.y + " x " + linearizedVelocity.x + " " + linearizedVelocity.z);
+                        lastBeatPosition = position;
+                        evolvePartCursor(3);
+                        lastBangTime = DateTime.Now;
+                    }
+                    break;
+                case Direction.Horizontal2:
+                    if (Math.Abs(linearizedVelocity.y) < (Math.Abs(linearizedVelocity.x) + Math.Abs(linearizedVelocity.z)) / 2 &&
+                        lastBeatPosition.DistanceTo(position) > pointRange)
+                    {
+                        currentDirection = Direction.VerticalUp;
+                        //Console.WriteLine("Temps 4 : y" + linearizedVelocity);
+                        lastBeatPosition = position;
+                        evolvePartCursor(2);
+                        lastBangTime = DateTime.Now;
+                    }
+                    break;
+                case Direction.VerticalDown:
+                    if (linearizedVelocity.y < velocity_threshold &&
+                        lastBeatPosition.DistanceTo(position) > pointRange)
+                    {
+                        Console.WriteLine("Temps 1 : y :" + linearizedVelocity.y);
+                        currentDirection = Direction.Horizontal2;
+                        lastBeatPosition = position;
+                        evolvePartCursor(1);
+                        lastBangTime = DateTime.Now;
+                        hasMiss = false;
+                    }
+                    break;
+            }
+        }
+        public void Analysis2Beats(SENSOR_TYPE sensor, Vector position, Vector velocity)
+        {
+
+        }
+        public void OnFrame(SENSOR_TYPE sensor, Vector position, Vector velocity)
+        {
+            switch (analysisBeatsNumber)
+            {
+                case 3:
+                    Analysis3Beats(sensor, position, velocity);
+                    break;
+                case 2:
+                    Analysis2Beats(sensor, position, velocity);
+                    break;
+                default:
+                    Analysis4Beats(sensor, position, velocity);
+                    break;
+            }
+
         }
 
         private void ManageOrientation(Vector horizontalVelocity)

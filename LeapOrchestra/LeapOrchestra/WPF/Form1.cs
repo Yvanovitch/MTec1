@@ -20,7 +20,7 @@ namespace LeapOrchestra
 
     public partial class Form1 : Form
     {
-        private Vector position;
+        Vector position;
         double[] x = new double[100];
         double[] y = new double[100];
         double[] z = new double[100];
@@ -167,16 +167,19 @@ namespace LeapOrchestra
 
             // PointPairList holds the data for plotting, X and Y arrays 
             PointPairList spl1 = new PointPairList(x, y);
-            //PointPairList spl2 = new PointPairList(x, z);
+            PointPairList spl2 = new PointPairList(x, z);
 
             // Add cruves to myPane object
             LineItem myCurve1 = myPane.AddCurve("position", spl1, Color.Blue, SymbolType.None);
-            //LineItem myCurve2 = myPane.AddCurve("Cosine Wave", spl2, Color.Red, SymbolType.None);
+            LineItem myCurve2 = myPane.AddCurve("Cosine Wave", spl2, Color.Red, SymbolType.None);
 
             myCurve1.Line.Width = 3.0F;
-            //myCurve2.Line.Width = 3.0F;
+            myCurve2.Line.Width = 3.0F;
             myPane.Title.Text = "Position";
-
+            myPane.XAxis.Scale.Min = -1000;
+            myPane.XAxis.Scale.Max = -1000;
+            myPane.YAxis.Scale.Min = -1000;
+            myPane.YAxis.Scale.Max = -1000;
             // I add all three functions just to be sure it refreshes the plot.   
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
@@ -184,12 +187,19 @@ namespace LeapOrchestra
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
+            //SetLabel(label5, position.x);
+            //SetLabel(label6, position.y);
+            //SetLabel(label7, position.z);
+            //SetLabel(label1, tempo);
             SetGraph(position);
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
             zedGraphControl1.Refresh();
         }
-
+        private void SetLabel(System.Windows.Forms.Label label, float number)
+        {
+            label.Text = number.ToString();
+        }
         private void zedGraphControl1_Load(object sender, EventArgs e)
         {
 

@@ -23,7 +23,7 @@ namespace LeapOrchestra
 
         //Sound Management
             SoundManager soundManager = new SoundManager();
-            //soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
+            soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
             Thread soundManagement = new Thread(soundManager.Process);
             //Lancement du thread de managament
             soundManagement.Start();
@@ -32,6 +32,7 @@ namespace LeapOrchestra
             SensorManager sensorManager = new SensorManager();
             sensorManager.sensorModel.evolvePartCursor += soundManager.evolvePartCursor;
             sensorManager.sensorModel.SendOrientation += soundManager.SetCurrentOrientation;
+            
 
         //Application
             Application.EnableVisualStyles();

@@ -60,6 +60,11 @@ namespace LeapOrchestra.Utils
                     x = x * (-1);
                     z = z * (-1);
                     break;
+                case VectorMath.SelectedCoord.XYZ:
+                    x = x * (-1);
+                    y = y * (-1);
+                    z = z * (-1);
+                    break;
                 default:
                     z = z * (-1);
                     y = y * (-1);
@@ -112,6 +117,8 @@ namespace LeapOrchestra.Utils
                     return U.x * V.x + U.y * V.y;
                 case SelectedCoord.XZ:
                     return U.x * V.x + U.z * V.z;
+                case SelectedCoord.XYZ:
+                    return U.x * V.x + U.z * V.z + U.y * V.y;
                 default:
                     return U.y * V.y + U.z * V.z;
             }
@@ -130,7 +137,7 @@ namespace LeapOrchestra.Utils
 
         public enum SelectedCoord
         {
-            XY, XZ, YZ
+            XY, XZ, YZ, XYZ
         }
 
         public static Vector GetPositive(Vector U)
