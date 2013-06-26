@@ -45,7 +45,6 @@ namespace LeapOrchestra
             timer1.Interval = 500;
             timer1.Start();
             position = new Vector(0, 0, 0);
-            
             prefosc = new PrefOSC();
             prefmidi = new PrefMidi();
             prefmidi.sendDevice += this.GetOutputDevice;
@@ -88,8 +87,20 @@ namespace LeapOrchestra
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             OpenFileDialog oFD = new OpenFileDialog();
-            oFD.InitialDirectory = "c:\\";
+            string text = null;
+            if (System.IO.File.Exists("Directory.txt"))
+            {
+                text = System.IO.File.ReadAllText(@"C:\Users\Public\TestFolder\WriteText.txt");
+                oFD.InitialDirectory = text;
+            }
+            else
+            {
+                StreamWriter StWr;
+                StWr = File.CreateText("Directory.txt");
+                StWr.Close();
+            }
             oFD.Filter = "Fichiers Midi (*.mid)|*.mid|Tous les fichiers (*.*)|*.*";
             oFD.RestoreDirectory = true;
 
