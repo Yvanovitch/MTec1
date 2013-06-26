@@ -29,6 +29,7 @@ namespace LeapOrchestra
         string text;
         bool getready;
         int tempo;
+        string measureInfo;
         public OutputDevice outputdevice;
         public event Action<bool> sendReady;
         public event Action<OutputDevice> sendOutputDevice;
@@ -144,8 +145,6 @@ namespace LeapOrchestra
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Graph graph = new Graph();
-            graph.Show();
         }
         public void GetVector(Vector position)
         {
@@ -171,15 +170,18 @@ namespace LeapOrchestra
 
             // GraphPane object holds one or more Curve objects (or plots)
             GraphPane myPane = zedGraphControl1.GraphPane;
-
+            myPane.XAxis.Scale.Min = -1000;
+            myPane.XAxis.Scale.Max = 1000;
+            myPane.YAxis.Scale.Min = -1000;
+            myPane.YAxis.Scale.Max = 1000;
             // PointPairList holds the data for plotting, X and Y arrays 
             PointPairList spl1 = new PointPairList(x, y);
             PointPairList spl2 = new PointPairList(x, z);
 
             // Add cruves to myPane object
-            LineItem myCurve1 = myPane.AddCurve("position", spl1, Color.Blue, SymbolType.None);
-            LineItem myCurve2 = myPane.AddCurve("Cosine Wave", spl2, Color.Red, SymbolType.None);
-
+            LineItem myCurve1 = myPane.AddCurve("position in space", spl1, Color.Blue, SymbolType.None);
+            LineItem myCurve2 = myPane.AddCurve("position x", spl2, Color.Red, SymbolType.None);
+            
             myCurve1.Line.Width = 3.0F;
             myCurve2.Line.Width = 3.0F;
             myPane.Title.Text = "Position";
@@ -198,6 +200,7 @@ namespace LeapOrchestra
             SetLabel(label6, position.y.ToString());
             SetLabel(label7, position.z.ToString());
             SetLabel(label1, "Tempo : " +tempo);
+            SetLabel(label8, measureInfo);
             SetGraph();
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
@@ -215,6 +218,15 @@ namespace LeapOrchestra
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+        public void GetMeasureInfo(string measureInfo)
+        {
+            this.measureInfo = measureInfo;
+        }
+
+        private void label8_Click(object sender, EventArgs e)
         {
 
         }

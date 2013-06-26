@@ -23,7 +23,7 @@ namespace LeapOrchestra.SongPlayer
         private SEND_MODE playMode;
         private MidiFileReader reader;
         public event Action<int> sendTempo;
-
+        public event Action<string> sendMeasureInfo;
         public OSCReceiver OSCreceiver;
         
         
@@ -122,7 +122,7 @@ namespace LeapOrchestra.SongPlayer
                     if (interfaceReady)
                     {
                         sendTempo(this.getTempo());
-                        //reader.currentMBT();
+                        sendMeasureInfo(reader.currentMBT());
                     }
                 }
             }
