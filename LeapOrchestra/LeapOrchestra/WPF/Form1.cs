@@ -163,7 +163,7 @@ namespace LeapOrchestra
             }*/
             x[0]= (double)position.x;
             y[0] = (double)position.y;
-
+            z[0] = 0;
             // This is to remove all plots
             zedGraphControl1.GraphPane.CurveList.Clear();
 
@@ -174,7 +174,7 @@ namespace LeapOrchestra
             myPane.YAxis.Scale.Min = -1000;
             myPane.YAxis.Scale.Max = 1000;
             // PointPairList holds the data for plotting, X and Y arrays 
-            PointPairList spl1 = new PointPairList(x, y);
+            PointPairList spl1 = new PointPairList(x, y,z);
             PointPairList spl2 = new PointPairList(x, z);
 
             // Add cruves to myPane object
