@@ -191,6 +191,7 @@ namespace LeapOrchestra.SongPlayer
             noteSender.ChangeOutputDevice(outputDevice);
             Console.WriteLine(outputDevice.Name);
         }
+        
         public void Close()
         {
             noteSender.Close();
