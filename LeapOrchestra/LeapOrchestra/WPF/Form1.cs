@@ -24,9 +24,7 @@ namespace LeapOrchestra
         double[] x = new double[100];
         double[] y = new double[100];
         double[] z = new double[100];
-        TextBox mid;
         String nameFile;
-        string text;
         bool getready;
         int tempo;
         string measureInfo;
