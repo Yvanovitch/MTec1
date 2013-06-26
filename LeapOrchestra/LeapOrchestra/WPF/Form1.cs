@@ -232,13 +232,23 @@ namespace LeapOrchestra
 
         private void leapMotionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ActivateSensor(SENSOR_TYPE.LEAP_MOTION);
         }
 
         public void ActivateSensor(SENSOR_TYPE activeSensor)
         {
             this.activeSensor = activeSensor;
             setActiveSensor(this.activeSensor);
+        }
+
+        private void oSCToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ActivateSensor(SENSOR_TYPE.NO_SENSOR);
+        }
+
+        private void kinectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ActivateSensor(SENSOR_TYPE.KINECT);
         }
     }
 }

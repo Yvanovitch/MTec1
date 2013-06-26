@@ -54,6 +54,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.oSCToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -123,7 +124,8 @@
             // 
             this.inputToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.leapMotionToolStripMenuItem,
-            this.kinectToolStripMenuItem});
+            this.kinectToolStripMenuItem,
+            this.oSCToolStripMenuItem1});
             this.inputToolStripMenuItem.Name = "inputToolStripMenuItem";
             this.inputToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.inputToolStripMenuItem.Text = "Input";
@@ -140,6 +142,7 @@
             this.kinectToolStripMenuItem.Name = "kinectToolStripMenuItem";
             this.kinectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.kinectToolStripMenuItem.Text = "Kinect";
+            this.kinectToolStripMenuItem.Click += new System.EventHandler(this.kinectToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -274,6 +277,13 @@
             this.label10.TabIndex = 13;
             this.label10.Text = "Measure";
             // 
+            // oSCToolStripMenuItem1
+            // 
+            this.oSCToolStripMenuItem1.Name = "oSCToolStripMenuItem1";
+            this.oSCToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.oSCToolStripMenuItem1.Text = "OSC";
+            this.oSCToolStripMenuItem1.Click += new System.EventHandler(this.oSCToolStripMenuItem1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -330,6 +340,7 @@
         private System.Windows.Forms.ToolStripMenuItem inputToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem leapMotionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kinectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oSCToolStripMenuItem1;
 
     }
 }
