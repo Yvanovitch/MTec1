@@ -36,6 +36,9 @@
             this.outputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.midiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oSCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.leapMotionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kinectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,10 +54,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.inputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.leapMotionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.kinectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.leapMotionKinectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,16 +108,38 @@
             // midiToolStripMenuItem
             // 
             this.midiToolStripMenuItem.Name = "midiToolStripMenuItem";
-            this.midiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.midiToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.midiToolStripMenuItem.Text = "Midi";
             this.midiToolStripMenuItem.Click += new System.EventHandler(this.midiToolStripMenuItem_Click);
             // 
             // oSCToolStripMenuItem
             // 
             this.oSCToolStripMenuItem.Name = "oSCToolStripMenuItem";
-            this.oSCToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oSCToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.oSCToolStripMenuItem.Text = "OSC";
             this.oSCToolStripMenuItem.Click += new System.EventHandler(this.oSCToolStripMenuItem_Click);
+            // 
+            // inputToolStripMenuItem
+            // 
+            this.inputToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.leapMotionToolStripMenuItem,
+            this.kinectToolStripMenuItem});
+            this.inputToolStripMenuItem.Name = "inputToolStripMenuItem";
+            this.inputToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.inputToolStripMenuItem.Text = "Input";
+            // 
+            // leapMotionToolStripMenuItem
+            // 
+            this.leapMotionToolStripMenuItem.Name = "leapMotionToolStripMenuItem";
+            this.leapMotionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.leapMotionToolStripMenuItem.Text = "LeapMotion";
+            this.leapMotionToolStripMenuItem.Click += new System.EventHandler(this.leapMotionToolStripMenuItem_Click);
+            // 
+            // kinectToolStripMenuItem
+            // 
+            this.kinectToolStripMenuItem.Name = "kinectToolStripMenuItem";
+            this.kinectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.kinectToolStripMenuItem.Text = "Kinect";
             // 
             // toolStripMenuItem1
             // 
@@ -131,7 +152,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             // 
             // label1
@@ -253,34 +274,6 @@
             this.label10.TabIndex = 13;
             this.label10.Text = "Measure";
             // 
-            // inputToolStripMenuItem
-            // 
-            this.inputToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.leapMotionToolStripMenuItem,
-            this.kinectToolStripMenuItem,
-            this.leapMotionKinectToolStripMenuItem});
-            this.inputToolStripMenuItem.Name = "inputToolStripMenuItem";
-            this.inputToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.inputToolStripMenuItem.Text = "Input";
-            // 
-            // leapMotionToolStripMenuItem
-            // 
-            this.leapMotionToolStripMenuItem.Name = "leapMotionToolStripMenuItem";
-            this.leapMotionToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.leapMotionToolStripMenuItem.Text = "LeapMotion";
-            // 
-            // kinectToolStripMenuItem
-            // 
-            this.kinectToolStripMenuItem.Name = "kinectToolStripMenuItem";
-            this.kinectToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.kinectToolStripMenuItem.Text = "Kinect";
-            // 
-            // leapMotionKinectToolStripMenuItem
-            // 
-            this.leapMotionKinectToolStripMenuItem.Name = "leapMotionKinectToolStripMenuItem";
-            this.leapMotionKinectToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.leapMotionKinectToolStripMenuItem.Text = "LeapMotion + Kinect";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -337,7 +330,6 @@
         private System.Windows.Forms.ToolStripMenuItem inputToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem leapMotionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kinectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem leapMotionKinectToolStripMenuItem;
 
     }
 }

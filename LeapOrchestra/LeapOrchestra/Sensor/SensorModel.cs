@@ -415,6 +415,10 @@ namespace LeapOrchestra.Sensor
             Console.WriteLine("orientation : " + orientation + " normed : " + normedVelocity);
             SendOrientation(orientation);
         }
+        public void useActiveSensor(SENSOR_TYPE activeSensor)
+        {
+            this.activeSensor = activeSensor;
+        }
     }
 
 
@@ -426,7 +430,7 @@ namespace LeapOrchestra.Sensor
         Horizontal2
     }
 
-    enum SENSOR_TYPE
+    public enum SENSOR_TYPE
     {
         NO_SENSOR,
         LEAP_MOTION,

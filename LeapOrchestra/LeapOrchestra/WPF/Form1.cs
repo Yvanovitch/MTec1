@@ -13,6 +13,7 @@ using Midi;
 using NAudio.Midi;
 using ZedGraph;
 using LeapOrchestra.Utils;
+using LeapOrchestra.Sensor;
 
 
 namespace LeapOrchestra
@@ -21,6 +22,7 @@ namespace LeapOrchestra
     public partial class Form1 : Form
     {
         Vector position;
+        public SENSOR_TYPE activeSensor;
         double[] x = new double[100];
         double[] y = new double[100];
         double[] z = new double[100];
@@ -29,6 +31,7 @@ namespace LeapOrchestra
         string measureInfo;
         public OutputDevice outputdevice;
         public event Action sendReady;
+        public event Action<SENSOR_TYPE> setActiveSensor;
         public event Action<OutputDevice> sendOutputDevice;
         public event Action<string> sendPath;
         public event Action sendBang;
@@ -225,6 +228,17 @@ namespace LeapOrchestra
         private void label8_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void leapMotionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public void ActivateSensor(SENSOR_TYPE activeSensor)
+        {
+            this.activeSensor = activeSensor;
+            setActiveSensor(this.activeSensor);
         }
     }
 }
