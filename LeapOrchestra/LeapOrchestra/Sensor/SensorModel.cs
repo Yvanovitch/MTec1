@@ -26,6 +26,7 @@ namespace LeapOrchestra.Sensor
         public event Action<int> evolvePartCursor;
         public event Action<float> SendOrientation;
         private Boolean interfaceReady;
+        private SENSOR_TYPE activeSensor;
 
         public SensorModel()
         {
@@ -42,6 +43,12 @@ namespace LeapOrchestra.Sensor
             hasMiss = false;
             BeatsModel();
             interfaceReady = false;
+            activeSensor = SENSOR_TYPE.KINECT;
+        }
+
+        public void setActiveSensor (SENSOR_TYPE sensor)
+        {
+            activeSensor = sensor;
         }
 
         public void setInterfaceReady()
@@ -84,6 +91,30 @@ namespace LeapOrchestra.Sensor
             lastPosition = position;
             OnFrame(sensor, position, velocity);
         }
+
+        public void OnFrame(SENSOR_TYPE sensor, Vector position, Vector velocity)
+        {
+            if (sensor != activeSensor)
+                return;
+            
+            if (interfaceReady && sensor == SENSOR_TYPE.LEAP_MOTION)
+                sendPosition(position);
+
+            switch (analysisBeatsNumber)
+            {
+                case 3:
+                    Analysis3Beats(sensor, position, velocity);
+                    break;
+                case 2:
+                    Analysis2Beats(sensor, position, velocity);
+                    break;
+                default:
+                    Analysis4Beats(sensor, position, velocity);
+                    break;
+            }
+
+        }
+        
         public void Analysis4Beats(SENSOR_TYPE sensor, Vector position, Vector velocity)
         {
 
@@ -368,25 +399,7 @@ namespace LeapOrchestra.Sensor
             }
         }
 
-        public void OnFrame(SENSOR_TYPE sensor, Vector position, Vector velocity)
-        {
-            if(interfaceReady)
-                sendPosition(position);
-
-            switch (analysisBeatsNumber)
-            {
-                case 3:
-                    Analysis3Beats(sensor, position, velocity);
-                    break;
-                case 2:
-                    Analysis2Beats(sensor, position, velocity);
-                    break;
-                default:
-                    Analysis4Beats(sensor, position, velocity);
-                    break;
-            }
-
-        }
+        
 
         private void ManageOrientation(Vector horizontalVelocity)
         {
@@ -415,6 +428,7 @@ namespace LeapOrchestra.Sensor
 
     enum SENSOR_TYPE
     {
+        NO_SENSOR,
         LEAP_MOTION,
         KINECT
     }
