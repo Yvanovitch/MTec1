@@ -13,6 +13,7 @@ namespace LeapOrchestra.Sensor
         public event Action<SENSOR_TYPE, float, float, float> OnFrameEvent;
         private bool hadInformation;
         private JointType choosedJoint;
+        private Boolean interfaceReady;
         
         public KinectController()
         {
@@ -56,6 +57,11 @@ namespace LeapOrchestra.Sensor
             {
                 Console.WriteLine("No Kinect sensor Detected");
             }
+        }
+
+        public void setInterfaceReady()
+        {
+            interfaceReady = true;
         }
 
         public void ChooseJoint()
@@ -112,7 +118,10 @@ namespace LeapOrchestra.Sensor
                     }
                     //printJoints(skel);
                     Joint hand = getOneHand(skel);
-                    OnFrameEvent(SENSOR_TYPE.KINECT, hand.Position.X*1000, hand.Position.Y*1000, hand.Position.Z*1000);
+                    if (interfaceReady)
+                    {
+                        OnFrameEvent(SENSOR_TYPE.KINECT, hand.Position.X * 1000, hand.Position.Y * 1000, hand.Position.Z * 1000);
+                    }
                     return; //On arrète au premier Skeleton
                 }
             }

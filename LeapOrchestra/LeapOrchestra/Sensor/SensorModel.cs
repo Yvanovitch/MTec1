@@ -25,6 +25,7 @@ namespace LeapOrchestra.Sensor
         public event Action<Vector> sendPosition;
         public event Action<int> evolvePartCursor;
         public event Action<float> SendOrientation;
+        public event Action SendBang;
         private Boolean interfaceReady;
         private SENSOR_TYPE activeSensor;
 
@@ -219,7 +220,7 @@ namespace LeapOrchestra.Sensor
                     if (linearizedVelocity.y < velocity_threshold &&
                         lastBeatPosition.DistanceTo(position) > pointRange)
                     {
-                        Console.WriteLine("Temps 1 : y :" + linearizedVelocity.y);
+                        //Console.WriteLine("Temps 1 : y :" + linearizedVelocity.y);
                         currentDirection = Direction.VerticalDown;
                         lastBeatPosition = position;
                         evolvePartCursor(1);
@@ -286,7 +287,8 @@ namespace LeapOrchestra.Sensor
                         currentDirection = Direction.VerticalDown;
                         //Console.WriteLine("Temps 2 : velo y " + linearizedVelocity.y + " x " + linearizedVelocity.x + " " + linearizedVelocity.z);
                         lastBeatPosition = position;
-                        evolvePartCursor(3);
+                        //evolvePartCursor(3);
+                        SendBang();
                         lastBangTime = DateTime.Now;
                     }
                     break;
@@ -297,7 +299,8 @@ namespace LeapOrchestra.Sensor
                         currentDirection = Direction.VerticalUp;
                         //Console.WriteLine("Temps 4 : y" + linearizedVelocity);
                         lastBeatPosition = position;
-                        evolvePartCursor(2);
+                        //evolvePartCursor(2);
+                        SendBang();
                         lastBangTime = DateTime.Now;
                     }
                     break;
@@ -308,7 +311,8 @@ namespace LeapOrchestra.Sensor
                         Console.WriteLine("Temps 1 : y :" + linearizedVelocity.y);
                         currentDirection = Direction.Horizontal2;
                         lastBeatPosition = position;
-                        evolvePartCursor(1);
+                        //evolvePartCursor(1);
+                        SendBang();
                         lastBangTime = DateTime.Now;
                         hasMiss = false;
                     }
@@ -365,7 +369,8 @@ namespace LeapOrchestra.Sensor
                         //Console.WriteLine("Temps 1 : Cos : " + cos + "average :" + averageVelocity);
                         currentDirection = Direction.Horizontal2;
                         lastBeatPosition = position;
-                        evolvePartCursor(1);
+                        //evolvePartCursor(1);
+                        SendBang();
                         lastBangTime = DateTime.Now;
                         ManageOrientation(averageVelocity); //On met à jour l'orientation
                     }
@@ -386,7 +391,8 @@ namespace LeapOrchestra.Sensor
                         currentDirection = Direction.Horizontal1;
                         //Console.WriteLine("Temps 2 : Cos : " + cos + "average :" + averageVelocity);
                         lastBeatPosition = position;
-                        evolvePartCursor(2);
+                        //evolvePartCursor(2);
+                        SendBang();
                         lastBangTime = DateTime.Now;
                     }
                     else

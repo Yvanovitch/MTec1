@@ -111,6 +111,7 @@ namespace LeapOrchestra.SongPlayer
             else
             {
                 noteSender.SendBang();
+                Console.WriteLine("Bang");
             }
         }
 

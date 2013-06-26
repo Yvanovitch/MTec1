@@ -18,12 +18,12 @@ namespace LeapOrchestra
         {
             Console.WriteLine("----- OrchestraHero Project -----");
             Console.WriteLine("by ISEN Student : Yvan RICHER, Gautier CARREE, Antoine DENOYELLE," +
-                " Alexandre FALTOT, Thomas JUSTER and Grégoire DESSAIN");
+                " Alexandre FALTOT, Lena DELVAL, Thomas JUSTER and Grégoire DESSIN");
             Console.WriteLine("Project Leader : Yvan RICHER" + Environment.NewLine);
 
         //Sound Management
             SoundManager soundManager = new SoundManager();
-            soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
+            //soundManager.readMidiFile(@"D:\Documents\Cours\Orchestra\Midi\In\link.mid");
             Thread soundManagement = new Thread(soundManager.Process);
             //Lancement du thread de managament
             soundManagement.Start();
@@ -32,7 +32,9 @@ namespace LeapOrchestra
             SensorManager sensorManager = new SensorManager();
             sensorManager.sensorModel.evolvePartCursor += soundManager.evolvePartCursor;
             sensorManager.sensorModel.SendOrientation += soundManager.SetCurrentOrientation;
-            
+            sensorManager.sensorModel.SendBang += soundManager.throwBang;
+
+            Console.WriteLine("Choisir Fichier Midi dans l'interface");
 
         //Application
             Application.EnableVisualStyles();
@@ -42,6 +44,7 @@ namespace LeapOrchestra
             form1.sendPath += soundManager.readMidiFile;
             form1.sendReady += soundManager.setInterfaceReady;
             form1.sendReady += sensorManager.sensorModel.setInterfaceReady;
+            form1.sendReady += sensorManager.kinectController.setInterfaceReady;
             form1.sendOutputDevice += soundManager.GetOutputDevice;
             form1.setActiveSensor += sensorManager.sensorModel.useActiveSensor;
             soundManager.sendMeasureInfo += form1.GetMeasureInfo;

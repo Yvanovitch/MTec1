@@ -10,7 +10,7 @@ namespace LeapOrchestra.Sensor
     class SensorManager
     {
         public SensorModel sensorModel;
-        KinectController kinectController;
+        public KinectController kinectController;
         private Thread leapThread;
         private LeapController leapController;
         private LeapListener listener;
