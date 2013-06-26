@@ -199,7 +199,7 @@ namespace LeapOrchestra
             SetLabel(label5, position.x.ToString());
             SetLabel(label6, position.y.ToString());
             SetLabel(label7, position.z.ToString());
-            SetLabel(label1, "Tempo : " +tempo);
+            SetLabel(label1, "" + tempo);
             SetLabel(label8, measureInfo);
             SetGraph();
             zedGraphControl1.AxisChange();
