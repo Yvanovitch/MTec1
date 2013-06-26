@@ -314,7 +314,7 @@ namespace LeapOrchestra.SongPlayer
         {
             int beatsPerBar = timeSignature.Numerator;
             int ticksPerBar = timeSignature.Denominator == 0 ? ticksPerQuarterNote * 4 : 
-                (timeSignature.Numerator * ticksPerQuarterNote * 4) / (1 << timeSignature.Denominator);
+                (timeSignature.Numerator * ticksPerQuarterNote * 4) / timeSignature.Denominator;
             int ticksPerBeat = ticksPerBar / beatsPerBar;
             long bar = 1 + (eventTime / ticksPerBar);
             long beat = 1 + ((eventTime % ticksPerBar) / ticksPerBeat);
@@ -324,7 +324,8 @@ namespace LeapOrchestra.SongPlayer
 
         public string currentMBT()
         {
-            return ToMBT(previousMidiTimeCursor, this.DeltaTicksPerQuarterNote, this.timeSignature);
+            return ToMBT(QuarterNoteTimeCursor + (beatNumber - 1) * DeltaTicksPerQuarterNote, 
+                this.DeltaTicksPerQuarterNote, this.timeSignature);
         }
 
         /// <summary>

@@ -25,6 +25,7 @@ namespace LeapOrchestra.Sensor
         public event Action<Vector> sendPosition;
         public event Action<int> evolvePartCursor;
         public event Action<float> SendOrientation;
+        private Boolean interfaceReady;
 
         public SensorModel()
         {
@@ -40,6 +41,12 @@ namespace LeapOrchestra.Sensor
             currentDirection = Direction.VerticalDown;
             hasMiss = false;
             BeatsModel();
+            interfaceReady = false;
+        }
+
+        public void setInterfaceReady()
+        {
+            interfaceReady = true;
         }
 
         public void OnFrame(SENSOR_TYPE sensor, float X, float Y, float Z)
@@ -363,7 +370,9 @@ namespace LeapOrchestra.Sensor
 
         public void OnFrame(SENSOR_TYPE sensor, Vector position, Vector velocity)
         {
-            sendPosition(position);
+            if(interfaceReady)
+                sendPosition(position);
+
             switch (analysisBeatsNumber)
             {
                 case 3:

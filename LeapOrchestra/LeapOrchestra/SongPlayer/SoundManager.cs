@@ -66,10 +66,7 @@ namespace LeapOrchestra.SongPlayer
             reader.ChooseChannelOrientation();
             return;
         }
-        public void setInterfaceReady(bool getready)
-        {
-            this.interfaceReady = getready;
-        }
+
         public int getTempo()
         {
             if (reader == null)
@@ -86,6 +83,11 @@ namespace LeapOrchestra.SongPlayer
         {
             //Permettre le changement entre stream Midi et stream OSC
             playMode = SEND_MODE.MIDI_BANG;
+        }
+
+        public void setInterfaceReady()
+        {
+            interfaceReady = true;
         }
 
         public void choosePlayMode ()

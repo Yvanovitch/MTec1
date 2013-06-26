@@ -25,11 +25,10 @@ namespace LeapOrchestra
         double[] y = new double[100];
         double[] z = new double[100];
         String nameFile;
-        bool getready;
         int tempo;
         string measureInfo;
         public OutputDevice outputdevice;
-        public event Action<bool> sendReady;
+        public event Action sendReady;
         public event Action<OutputDevice> sendOutputDevice;
         public event Action<string> sendPath;
         public event Action sendBang;
@@ -42,7 +41,6 @@ namespace LeapOrchestra
             timer1.Tick += new EventHandler(timer1_Tick);
             timer1.Interval = 500;
             timer1.Start();
-            getready = true;
             position = new Vector(0, 0, 0);
             
             prefosc = new PrefOSC();
@@ -160,8 +158,8 @@ namespace LeapOrchestra
                 y[i] = position.y;
                 z[i] = 0;
             }*/
-            x[1]= (double)position.x;
-            y[1] = (double)position.y;
+            x[0]= (double)position.x;
+            y[0] = (double)position.y;
 
             // This is to remove all plots
             zedGraphControl1.GraphPane.CurveList.Clear();
@@ -203,7 +201,7 @@ namespace LeapOrchestra
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
             zedGraphControl1.Refresh();
-            sendReady(true);
+            sendReady();
         }
         
         private void SetLabel(System.Windows.Forms.Label label , string text)
