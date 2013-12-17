@@ -14,10 +14,16 @@ namespace LeapOrchestra.SongPlayer
 
         public MidiOutputStream() : base ()
         {
-            //On prend le premier device par default
             if(OutputDevice.InstalledDevices.Count >= 1)
             {
-                outputDevice = OutputDevice.InstalledDevices[0];
+                Console.WriteLine("Sortie(s) midi installée(s) :");
+                foreach (OutputDevice outProposed in OutputDevice.InstalledDevices)
+                {
+                    Console.WriteLine(outProposed.Name);
+                }
+
+                //On prend le premier device par default, l'user réglera la sortie dans l'interface graphique (non-implémenté)
+                outputDevice = OutputDevice.InstalledDevices[1];
             }
 
             if (outputDevice == null)

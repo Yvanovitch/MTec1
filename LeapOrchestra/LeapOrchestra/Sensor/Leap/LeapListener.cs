@@ -70,7 +70,7 @@ namespace LeapOrchestra.Sensor
         public override void OnFocusLost(Controller arg0)
         {
             base.OnFocusLost(arg0);
-            SafeWriteLine("Focus lost");
+            //SafeWriteLine("Focus lost");
         }
     }
 }

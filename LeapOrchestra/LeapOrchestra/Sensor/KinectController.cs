@@ -69,7 +69,8 @@ namespace LeapOrchestra.Sensor
             string entry;
             Boolean choosed = false;
             int result;
-            Console.WriteLine("Choose your hand : handRight -> 0, handLeft -> 1");
+            choosedJoint = JointType.HandRight;
+            /*Console.WriteLine("Choose your hand : handRight -> 0, handLeft -> 1");
             while (!choosed)
             {
                 entry = Console.ReadLine();
@@ -81,7 +82,7 @@ namespace LeapOrchestra.Sensor
                     else
                         choosedJoint = JointType.HandRight;
                 }
-            }
+            }*/
         }
 
         private void SensorSkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)

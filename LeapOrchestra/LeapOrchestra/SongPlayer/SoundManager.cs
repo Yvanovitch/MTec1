@@ -24,6 +24,7 @@ namespace LeapOrchestra.SongPlayer
         private MidiFileReader reader;
         public event Action<int> sendTempo;
         public event Action<string> sendMeasureInfo;
+        public event Action<int> sendAnalysisBeatsNumber;
         public OSCReceiver OSCreceiver;
         
         
@@ -64,6 +65,8 @@ namespace LeapOrchestra.SongPlayer
             reader.analyzeProgramChange();
             playMode = SEND_MODE.MIDI_NOTE;
             reader.ChooseChannelOrientation();
+            //On envoie au sensorManager quelle batue on observe
+            sendAnalysisBeatsNumber(4); //A implémenter correctement
             return;
         }
 

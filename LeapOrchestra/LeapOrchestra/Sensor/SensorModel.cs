@@ -42,14 +42,20 @@ namespace LeapOrchestra.Sensor
             lastFrameTime = DateTime.Now;
             currentDirection = Direction.VerticalDown;
             hasMiss = false;
-            BeatsModel();
+            analysisBeatsNumber = 2;
             interfaceReady = false;
-            activeSensor = SENSOR_TYPE.KINECT;
+            activeSensor = SENSOR_TYPE.LEAP_MOTION;
         }
 
         public void setActiveSensor (SENSOR_TYPE sensor)
         {
             activeSensor = sensor;
+        }
+
+        public void setAnalysisBeatsNumber(int value)
+        {
+            analysisBeatsNumber = value;
+            Console.WriteLine("value :" + value);
         }
 
         public void setInterfaceReady()
@@ -61,25 +67,7 @@ namespace LeapOrchestra.Sensor
         {
             OnFrame(sensor, new Vector(X, Y, Z));
         }
-        public void BeatsModel()
-        {
-            string entry;
-            Boolean choosed = false;
-            int result;
-            Console.WriteLine("please enter the beat pattern : \n 2 = 2/4 ou 6/8 \n 3 = 3/4 ou 9/8 \n 4 = 4/4 \n");
-            while (!choosed)
-            {
-                entry = Console.ReadLine();
-                if (int.TryParse(entry, out result))
-                {
-                    if (result >= 2 && result <= 4)
-                    {
-                        choosed = true;
-                        analysisBeatsNumber = result;
-                    }
-                }
-            }
-        }
+  
         public void OnFrame(SENSOR_TYPE sensor, Vector position)
         {
             TimeSpan timeDifference = DateTime.Now - lastFrameTime;
@@ -322,7 +310,7 @@ namespace LeapOrchestra.Sensor
 
         public void Analysis2Beats(SENSOR_TYPE sensor, Vector position, Vector velocity)
         {
-            float pointRange = 90;
+            float pointRange = 150;
             switch (sensor)
             {
                 case SENSOR_TYPE.KINECT:

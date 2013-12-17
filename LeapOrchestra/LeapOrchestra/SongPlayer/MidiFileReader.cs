@@ -68,7 +68,7 @@ namespace LeapOrchestra.SongPlayer
             barNumber = 1;
             beatNumber = 1;
 
-            channelOrientation = new float[16];
+            channelOrientation = new float[17];
             channelOrientation.Initialize();
             currentOrientation = 0;
 
@@ -244,6 +244,10 @@ namespace LeapOrchestra.SongPlayer
             if (end)
             {
                 Console.WriteLine("Fin de lecture");
+                Console.WriteLine("Redémarage");
+                barNumber = 1;
+                beatNumber = 1;
+                QuarterNoteTimeCursor = barNumber * timeSignature.Numerator * DeltaTicksPerQuarterNote;
                 SendEnd();
             }
         }
@@ -376,6 +380,11 @@ namespace LeapOrchestra.SongPlayer
                         Console.WriteLine("La valeur entrée est incorrect");
                     }
                 }
+            }//*/
+            channelOrientation[1] = -1;
+            for (int i = 2; i < 17; i++)
+            {
+                channelOrientation[i] = 1;
             }
         }
 
