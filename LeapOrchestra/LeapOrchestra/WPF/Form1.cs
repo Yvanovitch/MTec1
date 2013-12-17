@@ -23,9 +23,11 @@ namespace LeapOrchestra
     {
         Vector position;
         public SENSOR_TYPE activeSensor;
-        double[] x = new double[100];
-        double[] y = new double[100];
-        double[] z = new double[100];
+
+        PointPairList spl1;
+        LineItem myCurve1;
+        GraphPane myPane;
+
         String nameFile;
         int tempo;
         string measureInfo;
@@ -45,6 +47,28 @@ namespace LeapOrchestra
             timer1.Interval = 500;
             timer1.Start();
             position = new Vector(0, 0, 0);
+
+            myPane  = zedGraphControl1.GraphPane;
+            myPane.XAxis.Scale.Min = -1000;
+            myPane.XAxis.Scale.Max = 1000;
+            myPane.YAxis.Scale.Min = -1000;
+            myPane.YAxis.Scale.Max = 1000;
+
+            spl1 = new PointPairList();
+
+            myCurve1 = myPane.AddCurve("position in space", spl1, Color.Blue, SymbolType.None);
+            myCurve1.Line.Width = 3.0F;
+            myPane.Title.Text = "Position";
+            myPane.XAxis.Scale.Min = -300;
+            myPane.XAxis.Scale.Max = 300;
+            myPane.YAxis.Scale.Min = 0;
+            myPane.YAxis.Scale.Max = 500;
+            // I add all three functions just to be sure it refreshes the plot.   
+            zedGraphControl1.AxisChange();
+            zedGraphControl1.Invalidate();
+
+            
+            
             prefosc = new PrefOSC();
             prefmidi = new PrefMidi();
             prefmidi.sendDevice += this.GetOutputDevice;
@@ -87,20 +111,8 @@ namespace LeapOrchestra
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             OpenFileDialog oFD = new OpenFileDialog();
-            string text = null;
-            if (System.IO.File.Exists("Directory.txt"))
-            {
-                text = System.IO.File.ReadAllText(@"C:\Users\Public\TestFolder\WriteText.txt");
-                oFD.InitialDirectory = text;
-            }
-            else
-            {
-                StreamWriter StWr;
-                StWr = File.CreateText("Directory.txt");
-                StWr.Close();
-            }
+            oFD.InitialDirectory = "c:\\";
             oFD.Filter = "Fichiers Midi (*.mid)|*.mid|Tous les fichiers (*.*)|*.*";
             oFD.RestoreDirectory = true;
 
@@ -159,48 +171,26 @@ namespace LeapOrchestra
         public void GetVector(Vector position)
         {
             this.position = position;
+
+            spl1.Add(new PointPair(position.x, position.y, position.z));
+            if (spl1.Count > 100)
+            {
+                spl1.Reverse();
+                spl1.RemoveAt(100);
+                spl1.Reverse();
+            }
         }
         private void SetGraph()
         {
-            if (position == null)
-            {
-                return;
-            }
-            /*for (int i = 0; i < x.Length; i++)
-            {
-                x[i] = position.x;
-                y[i] = position.y;
-                z[i] = 0;
-            }*/
-            x[0]= (double)position.x;
-            y[0] = (double)position.y;
+
             // This is to remove all plots
             zedGraphControl1.GraphPane.CurveList.Clear();
 
-            // GraphPane object holds one or more Curve objects (or plots)
-            GraphPane myPane = zedGraphControl1.GraphPane;
-            myPane.XAxis.Scale.Min = -1000;
-            myPane.XAxis.Scale.Max = 1000;
-            myPane.YAxis.Scale.Min = -1000;
-            myPane.YAxis.Scale.Max = 1000;
-            // PointPairList holds the data for plotting, X and Y arrays 
-            PointPairList spl1 = new PointPairList(x, y);
-            PointPairList spl2 = new PointPairList(x, z);
-
             // Add cruves to myPane object
-            LineItem myCurve1 = myPane.AddCurve("position in space", spl1, Color.Blue, SymbolType.None);
-            LineItem myCurve2 = myPane.AddCurve("position x", spl2, Color.Red, SymbolType.None);
-            
-            myCurve1.Line.Width = 3.0F;
-            myCurve2.Line.Width = 3.0F;
-            myPane.Title.Text = "Position";
-            myPane.XAxis.Scale.Min = -300;
-            myPane.XAxis.Scale.Max = 300;
-            myPane.YAxis.Scale.Min = 0;
-            myPane.YAxis.Scale.Max = 500;
-            // I add all three functions just to be sure it refreshes the plot.   
-            zedGraphControl1.AxisChange();
-            zedGraphControl1.Invalidate();
+            myCurve1 = myPane.AddCurve("position in space", spl1, Color.Blue, SymbolType.None);
+
+            // GraphPane object holds one or more Curve objects (or plots)
+
             zedGraphControl1.Refresh();
         }
         private void timer1_Tick(object sender, EventArgs e)
