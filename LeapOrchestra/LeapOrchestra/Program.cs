@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+Projet LeapOrchestra 
+ * Développé par Yvan RICHER et Gautier CARREE
+ * Equipe projet :
+ * Yvan RICHER, Alexandre FALTOT, Antoine DENOYELLE, Léna DELVAL, Grégoire DESSIN, Gautier CARREE et Thomas JUSTER.
+
+ * TODO :
+ * Meilleur gestion des sorties midi (MidiOutputStream.cs)
+ * Meilleur gestion de la configuration de l'orientation des channels de gauche à droite -> ChooseChannelOrientation (MidiFileReader.cs)
+*/
+using System;
 using System.Threading;
 using Leap;
 using System.Collections.Generic;

@@ -23,7 +23,7 @@ namespace LeapOrchestra.SongPlayer
                 }
 
                 //On prend le premier device par default, l'user réglera la sortie dans l'interface graphique (non-implémenté)
-                outputDevice = OutputDevice.InstalledDevices[1];
+                outputDevice = OutputDevice.InstalledDevices[0];
             }
 
             if (outputDevice == null)
